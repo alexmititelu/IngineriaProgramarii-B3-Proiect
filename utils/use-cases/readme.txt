@@ -1,0 +1,8 @@
+Read this file before posting another use-case
+
+
+Notes before posting:
+
+    - check if your use-case idea wasn't posted already
+    - use a descriptive title
+    - your information must be both detailed and concise
