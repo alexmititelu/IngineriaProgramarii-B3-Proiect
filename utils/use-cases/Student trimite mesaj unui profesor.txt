@@ -1,0 +1,14 @@
+Un student vrea sa ii tirmita mesaj unui profesor
+
+1. Studentul se va loga pe platforma.
+2. Se verifica daca datele de autentificare ale studentului sunt corecte. 
+3. Studentul va selecta optiunea 'trimite un mesaj' din contul sau.
+4. Studentul va selecta destinatarul mesajului pe care doreste sa il tirmita.
+5. Studentul completeaza in casuta destinata mesajul pe acre doreste sa il transmita profesorului.
+6. Studentul trimite mesajul profesorului(apasa send/trimite) si va fi notificat printr-un pop-up ca mesajul a fost trimis/livrat cu succes.
+
+Actorii sunt:
+1. Studentul
+2. Sistemul de logare
+3. Baza de date
+4. Profesorul caruia i se transmite mesajul
