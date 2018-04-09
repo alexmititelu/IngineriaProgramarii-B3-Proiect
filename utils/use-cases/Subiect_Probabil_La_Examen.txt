@@ -1,0 +1,56 @@
+Actori:
+
+1.Student  -  Utilizatorul cu profil de student are drept de upload-are de teme, de comunicare cu oricare alt tip de utilizator si de modificare doar a contului personal.
+2.Profesor  -  Utilizatorul cu profil de profesor are drept de modificare a aplicației ( admin ) - de la adaugarea unei sectiuni pentru o noua materie, pana la acceptarea 
+			   de studenti in grup si de upload-are de noi cerinte/teme/modele de examen - si pot accesa orice resursă din baza de date a aplicatiei.
+3.Materie  -  Sectiune inregistrata in baza de date a aplicatiei, ce are atribuit un grup de studenti si profesori, un chat dedicat pentru comunicarea membrilor implicati.
+4.Formular  -  Document ce poate fi compus si upload-at de un utilizator cu profil de Profesor, dedicat oferirii de modele de examen studentilor inscrisi la materia vizata. 
+5.Tema  -  Document incarcat de catre un utilizator Student, la care numai utilizatorii Profesori au drept de acces.
+5.Baza de date  -  Resurse unde se regasesc toate informatiile utile functionarii optime a aplicatiei - studenti, profesori, materii, teme.
+6.Aplicația  -  Permite utilizatorilor să se logheze și să utilizeze toate funcționalitățile sale.
+7.Catalog  -  Aplicație ofera un catalog online, peste care numai utilizatorii Profesor au drept de editare.
+	
+
+UseCase: Un profesor propune un subiect posibil la test/examen, la care studentii pot propune/discuta solutii si pot primi feedback.
+
+
+
+1. Profesorul propune setul de intrebari posibile la test/examen.
+	
+	1.1. Profesorul deschide si se logheaza, cu un cont dedicat profesorilor, in aplicatie.
+	
+	1.2. Acesta intra in sectiunea materiei la care se va propune modelul de examen.
+	
+	1.3. Profesorul completeaza un formular in care:
+		
+		1.3.a) Va specifica data, ora si sala examenului programat.
+		
+		1.3.b) Va propune un exemplu de subiect.
+		   
+		Extensie:
+			
+			1. Va atasa respectivului formular un barem de corectare, pentru vizualizarea punctajelor aferente fiecarei intrebari din test si, 			
+			   optional, va specifica si gradul de dificultate al acestora.
+			
+			2. Profesorul poate alege sa trimita un email de notificare, cu modificarile aduse in program, tuturor studentilor inscrisi la 			
+			   respectiva materie, in anul curent.
+	1.4. Profesorul poate, ulterior, sa consulte sectiunea de Chat dedicata disciplinei sale pentru a indruma studentii spre rezolvarea subiectului sau 		
+	     pentru a clarifica eventualele probleme pe care acestia le intampina.
+	Extensie:
+		1.4.1. Profesorii pot oferi puncte bonus in catalogul aplicatiei tuturor studentilor ce au propus solutii interesante si celor ce au dovedit un 		
+		       interes deosebit rezolvarii modelelor de examen.
+
+
+
+2. Studentul propune/discuta solutii pentru subiectul de examen propus.
+	
+	2.1. Studentul deschide si se logheaza, cu un cont dedicat studentilor, in aplicatie.
+	
+	2.2. Acesta intra in sectiunea materiei la care a fost propus subiectul de examen, despre care fusese notificat pe email.
+	
+	2.3. Dupa ce consulta modelul, utilizatorul intra in sectiunea de Chat dedicata tuturor studentilor inscrisi la disciplina curenta.
+				2.3.1. Acesta poate propune solutii sau intrebari aferente subiectului de examen.
+						2.3.1.1. Alti studenti pot oferi feedback-uri pozitive/negative la sugestiile utilizatorului, iar profesorii pot corecta 						
+								eventualele erori sau oferi lamuriri cu privire la subiect.
+	
+	2.4. Utilizatorul vizualizeaza solutiile celorlalti studenti si le compara cu propriile rezolvari.
