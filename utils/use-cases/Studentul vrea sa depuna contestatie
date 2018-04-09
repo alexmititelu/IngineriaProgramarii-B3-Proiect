@@ -1,0 +1,8 @@
+--Un student vrea sa depuna contestatie pentru o nota primita la o anumita tema--
+
+1. Studentul se va loga pe platforma.
+2. Studentul va selecta tema pentru care va depune contestatie, iar apoi se va deschide un formular sau ceva de genu.
+3. Studentul completeaza formularul care va contine motivul pentru care se depune contestatia precum si alte informatii de care vor fi nevoie pentru a finaliza acest proces.
+4. Studentul trimite contestatia asteptatand raspunsul profesorului.
+
+Dupa ce se va trimite formularul de catre student. Aplciatia va notifica profesorul in cauza printr-un email sau o notificare pe platforma.
