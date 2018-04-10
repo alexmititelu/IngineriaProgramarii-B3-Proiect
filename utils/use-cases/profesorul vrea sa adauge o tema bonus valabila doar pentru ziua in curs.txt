@@ -1,0 +1,12 @@
+Profesorul vrea sa adauge o tema bonus valabila doar pentru ziua in curs
+
+-profesorul deschide aplicatia
+-selecteaza optiunea cont de profesor de pe pagina de login (care ii este afisata de aplicatie la intrare)
+   -daca nu are cont acesta isi creeaza cont prin optiunea “creare cont” 
+     -acesta va introduce adresa sa de mail cu @profs.info si o parola
+     -apoi aplicatia il va redirectiona spre pagina de autentificare
+ -daca are cont acesta se logheaza cu adresa de mail si parola
+-aplicatia ii va afisa apoi un meniu principal
+-profesorul va selecta optiunea adauga o tema bonus
+-profesorul va introduce intr un textbox enuntul temei si apoi va apasa butonul posteaza din josul ecranului
+-toti elevii vor fi notificati in contul lor printr-un mesaj ca a fost postata o tema bonus pe un termen de rezolvare de 24 ore (de la ora care a postat profesorul tema bonus)
