@@ -1,9 +1,9 @@
-Astazi ne-am intalnit cu reprezentanti ai fiecarui modul si am stabilit ca pana la urmatorul laborator sa luam in calcul urmatoarele taskuri:
+La întâlnirea de astăzi s-au stabilit următoarele task-uri, cu deadline până la următorul laborator:
 
-1) sa avem functional un sistem de login (atat partea de site cat si partea de server)
-2) vom crea baza de date corespunzatoare serviciului nostru in care momentan va fi populata doar cu conturile de studenti si respectiv conturile de profesori
-3) tot pana marti va fi nevoie de o serie de diagrame de clase, diagrame de activitati si diagrame de secventa
-In principal:
-- taskurile de pe partea de SITE vor fi atribuite membrilor de la FRONT-END
-- taskurile de pe partea de SERVER + DB vor fi atribuite membrilor de la BACK-END
-- taskul de creare de diagrame de clase, diagrame de activitati si diagrame de secventa revine celor din echipa de QA / TESTING
+1) să avem funcțional un sistem de login (atât partea de front-end, cât și partea back-end)
+2) crearea bazei de date corespunzătoare serviciului nostru, populată cu informații referitoare la studenți și respectiv profesori
+3) diagrame de clase, diagrame de activități și diagrame de secvență
+În principal:
+- task-urile de pe partea de SITE vor fi atribuite membrilor de la FRONT-END
+- task-urile de pe partea de SERVER + DB vor fi atribuite membrilor de la BACK-END
+- task-ul de creare de diagrame de clase, diagrame de activități și diagrame de secvență revine celor din echipa de QA / TESTING
