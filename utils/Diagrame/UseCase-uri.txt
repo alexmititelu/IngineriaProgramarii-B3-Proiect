@@ -1,0 +1,59 @@
+USE CASE 1:
+
+STUDENTUL VREA SA VIZUALIZEZE O STATISTICA REFERITOARE LA NOTELE PRIMITE LA O TEMA 
+PENTRU GRUPA LUI / SEMIANUL LUI / ANUL LUI DE STUDII.
+
+Actori in USE CASE 1: Studentul, aplicatia. (implicit, si baza de date)
+
+1.1. Studentul se logheaza cu succes in aplicatie.
+1.2. Aplicatia ii afiseaza o interfata in care exista un menu bar cu labeluri ("PROFILE", "HOMEWORK"...) iar studentul selecteaza "HOMEWORK".
+	1.2.1. Aplicatia ii afiseaza studentului o lista cu discipline (nu toate disciplinele pe care le studiaza in semestrul curent de studii, ci doar cele la care are propuse teme pentru rezolvare). Pentru fiecare dintre discipline vor fi afisate 3 label-uri: "UNSOLVED ASSIGNMENTS", "SCORED ASSIGNMENTS", "UNSCORED ASSIGNMENTS".
+	1.2.2. Studentul selecteaza label-ul "SCORED ASSIGNMENTS" pentru una dintre discipline.
+	1.2.3. Aplicatia ii afiseaza studentului o lista cu temele rezolvate la disciplina selectata.
+	1.2.4. Studentul selecteaza una dintre temele listate.
+	1.2.5. Aplicatia ii afiseaza studentului: rezolvarea incarcata de acesta, nota primita pentru solutie.
+	1.2.6. Studentul selecteaza din un menu bar "HOMEWORK GRADE STATISTICS".
+	1.2.7. Aplicatia ii afiseaza studentului 3 optiuni: "GRADES PER GROUP", "GRADES PER HALF-YEAR", "GRADES PER YEAR"
+	1.2.8. Studentul alege una dintre cele 3 optiuni.
+	1.2.9. Aplicatia ii afiseaza studentului statistica. De exemplu: x note intre 1-2, y note intre 2-3 ... (x,y putand fi valori intregi sau procente) / un grafic / un tabel.
+		Extensie: Studentul poate selecta labelul "SAVE STATISTICS" iar in acest caz, aplicatia ii 
+		va afisa prin intermediul unei ferestre popup formatele in care poate sa primeasca statistica prin download (pdf,xlsx ...)
+
+USE CASE 2:
+
+PROFESORUL VREA SA ADAUGE O DISCIPLINA NOUA IN APLICATIE.
+
+Actori in USE CASE 2: Profesorul, aplicatia. (implicit, si baza de date)
+
+2.1. Profesorul se logheaza cu succes in aplicatie.
+2.2. Aplicatia ii afiseaza o interfata in care exista un menu bar cu labeluri: "PROFILE", "TEACHING TOPICS"...
+2.3. Profesorul selecteaza labelul "TEACHING TOPICS".
+2.4. Aplicatia ii afiseaza o lista cu disciplinele pe care le preda acesta, iar la finalul listei 
+ii afiseaza un label "ADD TOPIC".
+2.5. Profesorul selecteaza label-ul "ADD TOPIC".
+2.6. Aplicatia ii returneaza profesorului lista cu toate disciplinele stocate in tabelul "TOPICS"
+din baza de date.
+	2.6.1.1. Profesorul doreste sa adauge in lista de materii predate de el insusi o materie care exista deja in baza de date, si poate face acest lucru selectand optiunea "ADD TOPIC" corespunzatoare materiei respective in lista afisata. 
+	2.6.1.2. Profesorul selecteaza aceasta optiune iar aplicatia cere reintroducerea username-ului si parolei, iar in cazul validarii datelor, materia este adaugata in lista de materii predate de profesor din baza de date.
+	2.6.2.1 Profesorul doreste sa adauge in lista de materii predate de el insusi o materie noua, iar pentru acesta va trebui sa selecteze optiunea "CREATE NEW TOPIC" afisata la finalul listei.
+	2.6.2.2. Profesorul selecteaza optiunea iar aplicatia ii returneaza o interfata in care acesta trebuie sa completeze informatii cu privire la materia pe care o adauga (Titlul disciplinei, Anul/Semestrul de studii, Numarul de credite, Fisa disciplinei ...)
+	2.6.2.3. Aplicatia cere reintroducerea username-ului si parolei, iar in cazul validarii datelor, materia este adaugata in lista de materii din baza de date si in lista de materii predate de acesta.
+
+USE CASE 3:
+
+UN STUDENT ALEGE OPTIUNEA PRIN CARE SA PRIMEASCA NOTIFICARI IN CONTUL LUI DIN APLICATIE / PE ADRESA LUI DE E-MAIL ATUNCI CAND SE POSTEAZA TEME / REZULTATE LA TEME PENTRU DISCIPLINE PE CARE 
+STUDENTUL LE SELECTEAZA DIN O LISTA CU DISCIPLINELE AFERENTE SEMESTRULUI DE STUDII.
+
+Actori in USE CASE 3: Studentul, aplicatia (implicit, si baza de date)
+
+3.1 Studentul se logheaza cu succes in aplicatie.
+3.2 Aplicatia ii afiseaza o interfata in care exista un menu bar cu labeluri ("PROFILE", "HOMEWORK"...) iar studentul selecteaza "PROFILE".
+3.3 Aplicatia afiseaza o interfata in care studentul are optiunea de a bifa un checkbox cu labelul "RECEIVE NOTIFICATIONS"
+3.4. Studentul bifeaza aceasta optiune.
+3.5. Aplicatia ii declanseaza o fereastra de tip popup in care afiseaza mesajul: "Receive notifications about:" si optiunile: "NEW HOMEWORK", "HOMEWORK SCORES" aferente unor radio buttons.
+3.6. Studentul selecteaza una din optiuni / ambele optiuni si selecteaza butonul "NEXT".
+3.7. Aplicatia declanseaza delanseaza o fereastra de tip popup in care afiseaza mesajul: "Receive
+notifications in" si optiunile "MY ACCOUNT", "MY E-MAIL INBOX" aferente unor radio buttons.
+3.8. Studentul selecteaza una din optiuni / ambele optiuni si selecteaza butonul "NEXT".
+3.9. Aplicatia ii afiseaza o interfata in care sunt listate disciplinele aferente semestrului de studii.
+3.10. Studentul selecteaza materiile pentru care doreste sa primeasca notificarile si selecteaza butonul "NEXT" care il duce inapoi in pagina "PROFILE" si este informat ca optiunile lui au fost luate in considerare.
