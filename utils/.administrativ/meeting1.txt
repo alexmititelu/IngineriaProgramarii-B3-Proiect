@@ -1,9 +1,0 @@
-La întâlnirea de astăzi s-au stabilit următoarele task-uri, cu deadline până la următorul laborator:
-
-1) să avem funcțional un sistem de login (atât partea de front-end, cât și partea back-end)
-2) crearea bazei de date corespunzătoare serviciului nostru, populată cu informații referitoare la studenți și respectiv profesori
-3) diagrame de clase, diagrame de activități și diagrame de secvență
-În principal:
-- task-urile de pe partea de SITE vor fi atribuite membrilor de la FRONT-END
-- task-urile de pe partea de SERVER + DB vor fi atribuite membrilor de la BACK-END
-- task-ul de creare de diagrame de clase, diagrame de activități și diagrame de secvență revine celor din echipa de QA / TESTING

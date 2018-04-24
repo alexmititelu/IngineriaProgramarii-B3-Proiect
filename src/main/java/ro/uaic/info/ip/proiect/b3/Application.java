@@ -1,4 +1,4 @@
-package com.projectip;
+package ro.uaic.info.ip.proiect.b3;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,14 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
-public class ProjectipApplication {
+public class Application {
 
-    @RequestMapping(value = "/greetings", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public String welcome() {
         return "Greetings from B3!";
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(ProjectipApplication.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }
+
