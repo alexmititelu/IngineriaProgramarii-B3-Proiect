@@ -1,0 +1,90 @@
+body {
+	margin: 0;
+	padding: 0;
+    font-size: 16px;
+    background: linen;
+	line-height: 1.4em;
+	color: #222;
+	font-family: 'Raleway', sans-serif;
+}
+.login-page{
+    width: 360px;
+    padding: 10% 0 0;
+    margin :auto;
+}
+.form{
+    position: relative;
+    z-index: 1;
+    background: transparent;
+    max-width: 360px;
+    margin:0 auto 100px;
+    padding: 45px;
+    text-align: center;
+}
+.form #p1{
+    text-align: left;
+    font-family: sans-serif;
+    font-size:30px;
+}
+.form input{
+    font-family:sans-serif;
+    outline:1;
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid #e6ecf0;
+    border-radius: 3px;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size:14px;
+    font-weight: bold;
+
+}
+
+.form button{
+    font-family: sans-serif;
+    border-radius: 100px;
+    outline: 0;
+    background: steelblue;
+    width: 100%;
+    border:0;
+    padding: 15px;
+    color:#FFFFFF;
+    font-size: 14px;
+    cursor: pointer;
+    transition: .2s;
+}
+.disabled {
+    opacity: .7;
+}
+.form .active:hover, .form .active:active{
+    background: lightskyblue;
+}
+.form .message{
+    margin: 15px 0 0;
+    font-size: 12px;
+    font-family: sans-serif;
+}
+.form .message a {
+    color:steelblue;
+    text-decoration: none;
+}
+
+header {
+	width: 100%;
+    position: absolute;
+	background: steelblue;
+	position: fixed;
+	z-index: 2;
+	box-shadow: 0 4px 4px rgba(0,0,0,0.1);
+}
+header #himg{
+    width: 60px;
+    height: 60px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px 0 5px 0;
+    
+}
+
