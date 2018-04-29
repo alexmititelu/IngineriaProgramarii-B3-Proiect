@@ -14,8 +14,7 @@ import java.nio.charset.StandardCharsets;
 @Controller
 public class ValidateLoginController {
     @RequestMapping(value="/validateLogin", method=RequestMethod.POST)
-    @ResponseBody
-    public String validateLogin(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
+    public @ResponseBody String validateLogin(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
         final String hashedPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
         if (AuthenticationManager.isLoginDataValid(username, password)) {
             /*
