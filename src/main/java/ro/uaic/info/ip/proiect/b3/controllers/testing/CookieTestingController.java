@@ -8,6 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * Aceasta clasa este un exemplu pentru operatul cu cookieuri in Spring Boot.
+ */
+
 @Controller
 public class CookieTestingController {
     @RequestMapping(value = "/cookie_testing")
