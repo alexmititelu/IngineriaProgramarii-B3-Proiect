@@ -24,6 +24,7 @@ public class ConnectorConfig {
                 context.addConstraint(securityConstraint);
             }
         };
+
         tomcat.addAdditionalTomcatConnectors(getHttpConnector());
         return tomcat;
     }

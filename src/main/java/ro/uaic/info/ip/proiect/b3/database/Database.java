@@ -6,11 +6,11 @@ import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class DatabaseConnectionPool {
+public class Database {
     private HikariDataSource dataSource;
-    private static final DatabaseConnectionPool instance = new DatabaseConnectionPool();
+    private static final Database instance = new Database();
 
-    private DatabaseConnectionPool() {
+    private Database() {
         HikariConfig config = new HikariConfig();
 
         config.setJdbcUrl("jdbc:mysql://160.153.18.88/teodor");
@@ -23,7 +23,7 @@ public class DatabaseConnectionPool {
         dataSource = new HikariDataSource(config);
     }
 
-    public static DatabaseConnectionPool getInstance() {
+    public static Database getInstance() {
         return instance;
     }
 
