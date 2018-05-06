@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class TemplateTestingController {
-    @GetMapping("/template_testing")
+    @GetMapping("/template-testing")
     public String templateTesting(Model model) {
         if (System.currentTimeMillis() % 2 == 0)  {
             model.addAttribute("testing", "I'm a test variable");

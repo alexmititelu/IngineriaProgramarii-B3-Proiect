@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class CookieTestingController {
-    @RequestMapping(value = "/cookie_testing")
+    @RequestMapping(value = "/cookie-testing")
     public String cookieTesting (@CookieValue(value = "hitCounter", defaultValue = "0") Long hitCounter, HttpServletResponse response, Model model) {
         hitCounter++;
 

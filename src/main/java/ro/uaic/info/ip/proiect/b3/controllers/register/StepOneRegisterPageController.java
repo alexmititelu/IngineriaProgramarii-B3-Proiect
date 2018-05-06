@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
-import ro.uaic.info.ip.proiect.b3.controllers.DashboardController;
 
 /**
  * Aceasta clasa reprezinta un controller pentru metoda GET a paginii de inregistrare din primul pas. (Vezi utilis/autentificare/ pentru detalii despre sistemul de autentificare)
@@ -29,7 +28,7 @@ public class StepOneRegisterPageController {
     @RequestMapping(value="/register", method=RequestMethod.GET)
     public String registerPageStepOne(@CookieValue(value = "user", defaultValue = "-1") String loginToken, Model model) {
         if (AuthenticationManager.isUserLoggedIn(loginToken)) {
-            return new DashboardController().dashboard(model, AuthenticationManager.getUsernameLoggedIn(loginToken));
+            return "redirect:/";
         } else {
             return "register-step-one";
         }

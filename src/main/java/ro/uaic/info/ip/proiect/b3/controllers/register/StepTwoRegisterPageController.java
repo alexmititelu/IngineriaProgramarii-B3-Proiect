@@ -39,7 +39,7 @@ public class StepTwoRegisterPageController {
     @RequestMapping(value="/register/{registerToken}", method=RequestMethod.GET)
     public String registerPageStepTwo(@CookieValue(value = "user", defaultValue = "-1") String loginToken, Model model, @PathVariable String registerToken, HttpServletResponse response) {
         if (AuthenticationManager.isUserLoggedIn(loginToken)) {
-            return new DashboardController().dashboard(model, AuthenticationManager.getUsernameLoggedIn(loginToken));
+            return "redirect:/";
         } else {
             if (AuthenticationManager.isRegisterTokenValid(registerToken)) {
                 model.addAttribute("email", AuthenticationManager.getEmailForRegisterToken(registerToken));

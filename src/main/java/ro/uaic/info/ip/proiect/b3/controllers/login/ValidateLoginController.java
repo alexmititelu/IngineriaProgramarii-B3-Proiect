@@ -42,7 +42,7 @@ public class ValidateLoginController {
             return "token=" + "{generated-token}";
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return "Login failed! Username/password are not valid!";
+            return "error=username/password-are-not-valid";
         }
     }
 }
