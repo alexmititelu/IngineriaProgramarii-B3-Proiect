@@ -5,19 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.database.objects.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.RegisterLink;
 import ro.uaic.info.ip.proiect.b3.database.objects.Student;
 import ro.uaic.info.ip.proiect.b3.generators.TokenGenerator;
-import ro.uaic.info.ip.proiect.b3.generators.mail.RegistrationMail;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.*;
-import java.util.Properties;
 
 /**
  * Aceasta clasa reprezinta un controller pentru metoda POST a paginii de inregistrare din primul pas. (Vezi utilis/autentificare/ pentru detalii despre sistemul de autentificare)
@@ -44,14 +36,15 @@ public class ValidateStepOneController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public @ResponseBody
     String registerController(@RequestParam("nr_matricol") String nrMatricol, HttpServletResponse response) {
+        Student student = Student.get(nrMatricol);
 
-        String email = Student.get(nrMatricol).getEmail();
+        if (student != null) {
+            Cont cont = Cont.get(student.getEmail());
 
-        if (email != null) {
-            if (Cont.get(email).getUsername() == null) {
+            if (cont == null) {
                 String token = TokenGenerator.getToken(64, "register_links");
-                RegisterLink.add(token,email);
-               // RegistrationMail.send(token,email);
+                RegisterLink.add(token, student.getEmail());
+                // RegistrationMail.send(token,email);
                 return "A fost trimis un email de confirmare pe adresa asociata acestui numar matricol.";
 
             } else {

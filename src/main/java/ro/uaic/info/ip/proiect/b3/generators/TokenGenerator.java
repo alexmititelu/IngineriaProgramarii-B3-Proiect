@@ -2,10 +2,7 @@ package ro.uaic.info.ip.proiect.b3.generators;
 
 import ro.uaic.info.ip.proiect.b3.database.Database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Random;
 
 public class TokenGenerator {
@@ -44,9 +41,8 @@ public class TokenGenerator {
                 tokenUsage = true;
                 break;
             }
-
-        } catch (Exception e) {
-            System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         } finally {
             try {
                 dbConnection.close();
@@ -59,11 +55,11 @@ public class TokenGenerator {
     }
 
     public static String getToken(int size, String tableName) {
-        String generatedToken = generateToken(size);
+        String generatedToken;
 
-        while (isTokenAlreadyUsed(generatedToken,tableName)) {
+        do {
             generatedToken = generateToken(size);
-        }
+        } while(isTokenAlreadyUsed(generatedToken, tableName));
 
         return generatedToken;
     }

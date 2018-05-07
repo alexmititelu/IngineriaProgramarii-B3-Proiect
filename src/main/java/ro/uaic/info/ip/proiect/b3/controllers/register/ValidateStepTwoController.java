@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 /**
@@ -21,7 +22,7 @@ public class ValidateStepTwoController {
      * Metoda returneaza body-ul raspunsului HTTP pentru o cerere de inregistrare pentru al doilea pas.
      *
      * 1. Se valideaza tokenul de inregistrare. (Existenta sa in tabela register_links)
-     * 2. Se valideaza emailul primit. (Existenta sa in tabela studenti)
+     * 2. Se valideaza emailul primit. (Existenta sa in tabela studenti si inexsistenta in tabela conturi)
      * 3. Se valideaza username-ul. (Acesta trebuie sa contina doar caractere alfanumerice si caracterul '.' (punct) maxim o singura data si sa aiba o lungime de
      *    cel putin 6 caractere si cel mult 30)
      * 4. Se valideaza parola. (Aceasta trebuie sa contina doar caractere alfanumerice si sa aiba o lungime de minim 8)
@@ -42,15 +43,16 @@ public class ValidateStepTwoController {
 
 
     @RequestMapping(value = "/register/{registerToken}", method = RequestMethod.POST)
-    public @ResponseBody String register(
+    public @ResponseBody String register (
             @RequestParam("email") String email,
             @RequestParam("username") String username,
             @RequestParam("password") String password,
             @PathVariable String registerToken,
             HttpServletResponse response) {
-            if(!tokenValidation(registerToken)) {
+
+            if(!isTokenValid(registerToken)) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                return "Token deja existent in tabela register_links";
+                return "Invalid token!";
             }
 
             if(!emailValidation(email)){
@@ -58,9 +60,9 @@ public class ValidateStepTwoController {
                 return "Email deja folosit";
             }
 
-            if(!usernameValidation(username)){
+            if(!isUsernameValid(username)){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                return "Numele de utilizator este invalid";
+                return "Numele de utilizator este invalid!";
             }
 
             if(!passwordValidation(password)){
@@ -77,11 +79,13 @@ public class ValidateStepTwoController {
             return "Inregistrare cu succes";
     }
 
-    private boolean tokenValidation(String registerToken) {
-        boolean response = true;
+    private boolean isTokenValid(String registerToken) {
+        boolean isTokenInDatabase = false;
         Connection dbConnection = null;
+
         try {
             dbConnection = Database.getInstance().getConnection();
+
             String query = "SELECT token FROM register_links WHERE token = ?";
             Statement queryStatement = dbConnection.prepareStatement(query);
             ((PreparedStatement) queryStatement).setString(1, registerToken);
@@ -89,18 +93,19 @@ public class ValidateStepTwoController {
             ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
 
             if (resultSet.next()) {
-                response = false;
+                isTokenInDatabase = true;
             }
-        } catch (Exception e) {
-            System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         } finally {
             try {
                 dbConnection.close();
             } catch (Exception e) {
-                System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
-        return response;
+
+        return isTokenInDatabase;
     }
 
     private boolean emailValidation(String email) {
@@ -129,9 +134,10 @@ public class ValidateStepTwoController {
         return response;
     }
 
-    private boolean usernameValidation(String username) {
-        boolean response = true;
+    private boolean isUsernameValid(String username) {
+        boolean isUsernameValid = true;
         Connection dbConnection = null;
+
         try {
             dbConnection = Database.getInstance().getConnection();
             String query = "SELECT username FROM conturi WHERE username = ?";
@@ -141,11 +147,11 @@ public class ValidateStepTwoController {
             ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
 
             if (resultSet.next()) {
-                response = false;
+                isUsernameValid = false;
             }
 
             if(checkUsername(username) == false){
-                response = false;
+                isUsernameValid = false;
             }
         } catch (Exception e) {
             System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
@@ -156,7 +162,7 @@ public class ValidateStepTwoController {
                 System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
             }
         }
-        return response;
+        return isUsernameValid;
     }
 
     private boolean passwordValidation(String password) {
@@ -173,7 +179,7 @@ public class ValidateStepTwoController {
         if(username.length() < 6 || username.length() > 30)
             return false;
 
-        if(!username.matches("([A-Z]|[a-z]|[0-9])+\\.([A-Z]|[a-z]|[0-9])+")){
+        if(!username.matches("([A-Z]|[a-z]|[0-9])+\\\\.([A-Z]|[a-z]|[0-9])+")){
             return false;
         }
         return true;

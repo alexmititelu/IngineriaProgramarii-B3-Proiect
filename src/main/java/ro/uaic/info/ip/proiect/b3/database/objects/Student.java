@@ -5,10 +5,10 @@ import ro.uaic.info.ip.proiect.b3.database.Database;
 import java.sql.*;
 
 public class Student {
-    String nrMatricol;
-    String email;
+    private String nrMatricol;
+    private String email;
 
-    public Student(String nrMatricol, String email) {
+    private Student(String nrMatricol, String email) {
         this.nrMatricol = nrMatricol;
         this.email = email;
     }
@@ -16,6 +16,7 @@ public class Student {
     public static Student get(String nrMatricol) {
         Connection dbConnection = null;
         String email = null;
+
         try {
             dbConnection = Database.getInstance().getConnection();
             String query = "SELECT email FROM studenti WHERE nr_matricol LIKE ?";
@@ -24,20 +25,24 @@ public class Student {
 
             ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
 
-            while (resultSet.next()) {
+            if (resultSet.next()) {
                 email = resultSet.getString(1);
-                break;
             }
         } catch (SQLException e) {
-            System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
+            System.out.println(e.getMessage());
         } finally {
             try {
                 dbConnection.close();
             } catch (SQLException e) {
-                System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
+                System.out.println(e.getMessage());
             }
         }
-        return new Student(nrMatricol,email);
+
+        if (email != null) {
+            return new Student(nrMatricol, email);
+        } else {
+            return null;
+        }
     }
 
     public String getEmail() {

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
 import ro.uaic.info.ip.proiect.b3.database.Database;
+import ro.uaic.info.ip.proiect.b3.generators.TokenGenerator;
 
 import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
@@ -40,49 +41,41 @@ public class ValidateLoginController {
      */
     @RequestMapping(value="/login", method=RequestMethod.POST)
     public @ResponseBody String login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
-
         final String hashedPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
-        final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder sb = new StringBuilder();
-        Connection con = null;
+        String token = null;
+        Connection connection = null;
 
-        if (AuthenticationManager.isLoginDataValid(username, hashedPassword))
-        {
+        if (AuthenticationManager.isLoginDataValid(username, hashedPassword)) {
             try {
-                con = Database.getInstance().getConnection();
+                connection = Database.getInstance().getConnection();
                 String query = "DELETE FROM conturi_conectate WHERE username LIKE ?";
-                PreparedStatement preparedStatement = con.prepareStatement(query);
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
 
                 preparedStatement.setString(1, username);
                 preparedStatement.executeQuery();
 
-                Random r = new Random();
-                for (int i = 0; i < 64; i++)
-                {
-                    sb.append(alphabet.charAt(r.nextInt(alphabet.length()))); //adaugam un caracter random din stringul alphabet
-                }
+                token = TokenGenerator.getToken(64, "conturi_conectate");
 
-                query = "INSERT INTO conturi_conectate VALUES(?,?,CURRENT_TIMESTAMP )";
-                preparedStatement = con.prepareStatement(query);
-                preparedStatement.setString(1, sb.toString());
+                query = "INSERT INTO conturi_conectate VALUES(?, ?, CURRENT_TIMESTAMP)";
+                preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, token);
                 preparedStatement.setString(2, username);
 
+                preparedStatement.executeQuery();
             } catch (SQLException e) {
-                System.err.println("CAN'T GET DATABASE CONNECTION IN VALIDATING LOGIN CONTROLLER");
+                System.err.println(e.getMessage());
                 e.printStackTrace();
-            }
-            finally {
+            } finally {
                 try {
-                    if (con != null) {
-                        con.close();
+                    if (connection != null) {
+                        connection.close();
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
 
-
-            return "token=" + sb.toString();
+            return "token=" + token;
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return "error=username/password-are-not-valid";
