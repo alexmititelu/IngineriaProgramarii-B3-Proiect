@@ -1,17 +1,19 @@
 package ro.uaic.info.ip.proiect.b3;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+import ro.uaic.info.ip.proiect.b3.model.TestForClass;
 
 public class ApplicationTest {
 
-    @Test
-    public void welcome() {
+    public static void main(String[] args) {
+        Result result = JUnitCore.runClasses(TestForClass.class);
 
-    }
+        for (Failure failure : result.getFailures()) {
+            System.out.println(failure.toString());
+        }
 
-    @Test
-    public void main() {
-
+        System.out.println(result.wasSuccessful());
     }
 }
