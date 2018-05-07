@@ -114,12 +114,17 @@ public class ValidateStepTwoController {
         try {
             dbConnection = Database.getInstance().getConnection();
             String query = "SELECT email FROM conturi WHERE email = ?";
+            String query2 = "SELECT email FROM studenti WHERE email = ?";
             Statement queryStatement = dbConnection.prepareStatement(query);
+            Statement queryStatement2 = dbConnection.prepareStatement(query2);
             ((PreparedStatement) queryStatement).setString(1, email);
+            ((PreparedStatement) queryStatement2).setString(1, email);
 
             ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
+            ResultSet resultSet2 = ((PreparedStatement) queryStatement2).executeQuery();
 
-            if (resultSet.next()) {
+            if((!resultSet2.next()) || (resultSet.next()))
+            {
                 response = false;
             }
         } catch (Exception e) {
@@ -131,6 +136,7 @@ public class ValidateStepTwoController {
                 System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
             }
         }
+
         return response;
     }
 
@@ -179,7 +185,7 @@ public class ValidateStepTwoController {
         if(username.length() < 6 || username.length() > 30)
             return false;
 
-        if(!username.matches("([A-Z]|[a-z]|[0-9])+\\\\.([A-Z]|[a-z]|[0-9])+")){
+        if(!username.matches("([A-Z]|[a-z]|[0-9])+[A-Z]|[a-z]|[0-9]|\\\\.([A-Z]|[a-z]|[0-9])+")){
             return false;
         }
         return true;
