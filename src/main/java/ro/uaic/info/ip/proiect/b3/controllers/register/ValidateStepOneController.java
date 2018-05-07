@@ -6,18 +6,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ro.uaic.info.ip.proiect.b3.database.Database;
+import ro.uaic.info.ip.proiect.b3.database.objects.Cont;
+import ro.uaic.info.ip.proiect.b3.database.objects.RegisterLink;
+import ro.uaic.info.ip.proiect.b3.database.objects.Student;
 import ro.uaic.info.ip.proiect.b3.generators.TokenGenerator;
+import ro.uaic.info.ip.proiect.b3.generators.mail.RegistrationMail;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Properties;
-
 
 /**
  * Aceasta clasa reprezinta un controller pentru metoda POST a paginii de inregistrare din primul pas. (Vezi utilis/autentificare/ pentru detalii despre sistemul de autentificare)
@@ -43,153 +43,24 @@ public class ValidateStepOneController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public @ResponseBody
-    String register(@RequestParam("nr_matricol") String nrMatricol, HttpServletResponse response) {
+    String registerController(@RequestParam("nr_matricol") String nrMatricol, HttpServletResponse response) {
 
-        if (isNrMatricolValid(nrMatricol)) {
-            String email = getEmailForNrMatricol(nrMatricol);
-            if (!isEmailAlreadyUsed(email)) {
-                String token = TokenGenerator.getToken(64);
-                addRegisterLink(token, email);
-                sendEmailForRegistration(email, token);
+        String email = Student.get(nrMatricol).getEmail();
+
+        if (email != null) {
+            if (Cont.get(email).getUsername() == null) {
+                String token = TokenGenerator.getToken(64, "register_links");
+                RegisterLink.add(token,email);
+               // RegistrationMail.send(token,email);
                 return "A fost trimis un email de confirmare pe adresa asociata acestui numar matricol.";
 
             } else {
-                response.setStatus(HttpServletResponse.SC_CONFLICT);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return "Exista deja un cont creat pentru acest numar matricol.";
             }
-
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return "Numarul matricol nu este valid.";
         }
     }
-
-
-    private boolean isNrMatricolValid(String nrMatricol) {
-        Connection dbConnection = null;
-        boolean validation = false;
-        try {
-            dbConnection = Database.getInstance().getConnection();
-            String query = "SELECT * FROM studenti WHERE nr_matricol LIKE ?";
-            Statement queryStatement = dbConnection.prepareStatement(query);
-            ((PreparedStatement) queryStatement).setString(1, nrMatricol);
-
-
-            ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
-
-            while (resultSet.next()) {
-                validation = true;
-                break;
-            }
-
-        } catch (Exception e) {
-            System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-        } finally {
-            try {
-                dbConnection.close();
-            } catch (Exception e) {
-                System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-            }
-        }
-        return validation;
-    }
-
-    private String getEmailForNrMatricol(String nrMatricol) {
-        Connection dbConnection = null;
-        String email = null;
-        try {
-            dbConnection = Database.getInstance().getConnection();
-            String query = "SELECT email FROM studenti WHERE nr_matricol LIKE ?";
-            Statement queryStatement = dbConnection.prepareStatement(query);
-            ((PreparedStatement) queryStatement).setString(1, nrMatricol);
-
-            ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
-
-            while (resultSet.next()) {
-                email = resultSet.getString(1);
-                break;
-            }
-        } catch (Exception e) {
-            System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-        } finally {
-            try {
-                dbConnection.close();
-            } catch (Exception e) {
-                System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-            }
-        }
-        return email;
-    }
-
-    private boolean isEmailAlreadyUsed(String email) {
-        boolean emailUsage = false;
-        Connection dbConnection = null;
-        try {
-            dbConnection = Database.getInstance().getConnection();
-            String query = "SELECT email FROM conturi WHERE email LIKE ?";
-            Statement queryStatement = dbConnection.prepareStatement(query);
-            ((PreparedStatement) queryStatement).setString(1, email);
-
-            ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
-
-            while (resultSet.next()) {
-                emailUsage = true;
-                break;
-            }
-
-        } catch (Exception e) {
-            System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-        } finally {
-            try {
-                dbConnection.close();
-            } catch (Exception e) {
-                System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-            }
-        }
-        return emailUsage;
-    }
-
-    private void addRegisterLink(String token, String email) {
-        Connection dbConnection = null;
-        try {
-            dbConnection = Database.getInstance().getConnection();
-            String query = "INSERT INTO REGISTER_LINKS (token,email) VALUES (?,?)";
-            Statement queryStatement = dbConnection.prepareStatement(query);
-            ((PreparedStatement) queryStatement).setString(1, token);
-            ((PreparedStatement) queryStatement).setString(2, email);
-            ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
-        } catch (Exception e) {
-            System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-        } finally {
-            try {
-                dbConnection.close();
-            } catch (Exception e) {
-                System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-            }
-        }
-    }
-
-    public void sendEmailForRegistration(String email, String token) {
-        String to = email;
-        String from = "contact_elearning@yahoo.com";
-
-        String host = "localhost";
-        Properties properties = System.getProperties();
-        properties.setProperty("mail.smtp.host", host);
-        properties.setProperty("mail.smtp.port","8443");
-        Session session = Session.getDefaultInstance(properties);
-
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-            message.setSubject("Register to e-learning platform");
-            message.setText("Click here to continue your registration process: localhost:8080/register/" + token);
-            Transport.send(message);
-            System.out.println("Sent register message successfully....");
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

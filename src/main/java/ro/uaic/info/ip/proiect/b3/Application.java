@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import ro.uaic.info.ip.proiect.b3.controllers.register.ValidateStepOneController;
+import ro.uaic.info.ip.proiect.b3.generators.mail.RegistrationMail;
 import ro.uaic.info.ip.proiect.b3.storage.StorageProperties;
 import ro.uaic.info.ip.proiect.b3.storage.StorageService;
 
@@ -26,8 +27,6 @@ public class Application {
     @Bean
     CommandLineRunner initBackgroundJobs() {
         return (args) -> {
-            new ValidateStepOneController().sendEmailForRegistration("mititelu.alex@yahoo.com","test");
-
             // Start daemon thread pentru tabela conturi_conectate
             // Start daemon thread pentru tabela register_links
         };
