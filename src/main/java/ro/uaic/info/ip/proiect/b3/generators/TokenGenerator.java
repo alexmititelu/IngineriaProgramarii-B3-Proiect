@@ -25,12 +25,12 @@ public class TokenGenerator {
     }
 
     private static boolean isTokenAlreadyUsed(String token, String tableName) {
-        boolean tokenUsage = false;
+        boolean isTokenUsed = false;
         Connection dbConnection = null;
 
         try {
             dbConnection = Database.getInstance().getConnection();
-            String query = "SELECT * FROM " + tableName + "WHERE token LIKE ?";
+            String query = "SELECT * FROM " + tableName + " WHERE token LIKE ?";
 
             Statement queryStatement = dbConnection.prepareStatement(query);
             ((PreparedStatement) queryStatement).setString(1, token);
@@ -38,7 +38,7 @@ public class TokenGenerator {
             ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
 
             while (resultSet.next()) {
-                tokenUsage = true;
+                isTokenUsed = true;
                 break;
             }
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class TokenGenerator {
             }
         }
 
-        return tokenUsage;
+        return isTokenUsed;
     }
 
     public static String getToken(int size, String tableName) {
@@ -59,7 +59,7 @@ public class TokenGenerator {
 
         do {
             generatedToken = generateToken(size);
-        } while(isTokenAlreadyUsed(generatedToken, tableName));
+        } while (isTokenAlreadyUsed(generatedToken, tableName));
 
         return generatedToken;
     }

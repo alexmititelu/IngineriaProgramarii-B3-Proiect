@@ -13,7 +13,7 @@ public class RegisterLink {
 
         try {
             dbConnection = Database.getInstance().getConnection();
-            
+
             String query = "DELETE FROM register_links WHERE email LIKE ?";
             Statement queryStatement = dbConnection.prepareStatement(query);
             ((PreparedStatement) queryStatement).setString(1, email);

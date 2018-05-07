@@ -14,7 +14,7 @@ public class DashboardController {
      *
      * @param model acest parametru este folosit pentru a modela view-ul returnat catre utilizator
      *              prin intermediul modelului putem seta variabile in pagina trimisa catre utilizator
-     * @param user numele utilizatorului pentru care trebuie contruit dashboardul
+     * @param user  numele utilizatorului pentru care trebuie contruit dashboardul
      * @return numele view-ului ce reprezinta dashboardul
      */
     public String dashboard(Model model, String user) {

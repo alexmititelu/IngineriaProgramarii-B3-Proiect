@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TemplateTestingController {
     @GetMapping("/template-testing")
     public String templateTesting(Model model) {
-        if (System.currentTimeMillis() % 2 == 0)  {
+        if (System.currentTimeMillis() % 2 == 0) {
             model.addAttribute("testing", "I'm a test variable");
             return "./testing/even";
-        }
-        else {
+        } else {
             model.addAttribute("testing", "I'm the other test variable");
             return "./testing/odd";
         }

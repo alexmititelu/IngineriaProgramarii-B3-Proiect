@@ -4,6 +4,8 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
@@ -46,10 +48,35 @@ public class Database {
     /**
      * Aceasta metoda returneaza o conexiune catre baza de date.
      * Deoarece este folosit un connection pool este important sa inchideti conexiunea dupa terminarea query-urilor catre baza de date.
+     *
      * @return o conexiune la baza de date
      * @throws SQLException in cazul in care nu se poate crea conexiunea catre baza de date
      */
-    public Connection getConnection() throws SQLException  {
+    public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
+    }
+
+    public ResultSet selectOperation(Connection connection, String query, String... parameters) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        for (int i = 1; i <= parameters.length; ++i) {
+            preparedStatement.setString(i, parameters[i - 1]);
+        }
+
+        return preparedStatement.executeQuery();
+    }
+
+
+    public int updateOperation(String query, String... parameters) throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        for (int i = 1; i <= parameters.length; ++i) {
+            preparedStatement.setString(i, parameters[i - 1]);
+        }
+
+        int rowsModified = preparedStatement.executeUpdate();
+        connection.close();
+
+        return rowsModified;
     }
 }

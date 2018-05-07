@@ -1,7 +1,10 @@
 package ro.uaic.info.ip.proiect.b3.authentication;
 
 import ro.uaic.info.ip.proiect.b3.database.Database;
-import java.sql.*;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Aceasta clasa reprezinta un ajutor pentru a verifica identitatea utilizatorilor.
@@ -17,20 +20,19 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
+            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT username FROM conturi_conectate WHERE token like ?", loginToken);
 
-            String query = "SELECT username FROM conturi_conectate WHERE token like ?";
-            Statement preparedStatement = connection.prepareStatement(query);
-            ((PreparedStatement) preparedStatement).setString(1, loginToken);
-
-            ResultSet resultSet = ((PreparedStatement) preparedStatement).executeQuery();
             if (resultSet.next())
                 isUserConnected = true;
+
         } catch (SQLException e) {
             System.err.println("SQLException: " + e);
             e.printStackTrace();
         } finally {
             try {
-                connection.close();
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 System.err.println("SQLException: " + e);
                 e.printStackTrace();
@@ -50,14 +52,9 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
+            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT username FROM conturi_conectate WHERE token like ?", loginToken);
 
-            String query = "SELECT username FROM conturi_conectate WHERE token like ?";
-            Statement preparedStatement = connection.prepareStatement(query);
-            ((PreparedStatement) preparedStatement).setString(1, loginToken);
-
-            ResultSet resultSet = ((PreparedStatement) preparedStatement).executeQuery();
-
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 connectedUser = resultSet.getString(1);
             }
 
@@ -66,7 +63,9 @@ public class AuthenticationManager {
             e.printStackTrace();
         } finally {
             try {
-                connection.close();
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 System.err.println("SQLException: " + e);
                 e.printStackTrace();
@@ -87,21 +86,19 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
+            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT * FROM conturi WHERE username like ? and password like ?", username, password);
 
-            String query = "SELECT * FROM conturi WHERE username like ? and password like ?";
-            Statement preparedStatement = connection.prepareStatement(query);
-            ((PreparedStatement) preparedStatement).setString(1, username);
-            ((PreparedStatement) preparedStatement).setString(2, password);
-
-            ResultSet resultSet = ((PreparedStatement) preparedStatement).executeQuery();
             if (resultSet.next())
                 isDataValid = true;
+
         } catch (SQLException e) {
             System.err.println("SQLException: " + e);
             e.printStackTrace();
         } finally {
             try {
-                connection.close();
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 System.err.println("SQLException: " + e);
                 e.printStackTrace();
@@ -121,14 +118,11 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
+            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT * FROM register_links WHERE token like ?", registerToken);
 
-            String query = "SELECT * FROM register_links WHERE token like ?";
-            Statement preparedStatement = connection.prepareStatement(query);
-            ((PreparedStatement) preparedStatement).setString(1, registerToken);
-
-            ResultSet resultSet = ((PreparedStatement) preparedStatement).executeQuery();
             if (resultSet.next())
                 isTokenValid = true;
+
         } catch (SQLException e) {
             System.err.println("SQLException: " + e);
             e.printStackTrace();
@@ -154,14 +148,9 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
+            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT email FROM register_links WHERE token like ?", registerToken);
 
-            String query = "SELECT email FROM register_links WHERE token like ?";
-            Statement preparedStatement = connection.prepareStatement(query);
-            ((PreparedStatement) preparedStatement).setString(1, registerToken);
-
-            ResultSet resultSet = ((PreparedStatement) preparedStatement).executeQuery();
-
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 emailAssociatedWithToken = resultSet.getString(1);
             }
 

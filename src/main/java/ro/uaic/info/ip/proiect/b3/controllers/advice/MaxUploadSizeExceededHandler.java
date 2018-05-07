@@ -7,5 +7,6 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 @ControllerAdvice
 public class MaxUploadSizeExceededHandler {
     @ExceptionHandler(MaxUploadSizeExceededException.class)
-    protected void handleFileUploadException(MaxUploadSizeExceededException e) {}
+    protected void handleFileUploadException(MaxUploadSizeExceededException e) {
+    }
 }

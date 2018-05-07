@@ -25,7 +25,7 @@ public class Application {
     }
 
     @Bean
-    CommandLineRunner initBackgroundJobs()  {
+    CommandLineRunner initBackgroundJobs() {
         return (args) -> {
             Thread registerLinksJob = new Thread(new RegisterLinksJob());
             registerLinksJob.setDaemon(true);

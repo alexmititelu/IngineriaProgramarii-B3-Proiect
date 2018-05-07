@@ -9,6 +9,7 @@ import ro.uaic.info.ip.proiect.b3.database.objects.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.RegisterLink;
 import ro.uaic.info.ip.proiect.b3.database.objects.Student;
 import ro.uaic.info.ip.proiect.b3.generators.TokenGenerator;
+
 import javax.servlet.http.HttpServletResponse;
 
 /**
