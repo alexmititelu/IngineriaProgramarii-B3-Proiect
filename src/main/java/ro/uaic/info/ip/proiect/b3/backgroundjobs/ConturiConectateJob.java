@@ -6,15 +6,15 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class RegisterLinksJob implements Runnable{
+public class ConturiConectateJob implements Runnable {
     public void run() {
         Connection con = null;
 
-        while(true) {
+        while (true) {
             try {
                 con = (Connection) Database.getInstance().getConnection();
                 Statement stmt = con.createStatement();
-                stmt.executeUpdate("DELETE FROM register_links WHERE creation_time <= now() - INTERVAL 1 HOUR");
+                stmt.executeUpdate("DELETE FROM conturi_conectate WHERE creation_time <= now() - INTERVAL 1 DAY");
             } catch (SQLException e) {
                 e.printStackTrace();
             } finally {
@@ -26,7 +26,7 @@ public class RegisterLinksJob implements Runnable{
             }
 
             try {
-                Thread.sleep(1000*60*30);
+                Thread.sleep(1000 * 1800);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
