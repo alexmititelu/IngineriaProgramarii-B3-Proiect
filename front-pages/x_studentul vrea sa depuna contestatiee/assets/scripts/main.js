@@ -79,7 +79,7 @@ $(document).ready(function () {
 
     dataToReceive = fromServer;
 
-    var select = document.getElementById('materie');
+    var select = document.getElementById('subject');
 
     dataToReceive[0].forEach(element => {
         
@@ -126,7 +126,7 @@ $(document).ready(function () {
             ok = 0;
         }
         
-        var select = document.getElementById('materie').value;
+        var select = document.getElementById('subject').value;
 
         if (select === '') {
             err.innerText = "Alege materia..";
@@ -134,7 +134,7 @@ $(document).ready(function () {
         }
 
         var dataToSend = {
-            // materie: materie,
+            // subject: subject,
             "numeTema": select,
             "descriere": descriere
         }
