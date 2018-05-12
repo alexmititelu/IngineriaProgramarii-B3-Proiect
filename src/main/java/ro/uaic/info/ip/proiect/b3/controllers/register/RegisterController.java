@@ -10,6 +10,7 @@ import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.database.objects.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.RegisterLink;
 import ro.uaic.info.ip.proiect.b3.database.objects.Student;
+import ro.uaic.info.ip.proiect.b3.email.EmailService;
 import ro.uaic.info.ip.proiect.b3.generators.TokenGenerator;
 
 import javax.servlet.http.HttpServletResponse;
@@ -87,7 +88,7 @@ public class RegisterController {
             if (cont == null) {
                 String token = TokenGenerator.getToken(64, "register_links");
                 RegisterLink.add(token, student.getEmail());
-                // RegistrationMail.send(token,email);
+                EmailService.sendRegistrationMail(student.getEmail(), token);
                 return "valid";
 
             } else {

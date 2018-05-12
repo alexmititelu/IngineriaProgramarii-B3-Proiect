@@ -2,10 +2,7 @@ package ro.uaic.info.ip.proiect.b3.authentication;
 
 import ro.uaic.info.ip.proiect.b3.database.Database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 public class RegistrationValidator {
     public boolean isEmailValid(String email) {
@@ -20,6 +17,7 @@ public class RegistrationValidator {
 
             Statement queryStatement = dbConnection.prepareStatement(query);
             Statement queryStatement2 = dbConnection.prepareStatement(query2);
+
             ((PreparedStatement) queryStatement).setString(1, email);
             ((PreparedStatement) queryStatement2).setString(1, email);
 
@@ -29,7 +27,8 @@ public class RegistrationValidator {
             if ((!resultSet2.next()) || (resultSet.next())) {
                 response = false;
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            response = false;
             System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
         } finally {
             try {
@@ -58,7 +57,8 @@ public class RegistrationValidator {
                 isUsernameValid = false;
             }
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            isUsernameValid = false;
             System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
         } finally {
             try {
@@ -75,20 +75,10 @@ public class RegistrationValidator {
         if (username.length() < 6 || username.length() > 30)
             return false;
 
-        if (!username.matches("([A-Z]|[a-z]|[0-9])+")) {
-            return false;
-        }
-
-        return true;
+        return username.matches("([A-Z]|[a-z]|[0-9])+");
     }
 
     public boolean isPasswordValid(String password) {
-        if (password.length() < 8)
-            return false;
-
-        if (!password.matches("([A-Z]|[a-z]|[0-9])+")) {
-            return false;
-        }
-        return true;
+        return (password.length() > 8 && password.matches("([A-Z]|[a-z]|[0-9])+"));
     }
 }
