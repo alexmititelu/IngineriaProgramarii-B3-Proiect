@@ -16,7 +16,7 @@ public class ListSubjectsController {
      */
 
     @RequestMapping(value = "/materii", method = RequestMethod.POST)
-    public @ResponseBody String listeazaMaterii HttpServletResponse response) {
+    public @ResponseBody String listeazaMaterii (HttpServletResponse response) {
 
 
         if ( true ) {
@@ -25,7 +25,7 @@ public class ListSubjectsController {
             try {
                 //
                 // adaugati in response lista de materii disponibile
-                return "valid"
+                return "valid";
             } catch(Exception e) {
                 // faceti cu exceptii specifice ce pot aparea
                 // 3

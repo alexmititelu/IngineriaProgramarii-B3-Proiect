@@ -51,7 +51,7 @@ public class CreateTemaController {
                 // 2
                 // 3
 
-                return "valid"
+                return "valid";
             } catch(Exception e) {
                 // faceti cu exceptii specifice ce pot aparea
                 //4
