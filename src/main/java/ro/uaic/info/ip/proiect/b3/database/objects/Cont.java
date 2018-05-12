@@ -15,7 +15,7 @@ public class Cont {
         this.password = password;
     }
 
-    public static Cont get(String email) {
+    public static Cont getByEmail(String email) {
         String username = null, password = null;
         Connection dbConnection = null;
 
@@ -43,6 +43,40 @@ public class Cont {
         }
 
         if (username != null) {
+            return new Cont(username, email, password);
+        } else {
+            return null;
+        }
+    }
+
+    public static Cont getByUsername(String username) {
+        String email = null, password = null;
+        Connection dbConnection = null;
+
+        try {
+            dbConnection = Database.getInstance().getConnection();
+
+            String query = "SELECT email, password FROM conturi WHERE username LIKE ?";
+            Statement queryStatement = dbConnection.prepareStatement(query);
+            ((PreparedStatement) queryStatement).setString(1, username);
+
+            ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
+
+            if (resultSet.next()) {
+                email = resultSet.getString(1);
+                password = resultSet.getString(2);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                dbConnection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        if (email != null) {
             return new Cont(username, email, password);
         } else {
             return null;

@@ -80,10 +80,10 @@ public class RegisterController {
     String registerController(
             @RequestParam("nr_matricol") String nrMatricol,
             HttpServletResponse response) {
-        Student student = Student.get(nrMatricol);
+        Student student = Student.getByNrMatricol(nrMatricol);
 
         if (student != null) {
-            Cont cont = Cont.get(student.getEmail());
+            Cont cont = Cont.getByEmail(student.getEmail());
 
             if (cont == null) {
                 String token = TokenGenerator.getToken(64, "register_links");
@@ -148,7 +148,7 @@ public class RegisterController {
             return "Numele de utilizator este invalid!";
         }
 
-        if (!registrationValidator.isPasswordValid(password)) {
+        if (!registrationValidator.isPasswordRespectingConstraints(password)) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return "Parola este invalida";
         }

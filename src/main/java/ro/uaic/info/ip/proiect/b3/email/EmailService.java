@@ -1,5 +1,8 @@
 package ro.uaic.info.ip.proiect.b3.email;
 
+import ro.uaic.info.ip.proiect.b3.configurations.EmailConfiguration;
+import ro.uaic.info.ip.proiect.b3.configurations.HostConfiguration;
+
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -12,9 +15,8 @@ import javax.mail.internet.MimeMessage;
 
 public class EmailService {
     public static void sendRegistrationMail(String toEmail, String registerToken) {
-        final String HOST_NAME = "http://localhost:8080/register/";
-        final String username = "uaic.contact.elearning@gmail.com";
-        final String password = "ContactElearning123";
+        EmailConfiguration emailConfiguration = new EmailConfiguration();
+        HostConfiguration hostConfiguration = new HostConfiguration();
 
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -25,18 +27,18 @@ public class EmailService {
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
                     protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
+                        return new PasswordAuthentication(emailConfiguration.getAddress(), emailConfiguration.getPassword());
                     }
                 });
 
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("uaic.contact.elearning@gmail.com"));
+            message.setFrom(new InternetAddress(emailConfiguration.getAddress()));
             message.setRecipients(Message.RecipientType.TO,
                     InternetAddress.parse(toEmail));
             message.setSubject("UAIC E-Learning Registration Link");
             message.setText("Hello Student,"
-                    + "\n\n You can create your account here: " + HOST_NAME + registerToken);
+                    + "\n\n You can create your account here: " + hostConfiguration.getName() + "register/" +  registerToken);
 
             Transport.send(message);
 
