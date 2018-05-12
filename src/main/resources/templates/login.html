@@ -7,10 +7,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<form>
-    <input type="text" placeholder="Enter Username" required>
-    <input type="password" placeholder="Enter Password" required>
+<form id="form">
+    <input type="text" placeholder="Enter Username" id="username" required>
+    <input type="password" placeholder="Enter Password" id="password" required>
     <button type="submit"> Login</button>
 </form>
+
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+
+
+<script>
+
+    $(document).ready(function() {
+    var inp = document.getElementById('form');
+
+        inp.onsubmit = function (event) {
+            event.preventDefault();
+
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            var data = {
+                username: username,
+                password: password
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/login',
+                data: data,
+                success: function (data) {
+                    console.log(data);
+                    if(data === 'valid') {
+                        window.location.href = '/';
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert(xhr.status);
+                    alert(thrownError);
+                  }
+            });
+        }
+    });
+
+</script>
 </body>
 </html>

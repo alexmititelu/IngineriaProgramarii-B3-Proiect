@@ -10,6 +10,7 @@ import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.generators.TokenGenerator;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
@@ -21,16 +22,14 @@ import java.sql.SQLException;
  */
 
 @Controller
-public class ValidateLoginController {
+public class LoginController {
     /**
      * Metoda returneaza body-ul raspunsului HTTP pentru o cerere de login.
-     * <p>
      * In cazul in care datele de logare sunt valide:
      * 1. Stergerea din tabela conturi_conectate a oricarui token corespunzator userului ce a facut cererea.
      * 2. Generarea unui token alfanumeric random de lungime 64 unic. (Sa nu existe deja in tabela conturi_conectate)
      * 3. Adaugarea acestui token in tabela conturi_conectate impreuna cu usernameul care a incercat autentificarea si un timestamp curent.
      * 4. Returnarea catre client a unui raspuns de forma "token={generated-token}".
-     * <p>
      * In cazul in care datele de logare nu sunt valide:
      * 1. Setarea raspunsului drept 401Unauthorized Error cu ajutorul parametrului response.  -- response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
      * 2. Trimiterea unui raspuns negativ.
@@ -41,8 +40,7 @@ public class ValidateLoginController {
      * @return un mesaj in functie de rezultatul validarii
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public @ResponseBody
-    String login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
+    public @ResponseBody String login(@RequestParam("username") String username, @RequestParam("password") String password, HttpServletResponse response) {
         final String hashedPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
 
         if (AuthenticationManager.isLoginDataValid(username, hashedPassword)) {
@@ -52,15 +50,20 @@ public class ValidateLoginController {
                 Database.getInstance().updateOperation("DELETE FROM conturi_conectate WHERE username LIKE ?", username);
                 token = TokenGenerator.getToken(64, "conturi_conectate");
                 Database.getInstance().updateOperation("INSERT INTO conturi_conectate VALUES(?, ?, CURRENT_TIMESTAMP)", token, username);
+
+                Cookie cookie = new Cookie("user", token);
+                cookie.setMaxAge(60 * 60 * 12);
+                response.addCookie(cookie);
+
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
                 e.printStackTrace();
             }
 
-            return "token=" + token;
+            return "valid";
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return "error=username/password-are-not-valid";
+            return "invalid";
         }
     }
 }

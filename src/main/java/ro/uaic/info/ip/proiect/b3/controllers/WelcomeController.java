@@ -16,7 +16,6 @@ public class WelcomeController {
     /**
      * In cazul in care utilizatorul este logat:
      * 1. Se apeleaza metoda dashboard in DashboardController pentru a crea si returna dashboardul utilizatorului logat.
-     * <p>
      * In cazul in care utilizatorul nu este logat:
      * 1. Se returneaza numele paginii de login.
      *
