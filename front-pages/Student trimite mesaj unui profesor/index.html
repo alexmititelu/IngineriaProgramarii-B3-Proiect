@@ -11,7 +11,24 @@
 </head>
 <body>
     
-    
+    <div class="container loading-container">
+        <h2>Loading</h2>
+    </div>
+    <div class="container main-container">
+        <form id="message"> 
+            <div class="form-group">
+                <select name="profesor" id="prof" title="profesor">
+                    <option value="" disabled selected>Profesori</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <textarea name="mesaj" id="mesaj" cols="60" rows="10" placeholder="Scrie mesaj"></textarea>
+            </div>
+            <p id="err"></p>
+            <button id="btn" type="submit" class="btn btn-primary">Send message</button>
+        </form>
+    </div>
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

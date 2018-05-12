@@ -1,53 +1,87 @@
-var temeMaterii = [
-    {
-        numeMaterie: 'Mate',
-        teme: [
-            {
-                numeTema: 'T1'
-            },
-            {
-                numeTema: 'T2'
-            },
-            {
-                numeTema: 'T3'
-            }
-        ]
-    },
-    {
-        numeMaterie: 'BD',
-        teme: [
-            {
-                numeTema: 'T1'
-            },
-            {
-                numeTema: 'T2'
-            },
-            {
-                numeTema: 'T3'
-            }
-        ]
-    },
-    {
-        numeMaterie: 'IP',
-        teme: [
-            {
-                numeTema: 'T1'
-            },
-            {
-                numeTema: 'T2'
-            },
-            {
-                numeTema: 'T3'
-            }
-        ]
-    }
-];
+var fromServer = [
+
+    [
+        {
+            numeMaterie: 'Mate',
+            teme: [
+                {
+                    numeTema: 'T1'
+                },
+                {
+                    numeTema: 'T2'
+                },
+                {
+                    numeTema: 'T3'
+                }
+            ]
+        },
+        {
+            numeMaterie: 'BD',
+            teme: [
+                {
+                    numeTema: 'T1'
+                },
+                {
+                    numeTema: 'T2'
+                },
+                {
+                    numeTema: 'T3'
+                }
+            ]
+        },
+        {
+            numeMaterie: 'IP',
+            teme: [
+                {
+                    numeTema: 'T1'
+                },
+                {
+                    numeTema: 'T2'
+                },
+                {
+                    numeTema: 'T3'
+                }
+            ]
+        }
+    ]
+,
+    [{
+        nume: 'Popescu',
+        prenume: 'Costin',
+        email: 'popescucostin@gmail.com',
+        imagineProfil: '/profilePicture.jpg'
+    }]
+]
 
 $(document).ready(function () {
 
+    var dataToReceive;
+
+    // $.ajax({
+
+    //     type: 'GET',
+    //     url: 'http://127.0.0.1:8080/infoForContestatie',
+    //     success: function (data) {
+            
+    //         if(data){
+                
+    //             dataToReceive=data;
+    //         }
+    //         else{
+                
+    //             var serverResponse=document.getElementsByClassName('loading-text')[0];
+
+    //             serverResponse.innerText='server error';
+    //         }
+    //     }
+    // });
+
+
+    dataToReceive = fromServer;
+
     var select = document.getElementById('materie');
 
-    temeMaterii.forEach(element => {
+    dataToReceive[0].forEach(element => {
         
         var option = document.createElement('option');
 
@@ -67,6 +101,12 @@ $(document).ready(function () {
             select.appendChild(option2);
         }
         
+        setTimeout(() => {
+            
+            $('.loading-container').addClass('none');
+            $('.main-container').removeClass('none');
+
+        }, 1200);
     });
 
     var form = document.getElementById('form');
@@ -122,17 +162,9 @@ $(document).ready(function () {
                         button.removeAttribute('disabled');
                         button.innerText = 'Send';
                     }
-
                     console.log(data);
-                    
                 }
             });
-
-            
-            
         }
-
-
     }
-    
 });
