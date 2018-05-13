@@ -17,7 +17,7 @@ public class CreateTemaController {
      *      - numeTema -> caractere alfa numerice si acest nume de tema as nu fie in baza de date
      *      - deadline -> format de zi valid
      *      - nrExercitii -> nr natural
-     *      - format -> sql etc
+     *      - extensieFisierAcceptat -> ce tip de extensie este acceptat pentru fisierele uploadate
      *    In caz pozitiv se trece la pasul 3, altfel, este aruncata o exceptie si prinsa ulterior, fiind returnat mesajul exceptiei.
      * 3. Se verifica daca materia cu numele respectiv exista deja in baza de date, in caz afirmativ, se arunca o exceptie, iar in cazul in care
      *    materia nu exista in baza de date aceasta va fi inserata.
@@ -28,7 +28,7 @@ public class CreateTemaController {
      * @param deadline
      * @param enunt
      * @param nrExercitii
-     * @param format
+     * @param extensieFisierAcceptat
      * @param response
      * @return
      */
@@ -40,7 +40,7 @@ public class CreateTemaController {
                         @RequestParam String deadline,
                         @RequestParam String enunt,
                         @RequestParam int nrExercitii,
-                        @RequestParam String format,
+                        @RequestParam String extensieFisierAcceptat,
                         @CookieValue(value = "user", defaultValue = "-1") String loginToken,
                         HttpServletResponse response) {
 
@@ -60,7 +60,7 @@ public class CreateTemaController {
 
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return "invalid";
+            return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
         }
     }
 }
