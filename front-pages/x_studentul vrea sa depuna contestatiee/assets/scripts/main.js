@@ -89,12 +89,8 @@ $(document).ready(function () {
 
     }, 1200);
 
-<<<<<<< HEAD
     var dataToReceive = fromServer;
     var selectMateria = document.getElementById('materia');
-=======
-    var select = document.getElementById('subject');
->>>>>>> origin/master
 
     dataToReceive[0].forEach(element => {
         
@@ -159,12 +155,8 @@ $(document).ready(function () {
             ok = 0;
         }
         
-<<<<<<< HEAD
         var select1 = document.getElementById('materie').value;
         var select2 = document.getElementById('tema').value;
-=======
-        var select = document.getElementById('subject').value;
->>>>>>> origin/master
 
         if (select1 === '' ) {
             err.innerText = "Nu ati ales materia!";
@@ -176,13 +168,8 @@ $(document).ready(function () {
         }
 
         var dataToSend = {
-<<<<<<< HEAD
             "materie": select1,
             "numeTema": select2,
-=======
-            // subject: subject,
-            "numeTema": select,
->>>>>>> origin/master
             "descriere": descriere
         }
 
