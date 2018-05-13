@@ -1,9 +1,18 @@
 package ro.uaic.info.ip.proiect.b3.controllers.subject;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
+import ro.uaic.info.ip.proiect.b3.database.Database;
 
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigInteger;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class CreateTemaController {
 
@@ -13,7 +22,7 @@ public class CreateTemaController {
      * 1. Verificam daca cel ce face requestul este logat si, respectiv, daca este profesor.
      *    In caz afirmativ, se trece la pasul 2. Altfel, se returneaza "Trebuie sa fiti autentificat in cont mai intai."
      * 2. Se face verificarea datelor introduse, si anume:
-     *      - numeMaterie -> caractere alfa numerice si acest nume de materie sa nu existe deja in baza de date
+     *      - numeMaterie -> caractere alfa numerice si acest nume de materie sa existe deja in baza de date
      *      - numeTema -> caractere alfa numerice si acest nume de tema as nu fie in baza de date
      *      - deadline -> format de zi valid
      *      - nrExercitii -> nr natural
@@ -35,9 +44,9 @@ public class CreateTemaController {
 
     @RequestMapping(value = "/materii/{numeMaterie}/createTema", method = RequestMethod.POST)
     public @ResponseBody
-    String creeazaTema (@PathVariable String numeMaterie,
+    String creeazaTema (@PathVariable("numeMaterie") String numeMaterie,
                         @RequestParam String numeTema,
-                        @RequestParam String deadline,
+                        @RequestParam("deadline") @DateTimeFormat(pattern="dd/mm/yyyy") Date deadline,
                         @RequestParam String enunt,
                         @RequestParam int nrExercitii,
                         @RequestParam String extensieFisierAcceptat,
@@ -45,11 +54,44 @@ public class CreateTemaController {
                         HttpServletResponse response) {
 
         if (AuthenticationManager.isUserLoggedIn(loginToken) && AuthenticationManager.isLoggedUserProfesor(loginToken)) {
-
+            Connection connection=null;
+            ResultSet materie=null;
             try {
                 //  1
-                // 2
-                // 3
+                if(numeMaterie==null ||numeTema==null||deadline==null||enunt==null||extensieFisierAcceptat==null)
+                    throw new Exception("Parametru (null) invalid");
+                if( (numeMaterie.matches("[A-Za-z0-9_]+")) == false) {
+                    throw new Exception("numeMaterie invalid");
+                }
+                connection = Database.getInstance().getConnection();
+                materie = Database.getInstance().selectQuery(connection,"SELECT id FROM materii where titlu = ?", numeMaterie);
+                BigInteger idMaterie;
+                if( !materie.next() )
+                {
+                    throw new SQLException("Materia nu exista in baza de date!");
+                }
+                else
+                {
+                    idMaterie=(BigInteger) materie.getObject(1);
+                    if(numeTema.matches("[A-Za-z0-9_]+") == false)
+                    {
+                        throw new Exception("numeTeme invalid!");
+                    }
+                    ResultSet checkNumeTema = Database.getInstance().selectQuery(connection,"SELECT * FROM teme where nume_tema = ?", numeTema);
+                    if( !checkNumeTema.next() )
+                    {
+                        if(extensieFisierAcceptat.matches("[A-Za-z]+") == false)
+                        {
+                            throw new Exception("Extensie invalida!");
+                        }
+                    }
+                    else
+                    {
+                        throw new SQLException("Numele temei exista deja in baza de date");
+                    }
+
+                }
+
 
                 return "valid";
             } catch(Exception e) {
@@ -63,4 +105,5 @@ public class CreateTemaController {
             return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
         }
     }
+
 }
