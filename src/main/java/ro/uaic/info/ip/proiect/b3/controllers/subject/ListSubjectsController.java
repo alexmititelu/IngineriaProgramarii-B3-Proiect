@@ -20,7 +20,7 @@ public class ListSubjectsController {
      * 3. Returnam valid, in cazul in care totul a decurs cu succes, altfel, returnam un mesaj specific de eroare
      */
 
-    @RequestMapping(value = "/materii", method = RequestMethod.POST)
+    @RequestMapping(value = "/materii", method = RequestMethod.GET)
     public @ResponseBody List<Materie> listeazaMaterii (HttpServletResponse response , @CookieValue(value = "user", defaultValue = "-1") String loginToken) {
         if (!AuthenticationManager.isUserLoggedIn(loginToken)) {
             try {
