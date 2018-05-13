@@ -1,12 +1,17 @@
 package ro.uaic.info.ip.proiect.b3.controllers.subject;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
+import ro.uaic.info.ip.proiect.b3.database.objects.Materie;
+import ro.uaic.info.ip.proiect.b3.materie.MateriiService;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
+@Controller
 public class ListSubjectsController {
 
     /**
@@ -16,23 +21,19 @@ public class ListSubjectsController {
      */
 
     @RequestMapping(value = "/materii", method = RequestMethod.POST)
-    public @ResponseBody String listeazaMaterii (HttpServletResponse response) {
-        if ( true ) {
-            // 1.
-            // 2.
+    public @ResponseBody List<Materie> listeazaMaterii (HttpServletResponse response , @CookieValue(value = "user", defaultValue = "-1") String loginToken) {
+        if (!AuthenticationManager.isUserLoggedIn(loginToken)) {
             try {
-                //
-                // adaugati in response lista de materii disponibile
-                return "valid";
+                List<Materie> materii = MateriiService.getAll();
+                return materii;
             } catch(Exception e) {
-                // faceti cu exceptii specifice ce pot aparea
-                // 3
-                return "mesaj de eroare";
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                return null;
             }
-
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return "invalid";
+            return null;
         }
     }
+
 }

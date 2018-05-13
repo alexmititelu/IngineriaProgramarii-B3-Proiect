@@ -83,7 +83,7 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
-            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT username FROM conturi join profesori on conturi.email = profesori.email WHERE username like ?", username);
+            ResultSet resultSet = Database.getInstance().selectQuery(connection, "SELECT username FROM conturi join profesori on conturi.email = profesori.email WHERE username like ?", username);
 
             if (resultSet.next()) {
                 return true;
