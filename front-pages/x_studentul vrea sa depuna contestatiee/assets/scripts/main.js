@@ -85,6 +85,7 @@ $(document).ready(function () {
     setTimeout(() => {  /* to simulate server response delay */
             
         $('.loading-container').addClass('none');
+        $('.spinner').addClass('none');
         $('.main-container').removeClass('none');
 
     }, 1200);
@@ -147,10 +148,6 @@ $(document).ready(function () {
             err.innerText = "Nu ati formulat contestatia!";
 
             var alertImg=document.getElementsByClassName('alertImage');
-         
-            //$('alertImg').attr("src","./images/siren1.png");
-            // alertImg.setAttribute("src","./images/siren1.png");
-            // alertImg.setAttribute("alt","alert symbol");
 
             ok = 0;
         }
@@ -173,7 +170,7 @@ $(document).ready(function () {
             "descriere": descriere
         }
 
-        if (ok) {
+        if (ok) {   
             var button = document.getElementById('btn');
 
             button.setAttribute('disabled', 'disabled');
@@ -191,7 +188,7 @@ $(document).ready(function () {
                         button.innerText = 'Send';
 
                     } else {
-                        err.innerText = "contestatia s-a efectuat cu succes!";
+                        err.innerText = "Contestatia s-a efectuat cu succes!";
 
                         button.removeAttribute('disabled');
                         button.innerText = 'Send';
