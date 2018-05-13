@@ -4,28 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Modificare Nota</title>
+    
+    <title>Contestatie</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/navBar.css">
 </head>
 <body>
-    
+    <div class="overlay"></div>
+    <div class="container-fluid">
+        <nav class="nav">
+            <a class="nav-link logo" href="#">LOGO | GestiON</a>
+            <div class="responsive-menu">
+                <a class="nav-link responsive" href="#">Incarca tema</a>
+                <a class="nav-link responsive" href="#">Teme</a>
+                <a class="nav-link responsive nav-button" href="#" role="button">
+                    <span class="nav-button-item">
+                        Profil
+                    </span>
+                </a>
+            </div>
+            <img class="menu" src="./assets/images/menu.svg" alt="menu">
+        </nav>
+    </div>
+
     <div id="main-container" class="container main-container none">
         <form id="form">
+            <div class="dropDowns">
+                <div class="form-group">
+                    <select name="materia" id="materia" title="materia" class="button-primary button-primary-dropdown">
+                        <option value="" disabled selected>Materia</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="tema" id="tema" title="tema" class="button-primary button-primary-dropdown">
+                        <option value="" disabled selected>Tema</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group">
-                <select name="materie" id="materie" title="Materie">
-                    <option value="" disabled selected>Materie</option>
-                </select>
+                <textarea name="descriere" id="descriere" cols="80" rows="10" placeholder="  Formuleaza contestatia ..." class="textarea"></textarea>
             </div>
 
-            <div class="form-group">
-                <textarea name="descriere" id="descriere" cols="80" rows="10" placeholder="Motiv.."></textarea>
-            </div>
-
-            <button id="btn" type="submit" class="btn btn-primary">Send</button>
-
-            <p id="err"></p>
+            <button id="btn" type="submit" class="button-primary">Trimite contestatia</button>
+            <p id="err" class="error">
+                <img class="alertImage">
+            </p>
         </form>
     </div>
 

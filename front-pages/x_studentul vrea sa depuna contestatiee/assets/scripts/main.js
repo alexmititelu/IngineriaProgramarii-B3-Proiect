@@ -1,8 +1,9 @@
-var fromServer = [
+/*dummy JSON:*/
 
+var fromServer = [
     [
         {
-            numeMaterie: 'Mate',
+            numeMaterie: 'Matematica',
             teme: [
                 {
                     numeTema: 'T1'
@@ -19,13 +20,13 @@ var fromServer = [
             numeMaterie: 'BD',
             teme: [
                 {
-                    numeTema: 'T1'
+                    numeTema: 'T4'
                 },
                 {
-                    numeTema: 'T2'
+                    numeTema: 'T5'
                 },
                 {
-                    numeTema: 'T3'
+                    numeTema: 'T6'
                 }
             ]
         },
@@ -33,13 +34,13 @@ var fromServer = [
             numeMaterie: 'IP',
             teme: [
                 {
-                    numeTema: 'T1'
+                    numeTema: 'T7'
                 },
                 {
-                    numeTema: 'T2'
+                    numeTema: 'T8'
                 },
                 {
-                    numeTema: 'T3'
+                    numeTema: 'T9'
                 }
             ]
         }
@@ -55,7 +56,12 @@ var fromServer = [
 
 $(document).ready(function () {
 
-    var dataToReceive;
+	$(document).ready(function () {
+    
+        $('.menu').click(function () {
+        $('.responsive-menu').toggleClass('toggle');
+    });
+});
 
     // $.ajax({
 
@@ -76,10 +82,19 @@ $(document).ready(function () {
     //     }
     // });
 
+    setTimeout(() => {  /* to simulate server response delay */
+            
+        $('.loading-container').addClass('none');
+        $('.main-container').removeClass('none');
 
-    dataToReceive = fromServer;
+    }, 1200);
 
+<<<<<<< HEAD
+    var dataToReceive = fromServer;
+    var selectMateria = document.getElementById('materia');
+=======
     var select = document.getElementById('subject');
+>>>>>>> origin/master
 
     dataToReceive[0].forEach(element => {
         
@@ -88,27 +103,38 @@ $(document).ready(function () {
         option.value = element.numeMaterie;
         option.innerText = element.numeMaterie;
 
-        option.setAttribute('disabled', 'disabled');
-
-        select.appendChild(option);
-
-        for (var i = 0; i < element.teme.length; i++) {
-            var option2 = document.createElement('option');
-
-            option2.value = element.teme[i].numeTema;
-            option2.innerText = element.teme[i].numeTema;
-
-            select.appendChild(option2);
-        }
-        
-        setTimeout(() => {
-            
-            $('.loading-container').addClass('none');
-            $('.main-container').removeClass('none');
-
-        }, 1200);
+        selectMateria.appendChild(option);
     });
 
+    var materiaSelectata;
+     
+    $(selectMateria).on('change', function() {
+        materiaSelectata=(this.value);
+
+        var selectTema=document.getElementById('tema');
+
+        while(selectTema.firstChild)
+        {
+            selectTema.removeChild(selectTema.firstChild);
+        }
+        
+        for(var i=0;i<dataToReceive[0].length;++i){
+        
+            if(dataToReceive[0][i].numeMaterie==materiaSelectata)
+            {   
+                for(var j=0;i<dataToReceive[0][i].teme.length;++j)
+                {
+                  var option=document.createElement('option');
+
+                  option.value=dataToReceive[0][i].teme[j].numeTema
+                  option.innerText=dataToReceive[0][i].teme[j].numeTema;
+                  
+                  selectTema.appendChild(option);
+                }
+            }
+        }
+    })
+    
     var form = document.getElementById('form');
 
     form.onsubmit = function (event) {
@@ -117,25 +143,46 @@ $(document).ready(function () {
         var ok = 1;
 
         var err = document.getElementById('err');
-        err.innerText = "";
-
         var descriere = document.getElementById('descriere').value;
 
+        err.innerText = "";
+        
         if (descriere.length < 1) {
-            err.innerText = "Completeaza motivul mai intai..";
+            err.innerText = "Nu ati formulat contestatia!";
+
+            var alertImg=document.getElementsByClassName('alertImage');
+         
+            //$('alertImg').attr("src","./images/siren1.png");
+            // alertImg.setAttribute("src","./images/siren1.png");
+            // alertImg.setAttribute("alt","alert symbol");
+
             ok = 0;
         }
         
+<<<<<<< HEAD
+        var select1 = document.getElementById('materie').value;
+        var select2 = document.getElementById('tema').value;
+=======
         var select = document.getElementById('subject').value;
+>>>>>>> origin/master
 
-        if (select === '') {
-            err.innerText = "Alege materia..";
+        if (select1 === '' ) {
+            err.innerText = "Nu ati ales materia!";
+            ok = 0;
+        }
+        if (select2 === '') {
+            err.innerText = "Nu ati ales tema!";
             ok = 0;
         }
 
         var dataToSend = {
+<<<<<<< HEAD
+            "materie": select1,
+            "numeTema": select2,
+=======
             // subject: subject,
             "numeTema": select,
+>>>>>>> origin/master
             "descriere": descriere
         }
 
