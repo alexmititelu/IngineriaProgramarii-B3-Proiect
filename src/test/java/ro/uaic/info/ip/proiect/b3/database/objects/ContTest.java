@@ -3,7 +3,6 @@ package ro.uaic.info.ip.proiect.b3.database.objects;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Modifier;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.instanceOf;
@@ -16,12 +15,12 @@ public class ContTest {
         constructor.setAccessible(true);
         Cont validAcount = constructor.newInstance("Jtest", "test.Jtest@Jmail.com", "Jtest");
 
-        Cont userCont = Cont.get("lucian.cochiorheghi@gmail.com");
+        Cont userCont = Cont.getByEmail("lucian.cochiorheghi@gmail.com");
         assertThat(userCont, instanceOf(Cont.class));  // inca nu exista date in tabelul Conturi
 
 
-        assertEquals(null, Cont.get("testInesistentEmail@jtest.com"));
-        assertEquals(null, Cont.get(""));
+        assertEquals(null, Cont.getByEmail("testInesistentEmail@jtest.com"));
+        assertEquals(null, Cont.getByEmail(""));
         assertEquals("Jtest", validAcount.getUsername());
         assertEquals("test.Jtest@Jmail.com", validAcount.getEmail());
         assertEquals("Jtest", validAcount.getPassword());

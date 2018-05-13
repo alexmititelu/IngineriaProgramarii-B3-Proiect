@@ -17,8 +17,6 @@ public class ListSubjectsController {
 
     @RequestMapping(value = "/materii", method = RequestMethod.POST)
     public @ResponseBody String listeazaMaterii (HttpServletResponse response) {
-
-
         if ( true ) {
             // 1.
             // 2.

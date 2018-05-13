@@ -1,84 +1,31 @@
 package ro.uaic.info.ip.proiect.b3.authentication;
 
-import ro.uaic.info.ip.proiect.b3.database.Database;
+import ro.uaic.info.ip.proiect.b3.database.objects.Cont;
+import ro.uaic.info.ip.proiect.b3.database.objects.Student;
 
-import java.sql.*;
 
 public class RegistrationValidator {
     public boolean isEmailValid(String email) {
-        boolean response = true;
-        Connection dbConnection = null;
+        Student student = Student.getByEmail(email);
+        Cont cont = Cont.getByEmail(email);
 
-        try {
-            dbConnection = Database.getInstance().getConnection();
-
-            String query = "SELECT email FROM conturi WHERE email = ?";
-            String query2 = "SELECT email FROM studenti WHERE email = ?";
-
-            Statement queryStatement = dbConnection.prepareStatement(query);
-            Statement queryStatement2 = dbConnection.prepareStatement(query2);
-
-            ((PreparedStatement) queryStatement).setString(1, email);
-            ((PreparedStatement) queryStatement2).setString(1, email);
-
-            ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
-            ResultSet resultSet2 = ((PreparedStatement) queryStatement2).executeQuery();
-
-            if ((!resultSet2.next()) || (resultSet.next())) {
-                response = false;
-            }
-        } catch (SQLException e) {
-            response = false;
-            System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-        } finally {
-            try {
-                dbConnection.close();
-            } catch (Exception e) {
-                System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-            }
-        }
-
-        return response;
+        return ((student != null) && (cont == null));
     }
 
     public boolean isUsernameValid(String username) {
-        boolean isUsernameValid = true;
-        Connection dbConnection = null;
+        Cont cont = Cont.getByUsername(username);
 
-        try {
-            dbConnection = Database.getInstance().getConnection();
-            String query = "SELECT username FROM conturi WHERE username = ?";
-            Statement queryStatement = dbConnection.prepareStatement(query);
-            ((PreparedStatement) queryStatement).setString(1, username);
-
-            ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
-
-            if (resultSet.next() || !checkUsername(username)) {
-                isUsernameValid = false;
-            }
-
-        } catch (SQLException e) {
-            isUsernameValid = false;
-            System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-        } finally {
-            try {
-                dbConnection.close();
-            } catch (Exception e) {
-                System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-            }
-        }
-
-        return isUsernameValid;
+        return ((cont == null) && (isUsernameRespectingConstraints(username)));
     }
 
-    private boolean checkUsername(String username) {
+    private boolean isUsernameRespectingConstraints(String username) {
         if (username.length() < 6 || username.length() > 30)
             return false;
 
         return username.matches("([A-Z]|[a-z]|[0-9])+");
     }
 
-    public boolean isPasswordValid(String password) {
+    public boolean isPasswordRespectingConstraints(String password) {
         return (password.length() > 8 && password.matches("([A-Z]|[a-z]|[0-9])+"));
     }
 }

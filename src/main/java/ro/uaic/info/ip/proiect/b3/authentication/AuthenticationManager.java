@@ -20,7 +20,7 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
-            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT username FROM conturi_conectate WHERE token like ?", loginToken);
+            ResultSet resultSet = Database.getInstance().selectQuery(connection, "SELECT username FROM conturi_conectate WHERE token like ?", loginToken);
 
             if (resultSet.next())
                 isUserConnected = true;
@@ -52,7 +52,7 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
-            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT username FROM conturi_conectate WHERE token like ?", loginToken);
+            ResultSet resultSet = Database.getInstance().selectQuery(connection, "SELECT username FROM conturi_conectate WHERE token like ?", loginToken);
 
             while (resultSet.next()) {
                 connectedUser = resultSet.getString(1);
@@ -119,7 +119,7 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
-            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT * FROM conturi WHERE username like ? and password like ?", username, password);
+            ResultSet resultSet = Database.getInstance().selectQuery(connection, "SELECT * FROM conturi WHERE username like ? and password like ?", username, password);
 
             if (resultSet.next())
                 isDataValid = true;
@@ -151,7 +151,7 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
-            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT * FROM register_links WHERE token like ?", registerToken);
+            ResultSet resultSet = Database.getInstance().selectQuery(connection, "SELECT * FROM register_links WHERE token like ?", registerToken);
 
             if (resultSet.next())
                 isTokenValid = true;
@@ -181,7 +181,7 @@ public class AuthenticationManager {
 
         try {
             connection = Database.getInstance().getConnection();
-            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT email FROM register_links WHERE token like ?", registerToken);
+            ResultSet resultSet = Database.getInstance().selectQuery(connection, "SELECT email FROM register_links WHERE token like ?", registerToken);
 
             while (resultSet.next()) {
                 emailAssociatedWithToken = resultSet.getString(1);

@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 public class CreateSubjectController {
 
     /**
-     * Acest controller este asociat actiunii unui profesor de a crea o materie nou pentru aplicatie.
+     * Acest controller este asociat actiunii unui profesor de a crea o materie noua pentru aplicatie.
      *
      * 1. Verificam daca cel ce face requestul este logat si, respectiv, daca este profesor.
      *    In caz afirmativ, se trece la pasul 2. Altfel, se returneaza "Trebuie sa fiti autentificat in cont mai intai."
@@ -51,7 +51,7 @@ public class CreateSubjectController {
 
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return "invalid";
+            return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
         }
     }
 }

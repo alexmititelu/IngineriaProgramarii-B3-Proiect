@@ -13,7 +13,7 @@ public class Student {
         this.email = email;
     }
 
-    public static Student get(String nrMatricol) {
+    public static Student getByNrMatricol(String nrMatricol) {
         Connection dbConnection = null;
         String email = null;
 
@@ -28,6 +28,39 @@ public class Student {
             if (resultSet.next()) {
                 email = resultSet.getString(1);
             }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                dbConnection.close();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+
+        if (email != null) {
+            return new Student(nrMatricol, email);
+        } else {
+            return null;
+        }
+    }
+
+    public static Student getByEmail(String email) {
+        Connection dbConnection = null;
+        String nrMatricol = null;
+
+        try {
+            dbConnection = Database.getInstance().getConnection();
+            String query = "SELECT nrMatricol FROM studenti WHERE email LIKE ?";
+            Statement queryStatement = dbConnection.prepareStatement(query);
+            ((PreparedStatement) queryStatement).setString(1, email);
+
+            ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
+
+            if (resultSet.next()) {
+                nrMatricol = resultSet.getString(1);
+            }
+
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {

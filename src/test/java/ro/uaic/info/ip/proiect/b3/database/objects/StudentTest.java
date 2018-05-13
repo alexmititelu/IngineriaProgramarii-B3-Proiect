@@ -12,11 +12,11 @@ public class StudentTest {
     @Test
     public void get() {
 
-        Student student = Student.get("validNrMatricol");
+        Student student = Student.getByNrMatricol("validNrMatricol");
         assertThat(student, instanceOf(Student.class));
 
-        assertEquals(null, Student.get("testNrMatricol"));
-        assertNotEquals(null, Student.get("validNrMatricol"));
+        assertEquals(null, Student.getByNrMatricol("testNrMatricol"));
+        assertNotEquals(null, Student.getByNrMatricol("validNrMatricol"));
     }
 
     @Test

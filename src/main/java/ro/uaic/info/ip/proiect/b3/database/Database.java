@@ -2,6 +2,9 @@ package ro.uaic.info.ip.proiect.b3.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ro.uaic.info.ip.proiect.b3.configurations.DatabaseConfiguration;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +17,7 @@ import java.sql.SQLException;
  * Documentatia pentru Hikari - https://github.com/brettwooldridge/HikariCP
  */
 
+@Service
 public class Database {
     /**
      * Un DataSource contine informatii despre baza de date la care se face conectarea si diverse configuratii.
@@ -25,15 +29,18 @@ public class Database {
      */
     private static final Database instance = new Database();
 
+
     /**
      * Configurarea sursei de date in functie de serverului de baze de date folosit.
      */
+    @Autowired
     private Database() {
         HikariConfig config = new HikariConfig();
+         DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
 
-        config.setJdbcUrl("jdbc:mysql://160.153.18.88/teodor");
-        config.setUsername("proca_teodor");
-        config.setPassword("proiectip");
+        config.setJdbcUrl(databaseConfiguration.getConnectionUrl());
+        config.setUsername(databaseConfiguration.getUsername());
+        config.setPassword(databaseConfiguration.getPassword());
         config.addDataSourceProperty("cachePrepStmts", "true");
         config.addDataSourceProperty("prepStmtCacheSize", "250");
         config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
@@ -56,7 +63,7 @@ public class Database {
         return dataSource.getConnection();
     }
 
-    public ResultSet selectOperation(Connection connection, String query, String... parameters) throws SQLException {
+    public ResultSet selectQuery(Connection connection, String query, String... parameters) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         for (int i = 1; i <= parameters.length; ++i) {
             preparedStatement.setString(i, parameters[i - 1]);

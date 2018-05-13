@@ -2,12 +2,12 @@ package ro.uaic.info.ip.proiect.b3.model;
 
 
 /**
- * Avem o clasa care va primi un String si care are o metoda de set si de get.
+ * Avem o clasa care va primi un String si care are o metoda de set si de getByNrMatricol.
  * Trebuie sa verificam pentru a putea face coverage de 100% , toate metodele din aceasta clasa.
  * 1) Pentru a putea sa verificam contructorul va trebui dupa ce instantam obiectul de tipul ClassForTest sa aiba atributul "mesaj" valoarea pe care am dato la instantierea obiectului
  * 1) Acest lucru se face cu ajutorul assertEquals care este o metoda din Junit ( Un exemplu este in Test )
- * 2) Pentru a putea verifica daca get functioneaza atunci va trebui sa dam o valoare la mesaj si sa vedem daca get-ul ne va da acelasi rezultat
- * 3) Pentru a putea verifica daca set functioneaza atunci va trebui sa dam o valoare la mesaj prin metoda set si dupa sa apelam get iar daca rezultatul este acelasi atunci testul e complet
+ * 2) Pentru a putea verifica daca getByNrMatricol functioneaza atunci va trebui sa dam o valoare la mesaj si sa vedem daca getByNrMatricol-ul ne va da acelasi rezultat
+ * 3) Pentru a putea verifica daca set functioneaza atunci va trebui sa dam o valoare la mesaj prin metoda set si dupa sa apelam getByNrMatricol iar daca rezultatul este acelasi atunci testul e complet
  * 4) Pentru a putea face toate aceste teste noi va trebui sa ne facem urmatoarele :
  * - Declarari de clase,artribute... pentru a le putea mockui ( pentru a le da anumite valori claselor,atributelor ... sa le ia ).
  * - Atribuirea acelor valori claselor,atributelor pe care dorim sa le testam

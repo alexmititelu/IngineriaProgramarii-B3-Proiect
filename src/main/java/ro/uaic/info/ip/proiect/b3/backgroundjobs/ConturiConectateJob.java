@@ -8,7 +8,7 @@ public class ConturiConectateJob implements Runnable {
     public void run() {
         while (true) {
             try {
-                Database.getInstance().updateOperation("DELETE FROM conturi_conectate WHERE creation_time <= now() - INTERVAL 1 DAY");
+                Database.getInstance().updateOperation("DELETE FROM conturi_conectate WHERE creation_time <= now() - INTERVAL 12 HOUR");
             } catch (SQLException e) {
                 e.printStackTrace();
             }
