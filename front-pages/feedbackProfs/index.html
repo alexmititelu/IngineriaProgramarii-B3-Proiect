@@ -4,17 +4,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Feedback Profesori</title>
+    
+    <title>FeedBack</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/navBar.css">
 </head>
 <body>
-    
-    
+    <div class="overlay"></div>
+    <div class="container-fluid">
+        <nav class="nav">
+            <a class="nav-link logo" href="#">LOGO | GestiON</a>
+            <div class="responsive-menu">
+                <a class="nav-link responsive active" href="#">Feedback</a>
+                <a class="nav-link responsive" href="#">Contestatie</a>
+                <a class="nav-link responsive" href="#">Incarca tema</a>
+                <a class="nav-link responsive" href="#">Teme</a>
+                <a class="nav-link responsive nav-button" href="#" role="button">
+                    <span class="nav-button-item">
+                        Profil
+                    </span>
+                </a>
+            </div>
+            <img class="menu" src="./assets/images/menu.svg" alt="menu">
+        </nav>
+    </div>
 
+    <div id="main-container" class="container main-container none">
+        <form id="form">
+            <div class="dropDowns">
+                <div class="form-group">
+                    <select name="profesor" id="profesor" title="profesor" class="button-primary button-primary-dropdown">
+                        <option value="" disabled selected>Profesori</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select name="disciplina" id="disciplina" title="disciplina" class="button-primary button-primary-dropdown">
+                        <option value="" disabled selected>Discipline</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <textarea name="descriere" id="descriere" cols="80" rows="10" placeholder="  Spune parerea ..." class="textarea"></textarea>
+            </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <button id="btn" type="submit" class="button-primary">Trimite FeedBack</button>
+            <p id="err" class="error">
+                <img class="alertImage">
+            </p>
+        </form>
+    </div>
+
+    <div class="container loading-container">
+        <p class="loading-text">Loading..</p>
+    </div>
+    <div class="spinner">
+        <div class="rect1"></div>
+        <div class="rect2"></div>
+        <div class="rect3"></div>
+        <div class="rect4"></div>
+        <div class="rect5"></div>
+    </div>
+
+    <script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
