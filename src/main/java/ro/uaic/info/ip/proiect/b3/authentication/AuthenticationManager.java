@@ -75,11 +75,44 @@ public class AuthenticationManager {
         return connectedUser;
     }
 
+
+    public static boolean isLoggedUserProfesor(String token) {
+        String username = getUsernameLoggedIn(token);
+        Connection connection = null;
+        String connectedUser = null;
+
+        try {
+            connection = Database.getInstance().getConnection();
+            ResultSet resultSet = Database.getInstance().selectOperation(connection, "SELECT username FROM conturi join profesori on conturi.email = profesori.email WHERE username like ?", username);
+
+            if (resultSet.next()) {
+                return true;
+            }
+
+        } catch (SQLException e) {
+            System.err.println("SQLException: " + e);
+            e.printStackTrace();
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("SQLException: " + e);
+                e.printStackTrace();
+            }
+        }
+
+        return false;
+    }
+
     /**
      * @param username username-ul unui utilzator
      * @param password parola hashuita al utilizatorului -- final String hashedPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
      * @return true in cazul in care datele sunt valide si fals in caz contrar
      */
+
+
     public static boolean isLoginDataValid(String username, String password) {
         Connection connection = null;
         boolean isDataValid = false;
@@ -168,4 +201,6 @@ public class AuthenticationManager {
 
         return emailAssociatedWithToken;
     }
+
+
 }

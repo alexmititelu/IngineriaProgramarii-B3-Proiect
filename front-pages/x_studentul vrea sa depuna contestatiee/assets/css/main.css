@@ -1,20 +1,87 @@
-.loading-text{
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,600,700');
 
+:root {
+    --main-color: #29324b;
+    --main-border: #1daaa0;
+    --light-border: #78ded7;
+
+    --second-color: #a6b2d6;
+    --menu-item: #8089a6;
+    --menu-item-active: #eee;
+    --button-menu: #384363;
+    --button-menu-hover: #495782;
+    --button-color: #e7ebf9;
+
+    --text-main-color: #5ddfcb;
+    --text-second-color: #8e9bac;
+    --text-header-color: #3a4563;
+    --text-main-light: #aaefeb;
+    --text-link: #5fcac3;
+
+    --header-section: #3b4563;
+
+    --background: #f5f9fc;
+
+    --footer-link: #b0c1d8;
+}
+
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+/* Home: */
+
+.button-primary {
+  background: var(--main-border);
+  border-radius: 30px;
+  box-shadow: 0 5px 13px 0 rgba(69,194,185,.44);
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  margin: 20px 15px 20px 0;
+  padding: 15px 40px;
+  transition: box-shadow .1s ease-in-out;
+  border-width: 0px;
+}
+.button-primary:hover {
+  box-shadow: 0 7px 13px 0 rgba(69,194,185,.98);
+}
+.button-primary-dropdown{
+  padding: 10px;
+}
+.dropDowns .form-group{
+  display: inline-block;
+}
+.error{
+  display: inline-block;
+}
+.loading-text{
   position: absolute;
   left: 50%;
   top:50%;
   transform: translate(-50%,-50%);
 }
-
+.main-container{
+  margin:50px 0px 0px 50px;
+}
 .none {
   display: none;
 }
-
+.overlay {
+  background: #f5f9fc;
+  -webkit-clip-path: polygon(33% 0, 100% 16%, 100% 75%, 37% 100%, 0 100%, 0 0);
+  clip-path: polygon(33% 0, 100% 16%, 100% 75%, 37% 100%, 0 100%, 0 0);
+  margin-bottom: -80px;
+  min-height: 850px;
+  height: auto;
+  position: absolute;
+  width: 100%;
+  z-index:-1;
+}
 ul,li{
     list-style-type: none;
   }
-  
-  ul.categorias-content {
+ul.categorias-content {
     border: 1px solid #d5d5d5;
     margin: 0px auto;
     padding: 10px;
@@ -92,5 +159,33 @@ ul,li{
     border-right: 5px solid transparent;
     border-top: 5px solid #fff;
   }
+  select.classic {
+    background-image:
+      linear-gradient(45deg, transparent 50%, blue 50%),
+      linear-gradient(135deg, blue 50%, transparent 50%),
+      linear-gradient(to right, skyblue, skyblue);
+    background-position:
+      calc(100% - 20px) calc(1em + 2px),
+      calc(100% - 15px) calc(1em + 2px),
+      100% 0;
+    background-size:
+      5px 5px,
+      5px 5px,
+      2.5em 2.5em;
+    background-repeat: no-repeat;
+  }
+  textarea{
+    max-width: 700px;
+    width: 100%;
+    box-sizing: border-box;	
+    resize: none;
+    border-color: #212529;
+  }
 
-  
+  /* Responsive */
+
+  @media screen and (max-width: 575px) {
+    .main-container{
+      margin:0px;
+    }
+}
