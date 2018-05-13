@@ -2,8 +2,13 @@ package ro.uaic.info.ip.proiect.b3.controllers.subject;
 
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
+import ro.uaic.info.ip.proiect.b3.database.Database;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.crypto.Data;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class CreateSubjectController {
 
@@ -34,20 +39,44 @@ public class CreateSubjectController {
                                                @RequestParam("semestru") int semestru,
                                                @CookieValue(value = "user", defaultValue = "-1") String loginToken,
                                                HttpServletResponse response) {
-
+        Connection connection = null;
+        ResultSet nrMaterii = null;
         //1
         if (AuthenticationManager.isUserLoggedIn(loginToken) && AuthenticationManager.isLoggedUserProfesor(loginToken)) {
             try {
 
-              // 2
-                // 3
+                // 2
+                if( ((numeMaterie != null) && numeMaterie.matches("[A-Za-z0-9_]+")) == false) {
+                    throw new Exception("numeMaterie invalid");
+                }
+                if(an <1 || an >3){
+                    throw new Exception("an invalid");
+                }
+                if(semestru!=1 || semestru!=2){
+                    throw new Exception("semestru invalid");
+                }
+                    // 3
+                    connection = Database.getInstance().getConnection();
+
+                    nrMaterii = Database.getInstance().selectQuery(connection,"SELECT * FROM materii where titlu = ?", numeMaterie);
+                    if( !nrMaterii.next() )
+                    {
+                        Database.getInstance().updateOperation("INSERT INTO materii VALUES(?)",numeMaterie);
+                    }
+                    else
+                    {
+                        throw new SQLException("Materia cautata exista deja in baza de date");
+                    }
 
                 return "valid";
-            } catch(Exception e) {
+            } catch(SQLException e) {
                 // faceti cu exceptii specifice ce pot aparea
                 //4
-                return "mesaj de eroare";
+                return e.getMessage();
+            } catch (Exception e) {
+                return e.getMessage();
             }
+
 
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
