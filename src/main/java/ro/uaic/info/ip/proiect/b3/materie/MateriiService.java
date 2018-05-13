@@ -17,7 +17,7 @@ public class MateriiService {
             Statement queryStatement = dbConnection.prepareStatement(query);
             ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 Materie materie = new Materie();
                 materie.setNume(resultSet.getString(1));
                 materie.setSemestru(resultSet.getInt(2));
