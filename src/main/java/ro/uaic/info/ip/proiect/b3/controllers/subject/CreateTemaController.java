@@ -20,7 +20,7 @@ public class CreateTemaController {
      * 1. Verificam daca cel ce face requestul este logat si, respectiv, daca este profesor.
      * In caz afirmativ, se trece la pasul 2. Altfel, se returneaza "Trebuie sa fiti autentificat in cont mai intai."
      * 2. Se face verificarea datelor introduse, si anume:
-     * - numeMaterie -> caractere alfa numerice si acest nume de materie sa existe deja in baza de date
+     * - numeMaterie -> caractere alfa numerice si acest nume de serviciiMaterii sa existe deja in baza de date
      * - numeTema -> caractere alfa numerice si acest nume de tema as nu fie in baza de date
      * - deadline -> format de zi valid
      * - nrExercitii -> nr natural

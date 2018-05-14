@@ -7,7 +7,6 @@ import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 
 import javax.servlet.http.HttpServletResponse;
-import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
