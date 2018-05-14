@@ -43,13 +43,13 @@ public class CreateSubjectController {
         Connection connection = null;
         ResultSet resultSet = null;
 
-        if (AuthenticationManager.isUserLoggedIn(loginToken) && AuthenticationManager.isLoggedUserProfesor(loginToken)) {
+        if (AuthenticationManager.isUserLoggedIn(loginToken) && !AuthenticationManager.isLoggedUserProfesor(loginToken)) {
             try {
                 if((!numeMaterie.matches("[A-Za-z0-9 ]+"))) {
                     throw new Exception("Numele materiei trebuie sa contina doar caractere alfanumerice!");
                 }
 
-                if(an <1 || an >3) {
+                if(an < 1 || an > 3) {
                     throw new Exception("Anul poate lua valori intre 1 si 3!");
                 }
 
@@ -82,7 +82,7 @@ public class CreateSubjectController {
                 }
             }
         } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
         }
     }

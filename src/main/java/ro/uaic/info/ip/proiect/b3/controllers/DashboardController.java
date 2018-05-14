@@ -19,6 +19,6 @@ public class DashboardController {
      */
     public String dashboard(Model model, String user) {
         model.addAttribute("username", user);
-        return "dashboard";
+        return "dashboard-studenti";
     }
 }

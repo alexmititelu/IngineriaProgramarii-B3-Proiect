@@ -13,23 +13,33 @@ import java.util.List;
 public class ListSubjectsController {
 
     /**
-     * 1. Verificam daca userul e logat, in caz afirmativ -> 2, altfel, return "invalid"
-     * 2. Cream o lista cu toate materiile ( un json cu toate obiectele de tip materie ce contin (nume, semestru, an)
-     * 3. Returnam valid, in cazul in care totul a decurs cu succes, altfel, returnam un mesaj specific de eroare
+     * 1. Verificam daca userul e logat, in caz afirmativ -> 2, altfel, return
+     * "invalid" 2. Cream o lista cu toate materiile ( un json cu toate obiectele de
+     * tip materie ce contin (nume, semestru, an) 3. Returnam valid, in cazul in
+     * care totul a decurs cu succes, altfel, returnam un mesaj specific de eroare
      */
 
     @RequestMapping(value = "/materii", method = RequestMethod.GET)
-    public @ResponseBody List<Materie> listeazaMaterii (HttpServletResponse response , @CookieValue(value = "user", defaultValue = "-1") String loginToken) {
-        if (!AuthenticationManager.isUserLoggedIn(loginToken)) {
+    public String getMaterii(@CookieValue(value = "user", defaultValue = "-1") String loginToken) {
+        if (AuthenticationManager.isUserLoggedIn(loginToken)) {
+            return "materii";
+        }
+        return "error";
+    }
+
+    @RequestMapping(value = "/materii_json", method = RequestMethod.GET)
+    public @ResponseBody List<Materie> listeazaMaterii(HttpServletResponse response,
+            @CookieValue(value = "user", defaultValue = "-1") String loginToken) {
+        if (AuthenticationManager.isUserLoggedIn(loginToken)) {
             try {
                 List<Materie> materii = MateriiService.getAll();
                 return materii;
-            } catch(Exception e) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } catch (Exception e) {
+                // response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return null;
             }
         } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return null;
         }
     }
