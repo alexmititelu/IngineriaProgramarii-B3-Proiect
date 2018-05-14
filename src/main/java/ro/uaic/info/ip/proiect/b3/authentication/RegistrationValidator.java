@@ -3,7 +3,6 @@ package ro.uaic.info.ip.proiect.b3.authentication;
 import ro.uaic.info.ip.proiect.b3.database.objects.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.Student;
 
-
 public class RegistrationValidator {
     public boolean isEmailValid(String email) {
         Student student = Student.getByEmail(email);
