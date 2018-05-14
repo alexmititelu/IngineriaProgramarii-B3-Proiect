@@ -138,23 +138,23 @@ public class RegisterController {
             HttpServletResponse response) {
 
         if (!AuthenticationManager.isRegisterTokenValid(registerToken)) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            // response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return "Invalid token!";
         }
 
         RegistrationValidator registrationValidator = new RegistrationValidator();
         if (!registrationValidator.isEmailValid(email)) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            // response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return "Email deja folosit!";
         }
 
         if (!registrationValidator.isUsernameValid(username)) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            // response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return "Numele de utilizator este invalid!";
         }
 
         if (!registrationValidator.isPasswordRespectingConstraints(password)) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            // response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return "Parola este invalida";
         }
 
@@ -166,7 +166,7 @@ public class RegisterController {
         } catch (SQLException e) {
             System.err.println("Ooops ... " + e.getMessage());
 
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            // response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return "Eroare interna!";
         }
 
