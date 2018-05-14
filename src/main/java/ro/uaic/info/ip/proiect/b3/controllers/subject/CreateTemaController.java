@@ -1,6 +1,7 @@
 package ro.uaic.info.ip.proiect.b3.controllers.subject;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
 import ro.uaic.info.ip.proiect.b3.database.Database;
@@ -14,6 +15,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
+@Controller
 public class CreateTemaController {
 
     /**
@@ -41,15 +44,14 @@ public class CreateTemaController {
      * @param response
      * @return
      */
-
     @RequestMapping(value = "/materii/{numeMaterie}/createTema", method = RequestMethod.POST)
     public @ResponseBody
     String creeazaTema(@PathVariable("numeMaterie") String numeMaterie,
-                       @RequestParam String numeTema,
-                       @RequestParam("deadline") @DateTimeFormat(pattern = "dd/mm/yyyy") Date deadline,
-                       @RequestParam String enunt,
-                       @RequestParam int nrExercitii,
-                       @RequestParam String extensieFisierAcceptat,
+                       @RequestParam("numeTema") String numeTema,
+                       @RequestParam("deadline") /*@DateTimeFormat(pattern = "dd/mm/yyyy")*/ String deadline,
+                       @RequestParam("enunt") String enunt,
+                       @RequestParam("nrExercitii") int nrExercitii,
+                       @RequestParam("extensieFisierAcceptat") String extensieFisierAcceptat,
                        @CookieValue(value = "user", defaultValue = "-1") String loginToken,
                        HttpServletResponse response) {
 
@@ -78,14 +80,13 @@ public class CreateTemaController {
                         if (!extensieFisierAcceptat.matches("[A-Za-z]+")) {
                             throw new Exception("Extensie invalida!");
                         }
-                        Database.getInstance().updateOperation("INSERT INTO TEME VALUES(?,?,?,?,?,?)",idMaterie.toString(),deadline.toString(),enunt, Integer.toString(nrExercitii),extensieFisierAcceptat,numeTema);
+                        Database.getInstance().updateOperation("INSERT INTO teme(id_materie,deadline,enunt,nr_exercitii,extensie_fisier,nume_tema) VALUES(CAST(? AS UNSIGNED),STR_TO_DATE(?,'%d/%m/%Y'),?,CAST(? AS UNSIGNED),?,?)",idMaterie.toString(),deadline.toString(),enunt, Integer.toString(nrExercitii),extensieFisierAcceptat,numeTema);
+                        //Database.getInstance().updateOperation("INSERT INTO TEME(id_materiei,deadline,enunt,nr_exercitii,extensie_fisier,nume_tema) VALUES"")
                     } else {
                         throw new SQLException("Numele temei exista deja in baza de date");
                     }
 
                 }
-
-
                 return "valid";
             } catch (SQLException e) {
                 return ("SQL Exception thrown: " + e);
