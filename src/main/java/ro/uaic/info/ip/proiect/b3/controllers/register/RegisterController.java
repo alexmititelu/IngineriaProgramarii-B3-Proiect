@@ -101,10 +101,10 @@ public class RegisterController {
         }
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String registerPageStepOne() {
-        return "register-step-one";
-    }
+    // @RequestMapping(value = "/register", method = RequestMethod.GET)
+    // public String registerPageStepOne() {
+    //     return "register-step-one";
+    // }
 
     /**
      * Metoda returneaza body-ul raspunsului HTTP pentru o cerere de inregistrare pentru al doilea pas.
