@@ -29,7 +29,7 @@ public class WelcomeController {
         if (AuthenticationManager.isUserLoggedIn(loginToken)) {
             return (new DashboardController()).dashboard(model, AuthenticationManager.getUsernameLoggedIn(loginToken));
         } else {
-            return "login";
+            return "home-no-logged";
         }
     }
 }
