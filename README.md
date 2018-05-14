@@ -2,6 +2,7 @@
 
 
 **Pagina prezentare**: https://alexmititelu.github.io/IngineriaProgramarii-B3-Proiect/
+
 **Document prezentare**: https://tinyurl.com/proiect-ip-prezentare
 
 **Backlog**: https://tinyurl.com/proiect-ip-backlog
