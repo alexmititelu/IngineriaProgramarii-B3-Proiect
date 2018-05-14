@@ -101,6 +101,11 @@ public class RegisterController {
         }
     }
 
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String registerPageStepOne() {
+        return "register-step-one";
+    }
+
     /**
      * Metoda returneaza body-ul raspunsului HTTP pentru o cerere de inregistrare pentru al doilea pas.
      * 1. Se valideaza tokenul de inregistrare. (Existenta sa in tabela register_links)

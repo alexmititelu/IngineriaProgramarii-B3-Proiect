@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>IP</title>
+	<link rel="stylesheet" type="text/css" href="/assets/upload/css/main.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+	<div class="container">
+		
+		<div class="vertical-center-row">
+				<div class="row">
+			<div class="col-xs-12 ">
+				<form id="form" method="POST" action="/uploadFile"  enctype="multipart/form-data">
+					<input type="file" name="file" id="imageFile">
+					<p>Incarcati un fiser .zip</p>
+					<p id="error"></p>
+					<button type="submit" id="button">Submit</button>
+				</form>
+			</div>
+			<div class="col-xs-12 ">
+				<img src="/assets/upload/images/2.png" class="pull-right img-responsive" alt="image" width="400" height="236"></img>
+			</div>
+		</div>
+	</div>
+	</div>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	 crossorigin="anonymous"></script>
+	<script type="text/javascript" src="/assets/login/scripts/main.js"></script>
+
+	<!--<script>-->
+        <!--$(document).ready(function(){-->
+
+            <!--var submitButton=document.getElementById('button');-->
+
+            <!--/*console.log(submitButton);*/-->
+
+            <!--submitButton.onclick = function(event){-->
+
+                <!--event.preventDefault();-->
+
+                <!--/*console.log(event);*/-->
+
+                <!--var input = document.getElementById('imageFile');-->
+
+                <!--var getFileName = input.value;-->
+
+                <!--// console.log(getFileName);-->
+
+                <!--var extension=getFileName.split('.');-->
+                <!--// console.log(extension);-->
+
+                <!--var trueExtension=extension[extension.length-1];-->
+
+                <!--// console.log(trueExtension);-->
+
+                <!--var errorParagraph=document.getElementById('error');-->
+                <!--errorParagraph.style.color='red';-->
+
+                <!--if(trueExtension!=="zip")-->
+                <!--{-->
+                    <!--errorParagraph.innerText='Fisierul incarcat nu este .zip!';-->
+                <!--}-->
+                <!--else-->
+                <!--{-->
+                    <!--errorParagraph.innerText='';-->
+
+                    <!--var file = input.files[0];-->
+
+                    <!--// $.ajax({-->
+                    <!--//     type:'POST',-->
+                    <!--//     url:'/upload',-->
+                    <!--//     data: file,-->
+                    <!--//     success:function(data){-->
+                    <!--//-->
+                    <!--//         if(data==='eroare'){-->
+                    <!--//-->
+                    <!--//             errorParagraph.innerText='Serverul a intampinat o eroare!<br>Te rog verifica din nou extenisa fisierului';-->
+                    <!--//         } else if(data==='success'){-->
+                    <!--//-->
+                    <!--//             errorParagraph.innerText='Fisierul a fost incarcat cu succes';-->
+                    <!--//             setTimeout(function(){-->
+                    <!--//-->
+                    <!--//                 window.location.href='/a.html';-->
+                    <!--//             },1999)-->
+                    <!--//         } else {-->
+                    <!--//             errorParagraph.innerText='done';-->
+                    <!--//         }-->
+                    <!--//     },-->
+                    <!--//     error: function(xhr){-->
+                    <!--//         alert('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText + ' ' + xhr.responseText);-->
+                    <!--//     }-->
+                    <!--// });-->
+                <!--}-->
+            <!--};-->
+        <!--});-->
+	<!--</script>-->
+</body>
+
+</html>
