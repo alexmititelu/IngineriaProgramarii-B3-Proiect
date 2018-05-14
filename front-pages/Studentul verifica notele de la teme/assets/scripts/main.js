@@ -87,9 +87,10 @@
       
             tblBody.appendChild(row);
         tbl.appendChild(tblHead);
-            tbl.appendChild(tblBody);
+        tbl.appendChild(tblBody);
         document.getElementById("tabel_note_teme").appendChild(tbl);
         tbl.setAttribute("border", "0");
+
         tbl.style.display='none';
     }
 
