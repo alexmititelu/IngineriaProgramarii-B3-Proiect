@@ -51,7 +51,7 @@ public class Student {
 
         try {
             dbConnection = Database.getInstance().getConnection();
-            String query = "SELECT nrMatricol FROM studenti WHERE email LIKE ?";
+            String query = "SELECT nr_matricol FROM studenti WHERE email LIKE ?";
             Statement queryStatement = dbConnection.prepareStatement(query);
             ((PreparedStatement) queryStatement).setString(1, email);
 
