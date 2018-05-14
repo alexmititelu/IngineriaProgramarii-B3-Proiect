@@ -1,15 +1,16 @@
 package ro.uaic.info.ip.proiect.b3.controllers.subject;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Controller
 public class CreateSubjectController {
 
     /**
@@ -40,44 +41,46 @@ public class CreateSubjectController {
                                                @CookieValue(value = "user", defaultValue = "-1") String loginToken,
                                                HttpServletResponse response) {
         Connection connection = null;
-        ResultSet nrMaterii = null;
-        //1
+        ResultSet resultSet = null;
+
         if (AuthenticationManager.isUserLoggedIn(loginToken) && AuthenticationManager.isLoggedUserProfesor(loginToken)) {
             try {
+                if((!numeMaterie.matches("[A-Za-z0-9 ]+"))) {
+                    throw new Exception("Numele materiei trebuie sa contina doar caractere alfanumerice!");
+                }
 
-                // 2
-                if( ((numeMaterie != null) && numeMaterie.matches("[A-Za-z0-9_]+")) == false) {
-                    throw new Exception("numeMaterie invalid");
+                if(an <1 || an >3) {
+                    throw new Exception("Anul poate lua valori intre 1 si 3!");
                 }
-                if(an <1 || an >3){
-                    throw new Exception("an invalid");
-                }
-                if(semestru!=1 || semestru!=2){
-                    throw new Exception("semestru invalid");
-                }
-                    // 3
-                    connection = Database.getInstance().getConnection();
 
-                    nrMaterii = Database.getInstance().selectQuery(connection,"SELECT * FROM materii where titlu = ?", numeMaterie);
-                    if( !nrMaterii.next() )
-                    {
-                        Database.getInstance().updateOperation("INSERT INTO materii VALUES(?)",numeMaterie);
-                    }
-                    else
-                    {
-                        throw new SQLException("Materia cautata exista deja in baza de date");
-                    }
+                if(semestru < 1 || semestru > 2){
+                    throw new Exception("Semestrul poate lua valori intre 1 si 2");
+                }
+
+                connection = Database.getInstance().getConnection();
+                resultSet = Database.getInstance().selectQuery(connection,"SELECT * FROM materii where titlu = ?", numeMaterie);
+
+                if(!resultSet.next()) {
+                    Database.getInstance().updateOperation("INSERT INTO materii (titlu, an, semestru) VALUES (?, CAST(? AS UNSIGNED), CAST(? AS UNSIGNED))",
+                            numeMaterie,
+                            Integer.toString(an),
+                            Integer.toString(semestru));
+                } else {
+                    throw new Exception("O materie cu acest nume exista deja!");
+                }
 
                 return "valid";
-            } catch(SQLException e) {
-                // faceti cu exceptii specifice ce pot aparea
-                //4
-                return e.getMessage();
             } catch (Exception e) {
                 return e.getMessage();
+            } finally {
+                try {
+                    if (connection != null) {
+                        connection.close();
+                    }
+                } catch (SQLException e) {
+                    System.err.println(e.getMessage());
+                }
             }
-
-
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return "Utilizatorul nu este logat sau nu are permisiunile necesare!";

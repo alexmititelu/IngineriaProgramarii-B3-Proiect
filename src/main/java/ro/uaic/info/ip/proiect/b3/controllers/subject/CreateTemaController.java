@@ -1,6 +1,5 @@
 package ro.uaic.info.ip.proiect.b3.controllers.subject;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
@@ -11,10 +10,6 @@ import java.math.BigInteger;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 
 @Controller
 public class CreateTemaController {
@@ -54,39 +49,37 @@ public class CreateTemaController {
                        @RequestParam("extensieFisierAcceptat") String extensieFisierAcceptat,
                        @CookieValue(value = "user", defaultValue = "-1") String loginToken,
                        HttpServletResponse response) {
-
         if (AuthenticationManager.isUserLoggedIn(loginToken) && AuthenticationManager.isLoggedUserProfesor(loginToken)) {
             Connection connection = null;
             ResultSet materie = null;
+
             try {
-                //  1
-                if (numeMaterie == null || numeTema == null || deadline == null || enunt == null || extensieFisierAcceptat == null)
-                    throw new Exception("Parametru (null) invalid");
-                if (!(numeMaterie.matches("[A-Za-z0-9_]+"))) {
-                    throw new Exception("numeMaterie invalid");
-                }
                 connection = Database.getInstance().getConnection();
+
                 materie = Database.getInstance().selectQuery(connection, "SELECT id FROM materii where titlu = ?", numeMaterie);
                 BigInteger idMaterie;
-                if (!materie.next()) {
-                    throw new SQLException("Materia nu exista in baza de date!");
-                } else {
-                    idMaterie = (BigInteger) materie.getObject(1);
-                    if (!numeTema.matches("[A-Za-z0-9_]+")) {
-                        throw new Exception("numeTeme invalid!");
-                    }
-                    ResultSet checkNumeTema = Database.getInstance().selectQuery(connection, "SELECT * FROM teme where nume_tema = ?", numeTema);
-                    if (!checkNumeTema.next()) {
-                        if (!extensieFisierAcceptat.matches("[A-Za-z]+")) {
-                            throw new Exception("Extensie invalida!");
-                        }
-                        Database.getInstance().updateOperation("INSERT INTO teme(id_materie,deadline,enunt,nr_exercitii,extensie_fisier,nume_tema) VALUES(CAST(? AS UNSIGNED),STR_TO_DATE(?,'%d/%m/%Y'),?,CAST(? AS UNSIGNED),?,?)",idMaterie.toString(),deadline.toString(),enunt, Integer.toString(nrExercitii),extensieFisierAcceptat,numeTema);
-                        //Database.getInstance().updateOperation("INSERT INTO TEME(id_materiei,deadline,enunt,nr_exercitii,extensie_fisier,nume_tema) VALUES"")
-                    } else {
-                        throw new SQLException("Numele temei exista deja in baza de date");
-                    }
 
+                if (!materie.next()) {
+                    throw new Exception("Materia nu exista in baza de date!");
                 }
+
+                idMaterie = (BigInteger) materie.getObject(1);
+
+                if (!numeTema.matches("[A-Za-z0-9 ]+")) {
+                    throw new Exception("Numele temei trebuie sa contina doar caractere alfanumerice!");
+                }
+
+                ResultSet checkNumeTema = Database.getInstance().selectQuery(connection, "SELECT * FROM teme where nume_tema = ?", numeTema);
+                if (!checkNumeTema.next()) {
+                    if (!extensieFisierAcceptat.matches("[A-Za-z]+")) {
+                        throw new Exception("Extensie invalida!");
+                    }
+                    Database.getInstance().updateOperation("INSERT INTO teme(id_materie,deadline,enunt,nr_exercitii,extensie_fisier,nume_tema) VALUES(CAST(? AS UNSIGNED),STR_TO_DATE(?,'%d/%m/%Y'),?,CAST(? AS UNSINED),?,?)", idMaterie.toString(), deadline.toString(), enunt, Integer.toString(nrExercitii), extensieFisierAcceptat, numeTema);
+                    //Database.getInstance().updateOperation("INSERT INTO TEME(id_materiei,deadline,enunt,nr_exercitii,extensie_fisier,nume_tema) VALUES"")
+                } else {
+                    throw new SQLException("Numele temei exista deja in baza de date");
+                }
+
                 return "valid";
             } catch (SQLException e) {
                 return ("SQL Exception thrown: " + e);
