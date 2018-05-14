@@ -4,12 +4,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
+import ro.uaic.info.ip.proiect.b3.controllers.subject.Objects.Tema;
 import ro.uaic.info.ip.proiect.b3.database.Database;
+import ro.uaic.info.ip.proiect.b3.materii.TemeService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class SubjectController {
@@ -46,4 +50,33 @@ public class SubjectController {
             return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
         }
     }
+
+    @RequestMapping(value = "/materii/{numeMaterie}/teme", method = RequestMethod.GET)
+    String getTeme(@CookieValue(value = "user", defaultValue = "-1") String loginToken,
+                      Model model,
+                      @PathVariable String numeMaterie,
+                      HttpServletResponse response) {
+
+        if (AuthenticationManager.isUserLoggedIn(loginToken)) {
+
+            try {
+
+                List<Tema> listaTeme = new ArrayList<>();
+
+                listaTeme = TemeService.getAll(numeMaterie);
+
+                model.addAttribute("listaTeme",listaTeme);
+
+                return "valid";
+            } catch (SQLException e) {
+                return ("SQL Exception thrown: " + e);
+            }
+
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
+        }
+    }
+
+
 }

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
 import ro.uaic.info.ip.proiect.b3.database.objects.Materie;
-import ro.uaic.info.ip.proiect.b3.serviciiMaterii.MateriiService;
+import ro.uaic.info.ip.proiect.b3.materii.MateriiService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

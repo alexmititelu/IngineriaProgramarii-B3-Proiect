@@ -14,12 +14,12 @@ import java.sql.SQLException;
 public class CreateSubjectController {
 
     /**
-     * Acest controller este asociat actiunii unui profesor de a crea o serviciiMaterii noua pentru aplicatie.
+     * Acest controller este asociat actiunii unui profesor de a crea o materii noua pentru aplicatie.
      *
      * 1. Verificam daca cel ce face requestul este logat si, respectiv, daca este profesor.
      *    In caz afirmativ, se trece la pasul 2. Altfel, se returneaza "Trebuie sa fiti autentificat in cont mai intai."
      * 2. Se face verificarea datelor introduse, si anume:
-     *      - numeMaterie -> caractere alfa numerice si acest nume de serviciiMaterii sa nu existe deja in baza de date
+     *      - numeMaterie -> caractere alfa numerice si acest nume de materii sa nu existe deja in baza de date
      *      - an -> ia valori intregi doar din intervalul [1,3]
      *      - semestru -> ia valori intregi doar din intervalul [1,2]
      *    In caz pozitiv se trece la pasul 3, altfel, este aruncata o exceptie si prinsa ulterior, fiind returnat mesajul exceptiei.
@@ -66,7 +66,7 @@ public class CreateSubjectController {
                             Integer.toString(an),
                             Integer.toString(semestru));
                 } else {
-                    throw new Exception("O serviciiMaterii cu acest nume exista deja!");
+                    throw new Exception("O materii cu acest nume exista deja!");
                 }
 
                 return "valid";

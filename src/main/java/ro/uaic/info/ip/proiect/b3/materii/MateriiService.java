@@ -1,4 +1,4 @@
-package ro.uaic.info.ip.proiect.b3.serviciiMaterii;
+package ro.uaic.info.ip.proiect.b3.materii;
 
 import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.database.objects.Materie;
