@@ -92,11 +92,11 @@ public class RegisterController {
                 return "valid";
 
             } else {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                // response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 return "Exista deja un cont creat pentru acest numar matricol.";
             }
         } else {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            // response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return "Numarul matricol nu este valid.";
         }
     }

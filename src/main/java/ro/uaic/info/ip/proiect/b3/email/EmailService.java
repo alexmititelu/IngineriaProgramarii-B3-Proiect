@@ -41,8 +41,6 @@ public class EmailService {
                     + "\n\n You can create your account here: " + hostConfiguration.getName() + "register/" +  registerToken);
 
             Transport.send(message);
-
-            System.out.println("Done");
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

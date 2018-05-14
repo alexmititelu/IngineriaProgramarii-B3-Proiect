@@ -62,7 +62,6 @@ public class LoginController {
 
             return "valid";
         } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return "Username/password are invalid!";
         }
     }
