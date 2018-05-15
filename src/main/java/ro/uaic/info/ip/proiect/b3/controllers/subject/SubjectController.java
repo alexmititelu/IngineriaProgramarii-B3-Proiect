@@ -31,15 +31,21 @@ public class SubjectController {
             try {
                 connection = Database.getInstance().getConnection();
 
-                selectResult = Database.getInstance().selectQuery(connection, "SELECT an,semestru FROM materii where titlu = ?", numeMaterie);
-                Integer an = selectResult.getInt(selectResult.getInt(1));
-                Integer semestru = selectResult.getInt(selectResult.getInt(2));
+                selectResult = Database.getInstance().selectQuery(connection, "SELECT an,semestru FROM materii where titlu LIKE ?", numeMaterie);
 
-                model.addAttribute("materieAn",an);
-                model.addAttribute("materieSemestru",semestru);
-                model.addAttribute("materieNume",numeMaterie);
+                if(selectResult.next()) {
+                    Integer an = selectResult.getInt(selectResult.getInt(1));
+                    Integer semestru = selectResult.getInt(selectResult.getInt(2));
 
-                return "valid";
+                    model.addAttribute("materieAn", 1);
+                    model.addAttribute("materieSemestru", 1);
+                    model.addAttribute("materieNume", numeMaterie);
+                    return "valid";
+                }
+                else {
+                    return "notfound";
+                }
+
             } catch (SQLException e) {
                 return ("SQL Exception thrown: " + e);
             } catch (Exception e) {
