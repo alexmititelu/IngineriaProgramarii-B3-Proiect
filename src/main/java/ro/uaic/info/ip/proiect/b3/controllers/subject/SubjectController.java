@@ -32,8 +32,8 @@ public class SubjectController {
                 connection = Database.getInstance().getConnection();
 
                 selectResult = Database.getInstance().selectQuery(connection, "SELECT an,semestru FROM materii where titlu = ?", numeMaterie);
-                Integer an = selectResult.getInt(1);
-                Integer semestru = selectResult.getInt(2);
+                Integer an = selectResult.getInt(selectResult.getInt(1));
+                Integer semestru = selectResult.getInt(selectResult.getInt(2));
 
                 model.addAttribute("materieAn",an);
                 model.addAttribute("materieSemestru",semestru);
