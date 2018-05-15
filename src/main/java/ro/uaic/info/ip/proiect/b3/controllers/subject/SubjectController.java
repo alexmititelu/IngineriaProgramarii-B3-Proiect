@@ -17,13 +17,14 @@ import java.util.List;
 
 @Controller
 public class SubjectController {
-    @RequestMapping(value = "/materii/{numeMaterie}", method = RequestMethod.GET)
-    String getMaterie(@CookieValue(value = "user", defaultValue = "-1") String loginToken,
-                      Model model,
-                      @PathVariable String numeMaterie,
-                      HttpServletResponse response) {
 
-        if (AuthenticationManager.isUserLoggedIn(loginToken) && AuthenticationManager.isLoggedUserProfesor(loginToken)) {
+    @RequestMapping(value = "/materii/{numeMaterie}", method = RequestMethod.GET)
+    public @ResponseBody String getMaterie(@CookieValue(value = "user", defaultValue = "-1") String loginToken,
+                                              Model model,
+                                              @PathVariable String numeMaterie,
+                                              HttpServletResponse response) {
+
+        if (AuthenticationManager.isUserLoggedIn(loginToken)) {
             Connection connection = null;
             ResultSet selectResult = null;
 
@@ -52,16 +53,16 @@ public class SubjectController {
     }
 
     @RequestMapping(value = "/materii/{numeMaterie}/teme", method = RequestMethod.GET)
-    String getTeme(@CookieValue(value = "user", defaultValue = "-1") String loginToken,
+    public @ResponseBody String getTeme(@CookieValue(value = "user", defaultValue = "-1") String loginToken,
                       Model model,
                       @PathVariable String numeMaterie,
                       HttpServletResponse response) {
 
         if (AuthenticationManager.isUserLoggedIn(loginToken)) {
 
-            try {
+            List<Tema> listaTeme = null;
 
-                List<Tema> listaTeme = new ArrayList<>();
+            try {
 
                 listaTeme = TemeService.getAll(numeMaterie);
 
