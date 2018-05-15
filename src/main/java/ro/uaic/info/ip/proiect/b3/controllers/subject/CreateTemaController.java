@@ -49,7 +49,7 @@ public class CreateTemaController {
                        @RequestParam("extensieFisierAcceptat") String extensieFisierAcceptat,
                        @CookieValue(value = "user", defaultValue = "-1") String loginToken,
                        HttpServletResponse response) {
-        if (AuthenticationManager.isUserLoggedIn(loginToken) && AuthenticationManager.isLoggedUserProfesor(loginToken)) {
+        if (AuthenticationManager.isUserLoggedIn(loginToken) && !AuthenticationManager.isLoggedUserProfesor(loginToken)) {
             Connection connection = null;
             ResultSet materie = null;
 
@@ -74,7 +74,7 @@ public class CreateTemaController {
                     if (!extensieFisierAcceptat.matches("[A-Za-z]+")) {
                         throw new Exception("Extensie invalida!");
                     }
-                    Database.getInstance().updateOperation("INSERT INTO teme(id_materie,deadline,enunt,nr_exercitii,extensie_fisier,nume_tema) VALUES(CAST(? AS UNSIGNED),STR_TO_DATE(?,'%d/%m/%Y'),?,CAST(? AS UNSINED),?,?)", idMaterie.toString(), deadline.toString(), enunt, Integer.toString(nrExercitii), extensieFisierAcceptat, numeTema);
+                    Database.getInstance().updateOperation("INSERT INTO teme(id_materie,deadline,enunt,nr_exercitii,extensie_fisier,nume_tema) VALUES(CAST(? AS UNSIGNED),STR_TO_DATE(?,'%d/%m/%Y'),?,CAST(? AS UNSIGNED),?,?)", idMaterie.toString(), deadline.toString(), enunt, Integer.toString(nrExercitii), extensieFisierAcceptat, numeTema);
                     //Database.getInstance().updateOperation("INSERT INTO TEME(id_materiei,deadline,enunt,nr_exercitii,extensie_fisier,nume_tema) VALUES"")
                 } else {
                     throw new SQLException("Numele temei exista deja in baza de date");
@@ -88,7 +88,7 @@ public class CreateTemaController {
             }
 
         } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
         }
     }

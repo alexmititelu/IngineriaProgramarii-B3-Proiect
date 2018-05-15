@@ -1,17 +1,27 @@
 $(document).ready(function () {
-    $('.menu').click(() => {
+    $('.menu').click(function () {
         $('.responsive-menu').toggleClass('toggle');
     });
 
+    var date_input = $('input[name="date"]');
+    var options = {
+        format: 'dd/mm/yyyy',
+        todayHighlight: true,
+        autoclose: true,
+    };
+    date_input.datepicker(options);
+
+    var location = window.location.href;
+
     $.ajax({
         type: 'GET',
-        url: '/materii_json',
+        url: location + '/teme',
         success: data => {
             var group = document.getElementById('group');
 
             data.forEach(element => {
                 var a = document.createElement('a');
-                a.href = `/materii/${element.nume}`;
+                a.href = `/materii/${element.numeTema}`;
                 a.className = 'list-group-item list-group-item-action flex-column align-items-start';
 
                 var div = document.createElement('div');
@@ -19,23 +29,24 @@ $(document).ready(function () {
 
                 var h5 = document.createElement('h5');
                 h5.className = 'mb-1';
-                h5.innerText = element.nume;
+                h5.innerText = element.numeTema;
 
                 var small1 = document.createElement('small');
-                small1.innerText = '3 days ago';
+                var deadline = element.deadline.split(':');
+                small1.innerText = `Deadline: ${deadline[0]}:${deadline[1]}`;
 
                 div.appendChild(h5);
                 div.appendChild(small1);
 
                 var p = document.createElement('p');
                 p.className = 'mb-1';
-                p.innerText = 'Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.';
+                p.innerText = element.enunt;
 
                 var small2 = document.createElement('small');
-                small2.innerText = `An: ${element.an} | `;
+                small2.innerText = `Numar exercitii: ${element.nrExercitii} | `;
 
                 var small3 = document.createElement('small');
-                small3.innerText = `Semestru: ${element.semestru}`;
+                small3.innerText = `Extensie fisier: .${element.extensieFisier}`;
 
                 a.appendChild(div);
                 a.appendChild(p);
@@ -48,41 +59,48 @@ $(document).ready(function () {
     });
 
 
+
     var form = document.getElementById('form');
 
     form.onsubmit = event => {
         event.preventDefault();
 
+        var numeMaterie = document.getElementById('numeMaterie').innerText;
         var nume = document.getElementById('nume');
-        var descriere = document.getElementById('descriere');
-        var an = document.getElementById('an');
-        var semestru = document.getElementById('semestru');
+        var enunt = document.getElementById('enunt');
+        var deadline = document.getElementById('deadline');
+        var nrExercitii = document.getElementById('nrExercitii');
+        var extensie = document.getElementById('extensie');
 
         var err = document.getElementById('err');
         var btn = document.getElementById('btn');
 
         var data = {
-            numeMaterie: nume.value,
-            an: parseInt(an.value),
-            semestru: parseInt(semestru.value)
+            numeMaterie: numeMaterie,
+            numeTema: nume.value,
+            deadline: deadline.value,
+            enunt: enunt.value,
+            nrExercitii: parseInt(nrExercitii.value),
+            extensieFisierAcceptat: extensie.value
         };
 
         err.innerHTML = '&nbsp;';
         nume.setAttribute('disabled', 'disabled');
-        descriere.setAttribute('disabled', 'disabled');
-        an.setAttribute('disabled', 'disabled');
-        semestru.setAttribute('disabled', 'disabled');
+        enunt.setAttribute('disabled', 'disabled');
+        deadline.setAttribute('disabled', 'disabled');
+        nrExercitii.setAttribute('disabled', 'disabled');
+        extensie.setAttribute('disabled', 'disabled');
         btn.setAttribute('disabled', 'disabled');
         btn.innerText = 'Se valideaza..';
 
         $.ajax({
             type: 'POST',
-            url: '/createMaterie',
+            url: window.location.href + '/createTema',
             data: data,
             success: data => {
                 if (data === 'valid') {
                     err.classList.add('success');
-                    err.innerHTML = 'Materia a fost adaugata cu succes!';
+                    err.innerHTML = 'Tema a fost adaugata cu succes!';
 
                     setTimeout(() => {
                         window.location.href = window.location.href;
@@ -92,13 +110,15 @@ $(document).ready(function () {
                     err.innerHTML = data;
 
                     nume.removeAttribute('disabled');
-                    descriere.removeAttribute('disabled');
-                    an.removeAttribute('disabled');
-                    semestru.removeAttribute('disabled');
+                    enunt.removeAttribute('disabled');
+                    deadline.removeAttribute('disabled');
+                    nrExercitii.removeAttribute('disabled');
+                    extensie.removeAttribute('disabled');
                     btn.removeAttribute('disabled');
                     btn.innerText = 'Creare materie';
                 }
             }
         });
     }
+
 });

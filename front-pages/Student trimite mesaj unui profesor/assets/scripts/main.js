@@ -14,8 +14,8 @@ var data=[
         },
         {
             nume:'Radulescu',
-            prenume: 'Bogdan',
-            email:'bogdan.radulescu@gmail.com'
+            prenume: 'Vlad',
+            email:'vlad.radulescu@gmail.com'
         },
         {
             nume:'Iacob',
@@ -86,7 +86,12 @@ var data=[
                 err.innerText="Nu ai selectat profesorul";
                 ok=0;
             }
+            var subject=document.getElementById('subject').value;
 
+            if(subject.length<1){
+                err.innerText="Nu ai scris subiectul";
+                ok=0;
+            }
             var message=document.getElementById('mesaj').value;
 
             if(message.length<1){

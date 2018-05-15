@@ -12,14 +12,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class SubjectController {
 
     @RequestMapping(value = "/materii/{numeMaterie}", method = RequestMethod.GET)
-    public @ResponseBody String getMaterie(@CookieValue(value = "user", defaultValue = "-1") String loginToken,
+    public String getMaterie(@CookieValue(value = "user", defaultValue = "-1") String loginToken,
                                               Model model,
                                               @PathVariable String numeMaterie,
                                               HttpServletResponse response) {
@@ -37,10 +36,11 @@ public class SubjectController {
                     Integer an = selectResult.getInt(selectResult.getInt(1));
                     Integer semestru = selectResult.getInt(selectResult.getInt(2));
 
-                    model.addAttribute("materieAn", 1);
-                    model.addAttribute("materieSemestru", 1);
+                    model.addAttribute("materieAn", an);
+                    model.addAttribute("materieSemestru", semestru);
                     model.addAttribute("materieNume", numeMaterie);
-                    return "valid";
+
+                    return "materie";
                 }
                 else {
                     return "notfound";
@@ -53,7 +53,7 @@ public class SubjectController {
             }
 
         } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
         }
     }
@@ -79,7 +79,7 @@ public class SubjectController {
             }
 
         } else {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            // response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return null;
         }
     }
