@@ -53,7 +53,7 @@ public class SubjectController {
     }
 
     @RequestMapping(value = "/materii/{numeMaterie}/teme", method = RequestMethod.GET)
-    public @ResponseBody String getTeme(@CookieValue(value = "user", defaultValue = "-1") String loginToken,
+    public @ResponseBody List<Tema> getTeme(@CookieValue(value = "user", defaultValue = "-1") String loginToken,
                       Model model,
                       @PathVariable String numeMaterie,
                       HttpServletResponse response) {
@@ -66,16 +66,15 @@ public class SubjectController {
 
                 listaTeme = TemeService.getAll(numeMaterie);
 
-                model.addAttribute("listaTeme",listaTeme);
+                return listaTeme;
 
-                return "valid";
             } catch (SQLException e) {
-                return ("SQL Exception thrown: " + e);
+                return null;
             }
 
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
+            return null;
         }
     }
 
