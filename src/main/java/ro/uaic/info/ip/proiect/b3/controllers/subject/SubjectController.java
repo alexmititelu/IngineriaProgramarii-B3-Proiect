@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 import ro.uaic.info.ip.proiect.b3.configurations.Permissions;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.didactic.Didactic;
@@ -33,7 +33,7 @@ public class SubjectController {
     @RequestMapping(value = "/materii", method = RequestMethod.GET)
     public String getMaterii(@CookieValue(value = "user", defaultValue = "-1") String loginToken, Model model) {
         try {
-            if (AuthenticationManager.isUserLoggedIn(loginToken)) {
+            if (PermissionManager.isUserLoggedIn(loginToken)) {
                 Cont cont = Cont.getByLoginToken(loginToken);
                 if (cont.getPermission() > Permissions.STUDENT) {
                     return "materii-profesori";
@@ -55,7 +55,7 @@ public class SubjectController {
     @RequestMapping(value = "/materii_json", method = RequestMethod.GET)
     public @ResponseBody List<Materie> listeazaMaterii(@CookieValue(value = "user", defaultValue = "-1") String loginToken) {
         try {
-            if (AuthenticationManager.isUserLoggedIn(loginToken)) {
+            if (PermissionManager.isUserLoggedIn(loginToken)) {
                 Cont cont = Cont.getByLoginToken(loginToken);
 
                 if (cont.getPermission() > Permissions.STUDENT) {
@@ -85,7 +85,7 @@ public class SubjectController {
             HttpServletResponse response) {
 
         try {
-            if (AuthenticationManager.isUserLoggedIn(loginToken)) {
+            if (PermissionManager.isUserLoggedIn(loginToken)) {
                 Materie materie = Materie.getByTitlu(numeMaterie);
 
                 if (materie != null) {
@@ -142,7 +142,7 @@ public class SubjectController {
                           @CookieValue(value = "user", defaultValue = "-1") String loginToken,
                           HttpServletResponse response) {
         try {
-            if (AuthenticationManager.isUserLoggedIn(loginToken) && AuthenticationManager.isLoggedUserProfesor(loginToken)) {
+            if (PermissionManager.isUserLoggedIn(loginToken) && PermissionManager.isLoggedUserProfesor(loginToken)) {
                 Materie materie = new Materie(numeMaterie, an, semestru, descriere);
                 materie.insert();
 

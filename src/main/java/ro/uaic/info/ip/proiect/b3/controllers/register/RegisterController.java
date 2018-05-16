@@ -4,7 +4,9 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
+import ro.uaic.info.ip.proiect.b3.database.objects.contconectat.ContConectat;
+import ro.uaic.info.ip.proiect.b3.database.objects.contconectat.exceptions.ContConectatException;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.exceptions.ContException;
@@ -13,6 +15,7 @@ import ro.uaic.info.ip.proiect.b3.database.objects.registerlink.exceptions.Regis
 import ro.uaic.info.ip.proiect.b3.database.objects.student.Student;
 import ro.uaic.info.ip.proiect.b3.email.EmailService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 
@@ -50,11 +53,11 @@ public class RegisterController {
             Model model,
             HttpServletResponse response) {
         try {
-            if (AuthenticationManager.isUserLoggedIn(loginToken)) {
+            if (PermissionManager.isUserLoggedIn(loginToken)) {
                 return "redirect:/";
             } else {
-                if (AuthenticationManager.isRegisterTokenValid(registerToken)) {
-                    model.addAttribute("email", AuthenticationManager.getEmailForRegisterToken(registerToken));
+                if (PermissionManager.isRegisterTokenValid(registerToken)) {
+                    model.addAttribute("email", PermissionManager.getEmailForRegisterToken(registerToken));
                     return "register-step-two";
                 } else {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -151,7 +154,7 @@ public class RegisterController {
             HttpServletResponse response) {
 
         try {
-            if (!AuthenticationManager.isRegisterTokenValid(registerToken)) {
+            if (!PermissionManager.isRegisterTokenValid(registerToken)) {
                 return "Tokenul nu este valid!";
             }
 
@@ -160,11 +163,19 @@ public class RegisterController {
 
             Database.getInstance().updateOperation("DELETE FROM register_links WHERE TOKEN = ?", registerToken);
 
+            ContConectat contConectat = new ContConectat(username);
+            contConectat.insert();
+
+            Cookie cookie = new Cookie("user", contConectat.getToken());
+            cookie.setMaxAge(60 * 60 * 12);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+
             return "valid";
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
             return INTERNAL_ERROR_MESSAGE;
-        } catch (ContException e) {
+        } catch (ContException | ContConectatException e) {
             return e.getMessage();
         }
     }

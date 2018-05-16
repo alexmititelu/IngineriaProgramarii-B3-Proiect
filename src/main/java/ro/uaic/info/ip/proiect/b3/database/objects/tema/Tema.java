@@ -16,6 +16,7 @@ public class Tema {
     private int nrExercitii;
     private String numeTema;
     private String[] extensiiFisiere;
+    private String[] enunturi;
 
     private void validateIdMaterie(long idMaterie) throws SQLException, TemaException {
         Materie materie = Materie.getById(idMaterie);
@@ -48,7 +49,7 @@ public class Tema {
         }
     }
 
-    public Tema(long idMaterie, Date deadline, String enunt, int nrExercitii, String numeTema, String[] extensiiFisiere) throws SQLException, TemaException {
+    public Tema(long idMaterie, Date deadline, String enunt, int nrExercitii, String numeTema, String[] extensiiFisiere, String[] enunturi) throws SQLException, TemaException {
         validateData(idMaterie, nrExercitii, numeTema);
 
         this.idMaterie = idMaterie;
@@ -56,6 +57,8 @@ public class Tema {
         this.enunt = enunt;
         this.nrExercitii = nrExercitii;
         this.numeTema = numeTema;
+        this.extensiiFisiere = extensiiFisiere;
+        this.enunturi = enunturi;
     }
 
     public void insert() throws SQLException {
@@ -76,7 +79,7 @@ public class Tema {
 
         Tema tema = Tema.getByMaterieIdAndNumeTema(idMaterie, numeTema);
         for (int i = 0; i < extensiiFisiere.length; ++i) {
-            TemaExercitiuExtensie temaExercitiuExtensie = new TemaExercitiuExtensie(tema.getId(), i + 1, extensiiFisiere[i]);
+            TemaExercitiuExtensie temaExercitiuExtensie = new TemaExercitiuExtensie(tema.getId(), i + 1, extensiiFisiere[i], enunturi[i]);
             temaExercitiuExtensie.insert();
         }
     }

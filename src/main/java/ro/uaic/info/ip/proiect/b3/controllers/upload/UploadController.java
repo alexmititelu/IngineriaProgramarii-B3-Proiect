@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.storage.exceptions.FileFormatException;
 import ro.uaic.info.ip.proiect.b3.storage.exceptions.StorageException;
@@ -43,8 +43,8 @@ public class UploadController {
                                        @RequestParam("exercitiu") String exercitiu,
                                        HttpServletResponse response, @CookieValue(value = "user", defaultValue = "-1") String loginToken) {
         try {
-            if (AuthenticationManager.isUserLoggedIn(loginToken)) {
-                String username = AuthenticationManager.getUsernameLoggedIn(loginToken);
+            if (PermissionManager.isUserLoggedIn(loginToken)) {
+                String username = PermissionManager.getUsernameLoggedIn(loginToken);
 
                 try {
                     Connection dbConnection = Database.getInstance().getConnection();

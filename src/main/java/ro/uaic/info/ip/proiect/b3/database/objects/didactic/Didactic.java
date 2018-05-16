@@ -56,37 +56,15 @@ public class Didactic {
         connection.close();
     }
 
-    public static Didactic getByIdMaterie(long idMaterie) throws SQLException, DidacticException {
+    public static Didactic getByIdMaterieAndIdProfesor(long idMaterie, long idProfesor) throws SQLException, DidacticException {
         Didactic didactic;
         Connection connection = Database.getInstance().getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT id_materie, id_profesor FROM didactic WHERE id_materie = ?");
+                "SELECT id_materie, id_profesor FROM didactic WHERE id_materie = ? AND id_profesor = ?");
 
         preparedStatement.setLong(1, idMaterie);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        if (resultSet.next()) {
-            didactic = new Didactic(
-                    resultSet.getLong(1),
-                    resultSet.getLong(2));
-        } else {
-            didactic = null;
-        }
-
-        connection.close();
-        return didactic;
-    }
-
-    public static Didactic getByIdProfesor(long idProfesor) throws SQLException, DidacticException {
-        Didactic didactic;
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT id_materie, id_profesor FROM didactic WHERE id_profesor = ?");
-
-        preparedStatement.setLong(1, idProfesor);
+        preparedStatement.setLong(2, idProfesor);
 
         ResultSet resultSet = preparedStatement.executeQuery();
 

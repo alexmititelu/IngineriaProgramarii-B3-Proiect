@@ -3,7 +3,6 @@ package ro.uaic.info.ip.proiect.b3.controllers;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 
 import java.sql.SQLException;

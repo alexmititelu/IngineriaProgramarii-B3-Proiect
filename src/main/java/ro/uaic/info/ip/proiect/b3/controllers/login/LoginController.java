@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.database.objects.contconectat.ContConectat;
 import ro.uaic.info.ip.proiect.b3.database.objects.contconectat.exceptions.ContConectatException;
@@ -49,7 +49,7 @@ public class LoginController {
         final String hashedPassword = Hashing.sha256().hashString(password, StandardCharsets.UTF_8).toString();
 
         try {
-            if (AuthenticationManager.isLoginDataValid(username, hashedPassword)) {
+            if (PermissionManager.isLoginDataValid(username, hashedPassword)) {
                 Database.getInstance().updateOperation("DELETE FROM conturi_conectate WHERE username LIKE ?", username);
 
                 ContConectat contConectat = new ContConectat(username);
@@ -57,6 +57,7 @@ public class LoginController {
 
                 Cookie cookie = new Cookie("user", contConectat.getToken());
                 cookie.setMaxAge(60 * 60 * 12);
+                cookie.setPath("/");
                 response.addCookie(cookie);
 
                 return "valid";

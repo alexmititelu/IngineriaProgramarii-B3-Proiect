@@ -1,7 +1,11 @@
-package ro.uaic.info.ip.proiect.b3.authentication;
+package ro.uaic.info.ip.proiect.b3.permissions;
 
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.contconectat.ContConectat;
+import ro.uaic.info.ip.proiect.b3.database.objects.didactic.Didactic;
+import ro.uaic.info.ip.proiect.b3.database.objects.didactic.exceptions.DidacticException;
+import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
+import ro.uaic.info.ip.proiect.b3.database.objects.profesor.Profesor;
 import ro.uaic.info.ip.proiect.b3.database.objects.registerlink.RegisterLink;
 
 import java.sql.SQLException;
@@ -9,7 +13,7 @@ import java.sql.SQLException;
 /**
  * Aceasta clasa reprezinta un ajutor pentru a verifica identitatea utilizatorilor.
  */
-public class AuthenticationManager {
+public class PermissionManager {
     /**
      * @param loginToken tokenul de login al unui utilizator
      * @return true in cazul in care tokenul de login al utilizatorului se afla in baza de date si fals in caz contrar
@@ -62,5 +66,25 @@ public class AuthenticationManager {
     public static String getEmailForRegisterToken(String registerToken) throws SQLException {
         RegisterLink registerLink = RegisterLink.getByToken(registerToken);
         return (registerLink != null) ? registerLink.getEmail() : null;
+    }
+
+    public static boolean isUserAllowedToCreateHomeworkOnSubject(String numeMaterie, String loginToken) throws SQLException {
+        try {
+            Cont cont = Cont.getByLoginToken(loginToken);
+            Materie materie = Materie.getByTitlu(numeMaterie);
+
+            if (cont != null && materie != null) {
+                Profesor profesor = Profesor.getByEmail(cont.getEmail());
+
+                if (profesor != null) {
+                    Didactic didactic = Didactic.getByIdMaterieAndIdProfesor(materie.getId(), profesor.getId());
+                    return (didactic != null);
+                }
+            }
+
+            return false;
+        } catch (DidacticException e) {
+            return false;
+        }
     }
 }

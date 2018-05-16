@@ -43,7 +43,6 @@ public class RegisterLink {
 
         preparedStatement.setString(1, email);
         preparedStatement.setString(2, token);
-        preparedStatement.setDate(3, creationTime);
 
         preparedStatement.executeUpdate();
 

@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 
 import java.sql.SQLException;
 
@@ -34,8 +34,8 @@ public class WelcomeController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String welcome(@CookieValue(value = "user", defaultValue = "-1") String loginToken, Model model) {
         try {
-            if (AuthenticationManager.isUserLoggedIn(loginToken)) {
-                return (new DashboardController()).dashboard(model, AuthenticationManager.getUsernameLoggedIn(loginToken));
+            if (PermissionManager.isUserLoggedIn(loginToken)) {
+                return (new DashboardController()).dashboard(model, PermissionManager.getUsernameLoggedIn(loginToken));
             } else {
                 return "home-no-logged";
             }

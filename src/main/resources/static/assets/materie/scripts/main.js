@@ -178,10 +178,7 @@ $(document).ready(function () {
             enunturiTeme[index] = element.value;
         }
 
-        console.log(extensiiTeme, enunturiTeme);
-
         var data = {
-            numeMaterie: numeMaterie,
             numeTema: nume.value,
             deadline: deadline.value,
             enunt: enunt.value,
@@ -207,8 +204,6 @@ $(document).ready(function () {
             const element = extesii[index];
             element.setAttribute('disabled', 'disabled');
         }
-
-
 
         $.ajax({
             type: 'POST',

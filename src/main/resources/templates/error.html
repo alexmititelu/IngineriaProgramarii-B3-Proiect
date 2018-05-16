@@ -8,7 +8,7 @@
 </head>
 <body>
 <form>
-    <p th:text="|${errorMessage}!|"></p>
+    <p th:text="${errorMessage != null} ? ${errorMessage} : 'Ooops ... you shouldn't be here!'"></p>
 </form>
 </body>
 </html>

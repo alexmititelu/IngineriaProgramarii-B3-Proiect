@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ro.uaic.info.ip.proiect.b3.authentication.AuthenticationManager;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.exceptions.TemaException;
@@ -31,7 +31,7 @@ public class HomeworkController {
             @PathVariable String numeMaterie,
             HttpServletResponse response) {
         try {
-            if (AuthenticationManager.isUserLoggedIn(loginToken)) {
+            if (PermissionManager.isUserLoggedIn(loginToken)) {
                 Materie materie = Materie.getByTitlu(numeMaterie);
 
                 if (materie != null) {
@@ -82,17 +82,17 @@ public class HomeworkController {
                        @RequestParam("deadline") String deadline,
                        @RequestParam("enunt") String enunt,
                        @RequestParam("nrExercitii") int nrExercitii,
-                       @RequestParam("extensiifisiere") String[] extensiiFisiere,
-                       @RequestParam("cerinteExercitii") String[] cerinte,
+                       @RequestParam("extensiiFisiere[]") String[] extensiiFisiere,
+                       @RequestParam("cerinteExercitii[]") String[] cerinte,
                        @CookieValue(value = "user", defaultValue = "-1") String loginToken,
                        HttpServletResponse response) {
         try {
-            if (AuthenticationManager.isUserLoggedIn(loginToken) && !AuthenticationManager.isLoggedUserProfesor(loginToken)) {
+            if (PermissionManager.isUserLoggedIn(loginToken) && PermissionManager.isLoggedUserProfesor(loginToken) && PermissionManager.isUserAllowedToCreateHomeworkOnSubject(numeMaterie, loginToken)) {
                 Materie materie = Materie.getByTitlu(numeMaterie);
 
                 if (materie != null) {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                    Tema tema = new Tema(materie.getId(), new Date(formatter.parse(deadline).getTime()), enunt, nrExercitii, numeTema, extensiiFisiere);
+                    Tema tema = new Tema(materie.getId(), new Date(formatter.parse(deadline).getTime()), enunt, nrExercitii, numeTema, extensiiFisiere, cerinte);
                     tema.insert();
 
                     return "valid";
