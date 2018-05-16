@@ -46,7 +46,7 @@
 
     <!-- Modal -->
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 900px;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="titleForm">Creare tema noua</h5>
@@ -56,27 +56,56 @@
                 </div>
                 <div class="modal-body">
                     <form id="form">
-                        <div class="form-group">
-                            <label for="username">Nume tema</label>
-                            <input type="text" class="form-control" id="nume" aria-describedby="usernameHelp" placeholder="Nume tema">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="username">Nume tema</label>
+                                    <input type="text" class="form-control" id="nume" aria-describedby="usernameHelp" placeholder="Nume tema">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <!-- Date input -->
+                                    <label class="control-label" for="date">Deadline</label>
+                                    <input class="form-control" id="deadline" name="date" placeholder="Deadline" type="text" />
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="password">Enunt</label>
-                            <input type="text" class="form-control" id="enunt" placeholder="Enunt">
+                            <label for="password">Descriere</label>
+                            <!-- <input type="text" class="form-control" id="enunt" placeholder="Enunt"> -->
+                            <textarea class="form-control" name="enunt" id="enunt" cols="30" rows="4"></textarea>
                         </div>
-                        <div class="form-group">
-                            <!-- Date input -->
-                            <label class="control-label" for="date">Deadline</label>
-                            <input class="form-control" id="deadline" name="date" placeholder="Deadline" type="text" />
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                Exercitiul 1
+                            </div>
+
+                            <div class="col-md-12">
+                                <label>Enunt</label>
+                                <!-- <input type="text" class="form-control" id="enunt" placeholder="Enunt"> -->
+                                <textarea class="form-control enunt-exercitiu" name="enuntExercitiu[]" cols="30" rows="4"></textarea>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="password">Extensie fisier acceptat</label>
+                                    <!-- <input type="text" class="form-control" id="extensie" placeholder="Extensie fisier"> -->
+                                    <select name="extensie[]" class="extensie form-control">
+                                        <option value="" selected disabled>Extensie</option>
+                                        <option value="cpp">C++</option>
+                                        <option value="c">C</option>
+                                        <option value="java">Java</option>
+                                        <option value="py">Python</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="password">Numar exercitii</label>
-                            <input type="text" class="form-control" id="nrExercitii" placeholder="Numar exercitii">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Extensie fisier acceptat</label>
-                            <input type="text" class="form-control" id="extensie" placeholder="Extensie fisier">
-                        </div>
+                        
+                        <button id="add" class="btn btn-primary">
+                            <span style="transform: rotate(45deg)" aria-hidden="true">+</span>
+                        </button>
                         <h6 class="error" id="err">&nbsp;</h6>
                         <button id="btn" type="submit" class="btn btn-primary">Creare tema</button>
                     </form>
