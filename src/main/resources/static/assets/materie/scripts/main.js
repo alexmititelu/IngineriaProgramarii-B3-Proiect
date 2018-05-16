@@ -15,46 +15,48 @@ $(document).ready(function () {
 
     $.ajax({
         type: 'GET',
-        url: location + '/teme',
+        url: location + '/teme_json',
         success: data => {
-            var group = document.getElementById('group');
+            if (data) {
+                var group = document.getElementById('group');
 
-            data.forEach(element => {
-                var a = document.createElement('a');
-                a.href = `/materii/${element.numeTema}`;
-                a.className = 'list-group-item list-group-item-action flex-column align-items-start';
+                data.forEach(element => {
+                    var a = document.createElement('a');
+                    a.href = `/materii/${element.numeTema}`;
+                    a.className = 'list-group-item list-group-item-action flex-column align-items-start';
 
-                var div = document.createElement('div');
-                div.className = 'd-flex w-100 justify-content-between';
+                    var div = document.createElement('div');
+                    div.className = 'd-flex w-100 justify-content-between';
 
-                var h5 = document.createElement('h5');
-                h5.className = 'mb-1';
-                h5.innerText = element.numeTema;
+                    var h5 = document.createElement('h5');
+                    h5.className = 'mb-1';
+                    h5.innerText = element.numeTema;
 
-                var small1 = document.createElement('small');
-                var deadline = element.deadline.split(':');
-                small1.innerText = `Deadline: ${deadline[0]}:${deadline[1]}`;
+                    var small1 = document.createElement('small');
+                    var deadline = element.deadline;
+                    small1.innerText = `Deadline: ${deadline}`;
 
-                div.appendChild(h5);
-                div.appendChild(small1);
+                    div.appendChild(h5);
+                    div.appendChild(small1);
 
-                var p = document.createElement('p');
-                p.className = 'mb-1';
-                p.innerText = element.enunt;
+                    var p = document.createElement('p');
+                    p.className = 'mb-1';
+                    p.innerText = element.enunt;
 
-                var small2 = document.createElement('small');
-                small2.innerText = `Numar exercitii: ${element.nrExercitii} | `;
+                    var small2 = document.createElement('small');
+                    small2.innerText = `Numar exercitii: ${element.nrExercitii} | `;
 
-                var small3 = document.createElement('small');
-                small3.innerText = `Extensie fisier: .${element.extensieFisier}`;
+                    var small3 = document.createElement('small');
+                    small3.innerText = `Extensie fisier: .${element.extensieFisier}`;
 
-                a.appendChild(div);
-                a.appendChild(p);
-                a.appendChild(small2);
-                a.appendChild(small3);
+                    a.appendChild(div);
+                    a.appendChild(p);
+                    a.appendChild(small2);
+                    a.appendChild(small3);
 
-                group.appendChild(a);
-            });
+                    group.appendChild(a);
+                });
+            }
         }
     });
 

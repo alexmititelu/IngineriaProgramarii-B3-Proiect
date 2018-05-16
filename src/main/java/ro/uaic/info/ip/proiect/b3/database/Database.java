@@ -20,7 +20,7 @@ import java.sql.SQLException;
 @Service
 public class Database {
     /**
-     * Un DataSource contine informatii despre baza de date la care se face conectarea si diverse configuratii.
+     * Un DataSource ce contine informatii despre baza de date la care se face conectarea si diverse configuratii.
      */
     private HikariDataSource dataSource;
 

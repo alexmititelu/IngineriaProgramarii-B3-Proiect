@@ -3,7 +3,7 @@ package ro.uaic.info.ip.proiect.b3.authentication;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-
+/*
 public class RegistrationValidatorTest {
     RegistrationValidator registrationValidator = new RegistrationValidator();
     @Test
@@ -27,3 +27,4 @@ public class RegistrationValidatorTest {
         assertFalse(registrationValidator.isPasswordRespectingConstraints("testp"));
     }
 }
+*/
