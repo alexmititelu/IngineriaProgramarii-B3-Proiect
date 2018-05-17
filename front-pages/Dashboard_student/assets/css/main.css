@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,600,700');
+
+:root {
+    --main-color: #29324b;
+    --main-border: #1daaa0;
+    --light-border: #78ded7;
+
+    --second-color: #a6b2d6;
+    --menu-item: #8089a6;
+    --menu-item-active: #eee;
+    --button-menu: #384363;
+    --button-menu-hover: #495782;
+    --button-color: #e7ebf9;
+
+    --text-main-color: #5ddfcb;
+    --text-second-color: #8e9bac;
+    --text-header-color: #3a4563;
+    --text-main-light: #aaefeb;
+    --text-link: #5fcac3;
+
+    --header-section: #3b4563;
+
+    --background: #f5f9fc;
+
+    --footer-link: #b0c1d8;
+}
+
+* {
+    font-family: 'Lato', sans-serif;
+}
+
+.container-fluid:first-child {
+    padding-right: 0;
+    padding-left: 0;
+}
+nav {
+    justify-content: flex-end;
+}
+.responsive-menu a {
+    display: inline-block;
+}
+.nav {
+    background: var(--main-color);
+    border-bottom: 1px solid var(--main-border);
+    padding: 10px 50px;
+    /* position: static; */
+}
+.menu {
+    cursor: pointer;
+    display: none;
+    height: 40px;
+    position: absolute;
+    width: 30px;
+}
+.nav a {
+    color: var(--menu-item);
+    transition: color .1s ease-in-out;
+    font-size: 14px;
+    font-weight: 400;
+}
+.nav a:hover {
+    color: var(--menu-item-active);
+}
+.nav-link.active {
+    color: var(--menu-item-active);
+}
+.nav-button {
+    background: var(--button-menu);
+    border-radius: 20px;
+    color: var(--button-color) !important;
+    padding: auto;
+    transition: opacity .1s ease-in-out;
+}
+.nav-button:hover {
+    background: var(--button-menu-hover);
+}
+.nav-button-item {
+    margin: auto 10px;
+}
+.logo {
+    color: var(--second-color);
+    cursor: pointer;
+    left: 40px;
+    position: absolute;
+}
+
+
+/* Responsive */
+@media screen and (max-width: 1199px) {
+    .home-img {
+        margin-top: -250px;
+    }
+    .overlay {
+        min-height: 950px;
+    }
+    .home {
+        height: 950px;
+    }
+}
+@media screen and (max-width: 991px) {
+    .overlay {
+        min-height: 850px;
+    }
+    .home {
+        height: 850px;
+    }
+}
+@media screen and (max-width: 767px) {
+    .overlay {
+        display: none;
+    }
+    .home-img {
+        margin-top: -100px;
+    }
+    .home {
+        height: 900px;
+    }
+    .container-echipa {
+        padding-top: 140px;
+    }
+    nav {
+        justify-content: center !important;
+        flex-direction: column;
+    }
+    nav a {
+        display: inline-block;
+    }
+    .logo {
+        left: 0;
+        position: relative;
+        white-space: nowrap;
+    }
+    .responsive-menu {
+        height: 0;
+        overflow: hidden;
+        transition: all .2s ease-in-out;
+        display: block;
+        display: flex;
+        flex-direction: column;
+    }
+    .menu {
+        display: inline-block;
+        right: 60px;
+        top: 10px;
+    }
+}
+
+ul{
+    color:var(--text-second-color);
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#lista_materii{
+    width: 20%;
+    background: var(--button-menu-hover);
+    padding-left:20px;
+}
+
+li {
+    font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+    border-bottom: 1px solid #ccc;
+}
+
+li:last-child {
+    border: none;
+}
+
+li {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+
+    -webkit-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -moz-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -o-transition: font-size 0.3s ease, background-color 0.3s ease;
+    -ms-transition: font-size 0.3s ease, background-color 0.3s ease;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+}
+
+li:hover {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+aside{
+    float: left;
+}
+
+#afisare_tabel{
+    display: contents;
+    position: relative;
+}
+
+section #tabel_note_teme{
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    background-color: rgb(56, 67, 99,0.85);
+    border-radius: 2%;
+    color: white;
+    font-size: 25px;
+}
+
+@media screen and (max-width: 639px) {
+    #lista_materii{
+        width: 200px;
+    }
+    section{
+        display: inline-block;
+    }
+    #tabel_note_teme{
+        margin-top:250px;
+        margin-left: -90px;
+    }
+}
+
+@media screen and (max-width: 575px) {
+    .contact .icon img {
+        min-width: 30%;
+    }
+    .footer .button-primary {
+        margin-right: 0;
+    }
+}
+
