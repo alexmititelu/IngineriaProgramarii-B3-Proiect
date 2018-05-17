@@ -68,7 +68,7 @@ public class PermissionManager {
         return (registerLink != null) ? registerLink.getEmail() : null;
     }
 
-    public static boolean isUserAllowedToCreateHomeworkOnSubject(String numeMaterie, String loginToken) throws SQLException {
+    public static boolean isUserAllowedToModifySubject(String numeMaterie, String loginToken) throws SQLException {
         try {
             Cont cont = Cont.getByLoginToken(loginToken);
             Materie materie = Materie.getByTitlu(numeMaterie);

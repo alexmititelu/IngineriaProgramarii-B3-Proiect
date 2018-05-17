@@ -87,7 +87,7 @@ public class HomeworkController {
                        @CookieValue(value = "user", defaultValue = "-1") String loginToken,
                        HttpServletResponse response) {
         try {
-            if (PermissionManager.isUserLoggedIn(loginToken) && PermissionManager.isLoggedUserProfesor(loginToken) && PermissionManager.isUserAllowedToCreateHomeworkOnSubject(numeMaterie, loginToken)) {
+            if (PermissionManager.isUserLoggedIn(loginToken) && PermissionManager.isLoggedUserProfesor(loginToken) && PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
                 Materie materie = Materie.getByTitlu(numeMaterie);
 
                 if (materie != null) {

@@ -36,9 +36,9 @@ public class SubjectController {
             if (PermissionManager.isUserLoggedIn(loginToken)) {
                 Cont cont = Cont.getByLoginToken(loginToken);
                 if (cont.getPermission() > Permissions.STUDENT) {
-                    return "materii-profesori";
+                    return "./profesor/materii";
                 } else {
-                    return "materii-studenti";
+                    return "./student/materii";
                 }
             }
 
@@ -94,7 +94,11 @@ public class SubjectController {
                     model.addAttribute("materieNume", materie.getTitlu());
                     model.addAttribute("materieDescriere", materie.getDescriere());
 
-                    return "materie";
+                    if (PermissionManager.isLoggedUserProfesor(loginToken)) {
+                        return "./profesor/materie";
+                    } else {
+                        return "./student/materie";
+                    }
                 } else {
                     model.addAttribute("errorMessage", PAGE_NOT_FOUND_MESSAGE);
                     return "error";

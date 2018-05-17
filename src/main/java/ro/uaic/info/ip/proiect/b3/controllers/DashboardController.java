@@ -31,10 +31,10 @@ public class DashboardController {
             Cont cont = Cont.getByUsername(username);
             if (cont != null && cont.getPermission() < 2) {
                 model.addAttribute("username", username);
-                return "dashboard-studenti";
+                return "./student/dashboard";
             } else if (cont != null && cont.getPermission() >= 2) {
                 model.addAttribute("username", username);
-                return "dashboard-profesori";
+                return "./profesor/dashboard";
             } else {
                 model.addAttribute("errorMessage", PAGE_NOT_FOUND_MESSAGE);
                 return "model";
