@@ -1,0 +1,44 @@
+set serveroutput on;
+DECLARE
+v_nume studenti.nume%TYPE;
+v_count number ;
+V_PRENUME STUDENTI.PRENUME%TYPE;
+V_STUDENT_ID STUDENTI.ID%TYPE;
+V_NOTA_MAX NUMBER;
+V_NOTA_MIN NUMBER;
+BEGIN
+v_nume :='&i_nume';
+
+ SELECT COUNT(NUME) INTO V_COUNT
+ FROM STUDENTI
+ WHERE NUME = V_NUME;
+ 
+ IF (V_COUNT != 0)
+ THEN
+     DBMS_OUTPUT.put_line('NUMARUL DE STUDENTI CU ACELASI NUME: '|| V_COUNT);
+     
+     SELECT ID, PRENUME INTO V_STUDENT_ID, V_PRENUME
+     FROM (SELECT ID, PRENUME
+            FROM STUDENTI
+            WHERE NUME = V_NUME 
+            ORDER BY 2)
+    WHERE ROWNUM < 2;
+     DBMS_OUTPUT.put_line('ID SI PRIMUL LEXICOGRAFIX(PRENUME): '|| V_STUDENT_ID||' '||V_PRENUME);
+     
+     SELECT MIN(VALOARE), MAX(VALOARE) INTO V_NOTA_MIN, V_NOTA_MAX
+     FROM STUDENTI S JOIN NOTE N ON S.ID = N.ID_STUDENT
+     WHERE S.ID = V_STUDENT_ID
+     GROUP BY S.ID;
+     DBMS_OUTPUT.put_line('MAX MIN: '|| V_NOTA_MAX||' '||V_NOTA_MIN);
+     DBMS_OUTPUT.put_line('MAX^MIN: '|| POWER(V_NOTA_MAX, V_NOTA_MIN));
+
+     
+     
+ ELSE
+      DBMS_OUTPUT.put_line('Nu exista studenti cu numele: '|| v_nume);
+ END IF;
+ 
+     
+
+
+END;
