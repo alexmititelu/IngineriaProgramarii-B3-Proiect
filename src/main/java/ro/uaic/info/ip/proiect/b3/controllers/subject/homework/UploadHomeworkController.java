@@ -7,7 +7,7 @@ import ro.uaic.info.ip.proiect.b3.plagiarism.PlagiarismDetector;
 
 @Controller
 public class UploadHomeworkController {
-    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/upload", method = RequestMethod.GET)
+    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/upload", method = RequestMethod.POST)
     public String uploadHomework(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken,
             @PathVariable("numeMaterie") String numeMaterie,
