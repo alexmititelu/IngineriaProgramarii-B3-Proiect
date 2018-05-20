@@ -5,6 +5,8 @@ public class HotZone {
     private int student2[];
     private int procent;
 
+    public HotZone() {}
+
     public HotZone(int[] student1, int[] student2, int procent) {
         this.student1 = student1;
         this.student2 = student2;

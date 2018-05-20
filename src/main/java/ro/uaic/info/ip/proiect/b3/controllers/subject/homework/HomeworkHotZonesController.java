@@ -4,19 +4,18 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.clientinfo.HotZone;
-
-import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 import ro.uaic.info.ip.proiect.b3.database.Database;
+import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import java.util.ArrayList;
 
 @Controller
 public class HomeworkHotZonesController {
     private final static Logger logger = Logger.getLogger(HomeworkController.class);
-
 
     @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/hot_zones", method = RequestMethod.POST)
     public ArrayList<HotZone> getHotZones(
@@ -28,56 +27,50 @@ public class HomeworkHotZonesController {
             @RequestParam("nrExercitiu") String nrExercitiu) {
 
         Connection connection = null;
-        ResultSet hotZone = null;
-        ArrayList<HotZone> hotZones = new ArrayList();
-        HotZone auxiliarHotZone = null;
-            try {
-                if (PermissionManager.isLoggedUserProfesor(loginToken) &&
-                        PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken) &&
-                        PermissionManager.isRegisterTokenValid(loginToken)) {
+        ResultSet hotZoneResultSet;
+        ArrayList<HotZone> hotZones = new ArrayList<>();
+        HotZone hotZone = new HotZone();
 
-                    connection = Database.getInstance().getConnection();
-                    hotZone = Database.getInstance().selectQuery(connection, "select h.start_row_user1, h.end_row_user1," +
-                                                                            " h.start_row_user2, h.end_row_user2," +
-                                                                            " h.procent_plagiat from hot_zone h join plagiat p on h.id_plagiat = p.id " +
-                                                                            "where p.id_tema = ? " +
-                                                                            "and p.username1 = ? and p.username2 = ? " +
-                                                                            "and p.nr_exercitiu = ? ",numeTema, username1, username2, nrExercitiu);
-                    if( !hotZone.next() )
-                    {
-                        throw new SQLException("nu exista cei 2 studenti, care au copiat la respectiva tema, la respectivul exercitiu");
-                    }
-                    else
-                    {
-                        auxiliarHotZone.setStudent1(new int[]{ hotZone.getInt(1), hotZone.getInt(2) } );
-                        auxiliarHotZone.setStudent2(new int[]{ hotZone.getInt(3), hotZone.getInt(4) } );
-                        auxiliarHotZone.setProcent( hotZone.getInt(5) );
-                        hotZones.add(auxiliarHotZone);
-                    }
+        try {
+            if (PermissionManager.isRegisterTokenValid(loginToken) &&
+                    PermissionManager.isLoggedUserProfesor(loginToken) &&
+                    PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
 
-                    while ( hotZone.next() )
-                    {
-                        auxiliarHotZone.setStudent1(new int[]{ hotZone.getInt(1), hotZone.getInt(2) } );
-                        auxiliarHotZone.setStudent2(new int[]{ hotZone.getInt(3), hotZone.getInt(4) } );
-                        auxiliarHotZone.setProcent( hotZone.getInt(5) );
-                        hotZones.add(auxiliarHotZone);
-                    }
+                connection = Database.getInstance().getConnection();
 
-                    connection.close();
-                } else {
-                    throw new Exception( "Utilizatorul nu este logat sau nu are permisiunile necesare!" );
+                Materie materie = Materie.getByTitlu(numeMaterie);
+
+                if (materie != null) {
+                    hotZoneResultSet = Database.getInstance().selectQuery(connection, "select h.start_row_user1, h.end_row_user1," +
+                            " h.start_row_user2, h.end_row_user2," +
+                            " h.procent_plagiat from hot_zone h join plagiat p on h.id_plagiat = p.id " +
+                            "where p.id_tema = ? " +
+                            "and p.username1 = ? and p.username2 = ? " +
+                            "and p.nr_exercitiu = ? ", Long.toString(materie.getId()), username1, username2, nrExercitiu);
+
+                    while (hotZoneResultSet.next()) {
+                        hotZone.setStudent1(new int[]{hotZoneResultSet.getInt(1), hotZoneResultSet.getInt(2)});
+                        hotZone.setStudent2(new int[]{hotZoneResultSet.getInt(3), hotZoneResultSet.getInt(4)});
+                        hotZone.setProcent(hotZoneResultSet.getInt(5));
+                        hotZones.add(hotZone);
+                    }
                 }
+            } else {
+                return null;
             }
-            catch (SQLException e)
-            {
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        } finally {
+            try {
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
                 logger.error(e.getMessage(), e);
-                return  new ArrayList<>();
             }
-            catch (Exception e)
-            {
-                logger.error(e.getMessage(), e);
-                return  new ArrayList<>();
-            }
+        }
+
         return hotZones;
     }
 }

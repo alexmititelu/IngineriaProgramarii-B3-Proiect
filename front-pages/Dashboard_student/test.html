@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        [data-toggle="collapse"][aria-expanded="true"] > .js-rotate-if-collapsed
+        {
+            -webkit-transform: rotate(180deg);
+            -moz-transform:    rotate(180deg);
+            -ms-transform:     rotate(180deg);
+            -o-transform:      rotate(180deg);
+            transform:         rotate(180deg);
+        }
+    </style>
+</head>
+<body>
+
+    <h3>Initially closed</h3>
+    <div style="cursor: pointer"  data-toggle="collapse" data-target="#collapseExample" aria-expanded="false">
+        Header
+        <span class="glyphicon glyphicon-menu-down js-rotate-if-collapsed"></span>
+    </div>
+    <div id="collapseExample" class="collapse">
+        Body
+    </div>
+
+    <hr>
+
+    <h3>Initially opened</h3>
+    <div style="cursor: pointer" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="true">
+        Header
+        <span class="glyphicon glyphicon-menu-down js-rotate-if-collapsed"></span>
+    </div>
+    <div id="collapseExample2" class="collapse in">
+        Body
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
