@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GestiON</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/home-no-logged/css/main.css">
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <nav class="nav">
+        <a class="logo" href="#" style="display: inline-block; text-decoration: none;">
+            <img src="/assets/home-no-logged/images/logo.svg" width="27px;" alt="home" style="display: inline-block;">
+            &nbsp;&nbsp;&nbsp; GestiON
+        </a>
+        <div class="responsive-menu">
+            <a class="nav-link responsive active" href="#">Acasa</a>
+            <a class="nav-link responsive" href="#">Despre</a>
+            <a class="nav-link responsive" href="#">Echipa</a>
+            <a class="nav-link responsive" href="#">Contact</a>
+            <a class="nav-link responsive nav-button" href="#" role="button" data-toggle="modal"
+               data-target="#exampleModalCenter">
+                    <span class="nav-button-item">
+                        Log In
+                    </span>
+            </a>
+        </div>
+        <img class="menu" src="/assets/home-no-logged/images/menu.svg" alt="menu">
+    </nav>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="titleForm">Login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formLogin">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" aria-describedby="usernameHelp"
+                               placeholder="Enter username">
+                    </div>
+                    <div class="form-group" id="dis">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Password">
+                    </div>
+                    <h6 class="error" id="errLogin">&nbsp;</h6>
+                    <button id="btn-log" type="submit" class="btn btn-primary">Log In</button>
+                </form>
+
+                <form id="formRegister" class="none">
+                    <div class="form-group">
+                        <label for="nr_matricol">Numar matricol</label>
+                        <input type="text" class="form-control" id="nr_matricol" aria-describedby="usernameHelp"
+                               placeholder="Numar matricol">
+                    </div>
+                    <h6 class="error" id="errRegister">&nbsp;</h6>
+                    <button id="btn-reg" type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+            <div class="modal-footer" id="foot">
+                <div class="container text-center">
+                    <div class="row log-row text-center">
+                        <div class="col-sm-12">
+                            <a href="">Ai uitat parola?</a>
+                        </div>
+                    </div>
+                    <div class="row log-row">
+                        <div class="col-sm-12">
+                            <a href="" id="register-btn">Nu ai un cont? Apasa aici.</a>
+                        </div>
+                    </div>
+                    <div class="row none" id="reg-row">
+                        <div class="col-sm-12">
+                            <a href="" id="login-btn">Ai deja un cont? Apasa aici.</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid home-main">
+    <div class="overlay"></div>
+    <div class="container home">
+        <h5 class="new"><span class="badge badge-success">Profesori</span>Creaza materii, creaza teme si verifica temele
+            studentilor tai</h5>
+        <h5 class="new"><span class="badge badge-success">Studenti</span>Incarca teme pentru materiile la care esti
+            inscris</h5>
+
+        <div class="content">
+            <h1 class="header-title">
+                GestiON, un serviciu pentru studenti
+            </h1>
+            <h2 class="section-text">
+                Serviciul Facultatii de Informatica pentru studenti unde acestia pot incarca teme, verifica note si
+                comunica cu profesorii ce ii noteaza!
+            </h2>
+            <h2 class="evident-text">
+                Eficienta in comunicare si invatare!
+            </h2>
+
+            <div class="container buttons-home">
+                <div class="button-primary">
+                    Descopera mai mult
+                </div>
+                <a href="https://github.com/alexmititelu/IngineriaProgramarii-B3-Proiect">
+                    <div class="button-secondary">
+                        GitHub
+                    </div>
+                </a>
+            </div>
+
+            <img class="home-img" src="/assets/home-no-logged/images/home.svg" alt="home">
+        </div>
+    </div>
+
+
+    <!-- Despre -->
+    <div class="container-fluid despre">
+        <div class="container despre-container">
+            <div class="col-sm-12 text-center header-container">
+                <h1 class="header-section">
+                    Despre
+                </h1>
+            </div>
+        </div>
+        <div class="col-12 text-center sub-header">
+            <h1>
+                Facut de studenti pentru studenti ...
+            </h1>
+        </div>
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="top">
+                        <img src="/assets/home-no-logged/images/1.svg" alt="1">
+                    </div>
+                    <div class="text-semi">Vezi note</div>
+                    <div class="info-card">
+                        Verifica in timp real notele luate la temele incarcate!
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="top">
+                        <img src="/assets/home-no-logged/images/2.svg" alt="2">
+                    </div>
+                    <div class="text-semi">Incarca teme</div>
+                    <div class="info-card">
+                        Rezolva exercitiile propuse si incarca solutiile pentru a fi corectate de profesori!
+                    </div>
+                    <div class="try-btn" role="button" data-toggle="modal" data-target="#exampleModalCenter">
+                        Incearca
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="top">
+                        <img src="/assets/home-no-logged/images/3.svg" alt="3">
+                    </div>
+                    <div class="text-semi">Compara teme</div>
+                    <div class="info-card">
+                        Dupa notare, compara-ti solutia cu cei mai buni si imbunatateste-ti abilitatile!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Echipa -->
+    <div class="container-fluid echipa">
+        <div class="overlay-echipa"></div>
+        <div class="container container-echipa">
+            <div class="col-sm-12 text-left header-container">
+                <h1 class="header-section header-section-left">
+                    Echipa
+                </h1>
+            </div>
+
+            <div class="container">
+                <div class="row row-echipa">
+                    <div class="col-md-4 echipa-card">
+                        <div class="echipa-top">
+                            <div class="img-pic">
+                                <img src="/assets/home-no-logged/images/profil.png" alt="profil">
+                            </div>
+                        </div>
+                        <div class="echipa-semi">
+                            Proca Teodor
+                        </div>
+                        <div class="info-card">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo fugit ratione placeat
+                            suscipit.
+                        </div>
+                        <a href="/">
+                            MORE
+                        </a>
+                    </div>
+
+                    <div class="col-md-4 echipa-card">
+                        <div class="echipa-top">
+                            <div class="img-pic">
+                                <img src="/assets/home-no-logged/images/profil.png" alt="profil">
+                            </div>
+                        </div>
+                        <div class="echipa-semi">
+                            Proca Teodor
+                        </div>
+                        <div class="info-card">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo fugit ratione placeat
+                            suscipit.
+                        </div>
+                        <a href="/">
+                            MORE
+                        </a>
+                    </div>
+
+                    <div class="col-md-4 echipa-card">
+                        <div class="echipa-top">
+                            <div class="img-pic">
+                                <img src="/assets/home-no-logged/images/profil.png" alt="profil">
+                            </div>
+                        </div>
+                        <div class="echipa-semi">
+                            Proca Teodor
+                        </div>
+                        <div class="info-card">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo fugit ratione placeat
+                            suscipit.
+                        </div>
+                        <a href="/">
+                            MORE
+                        </a>
+                    </div>
+
+                    <div class="col-md-4 echipa-card">
+                        <div class="echipa-top">
+                            <div class="img-pic">
+                                <img src="/assets/home-no-logged/images/profil.png" alt="profil">
+                            </div>
+                        </div>
+                        <div class="echipa-semi">
+                            Proca Teodor
+                        </div>
+                        <div class="info-card">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo fugit ratione placeat
+                            suscipit.
+                        </div>
+                        <a href="/">
+                            MORE
+                        </a>
+                    </div>
+
+                    <div class="col-md-4 echipa-card">
+                        <div class="echipa-top">
+                            <div class="img-pic">
+                                <img src="/assets/home-no-logged/images/profil.png" alt="profil">
+                            </div>
+                        </div>
+                        <div class="echipa-semi">
+                            Proca Teodor
+                        </div>
+                        <div class="info-card">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo fugit ratione placeat
+                            suscipit.
+                        </div>
+                        <a href="/">
+                            MORE
+                        </a>
+                    </div>
+
+                    <div class="col-md-4 echipa-card">
+                        <div class="echipa-top">
+                            <div class="img-pic">
+                                <img src="/assets/home-no-logged/images/profil.png" alt="profil">
+                            </div>
+                        </div>
+                        <div class="echipa-semi">
+                            Proca Teodor
+                        </div>
+                        <div class="info-card">
+                            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nemo fugit ratione placeat
+                            suscipit.
+                        </div>
+                        <a href="/">
+                            MORE
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Contact -->
+    <div class="container-fluid contact">
+        <div class="container container-contact">
+            <div class="col-sm-12 text-center header-container">
+                <h1 class="header-section">
+                    Contact
+                </h1>
+            </div>
+            <div class="col-12 text-center sub-header">
+                <h1>
+                    Pentru feeback, bug-reports sau orice altceva ne puteti gasi la oricare dintre adresele de mai jos.
+                </h1>
+            </div>
+
+            <div class="row text-center">
+                <div class="col-md-2 offset-md-3 col-sm-2 offset-sm-3 col-xs-4 icon">
+                    <a href="">
+                        <img src="/assets/home-no-logged/images/facebook.svg" alt="facebook">
+                    </a>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-4 icon">
+                    <a href="">
+                        <img src="/assets/home-no-logged/images/twitter.svg" alt="twitter">
+                    </a>
+                </div>
+                <div class="col-md-2 col-sm-2 col-xs-4 icon">
+                    <a href="">
+                        <img src="/assets/home-no-logged/images/github.svg" alt="github">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <div class="container-fluid footer">
+        <div class="overlay-echipa"></div>
+        <div class="container container-footer">
+            <div class="col-sm-12 text-center header-container">
+                <h1 class="header-section">
+                    Salveaza timp pentru invatat
+                </h1>
+            </div>
+            <div class="col-12 text-center sub-header">
+                <h1>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                </h1>
+            </div>
+
+            <div class="container buttons-home text-center">
+                <div class="button-primary">
+                    Descopera mai mult
+                </div>
+                <a href="https://github.com/alexmititelu/IngineriaProgramarii-B3-Proiect">
+                    <div class="button-secondary">
+                        GitHub
+                    </div>
+                </a>
+            </div>
+
+            <div class="footer-content row text-center">
+                <div class="col-sm-4">
+                    <h1>Proiect</h1>
+                    <a href="">
+                        Acasa
+                    </a>
+                    <a href="">
+                        Despre
+                    </a>
+                    <a href="">
+                        Echipa
+                    </a>
+                    <a href="">
+                        Contact
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <h1>Mai mult</h1>
+                    <a href="">
+                        Logare
+                    </a>
+                    <a href="">
+                        Inregistrare
+                    </a>
+                    <a href="">
+                        Regulament
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <h1>Comunitate</h1>
+                    <a href="">
+                        Facebook
+                    </a>
+                    <a href="">
+                        Twitter
+                    </a>
+                    <a href="">
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script src="/assets/home-no-logged/scripts/main.js"></script>
+</body>
+
+</html>
