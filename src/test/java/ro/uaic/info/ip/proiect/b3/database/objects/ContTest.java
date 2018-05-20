@@ -1,5 +1,6 @@
 package ro.uaic.info.ip.proiect.b3.database.objects;
 
+/*
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
@@ -59,3 +60,5 @@ public class ContTest {
         assertNotEquals("", cont.getPassword());
     }
 }
+
+*/

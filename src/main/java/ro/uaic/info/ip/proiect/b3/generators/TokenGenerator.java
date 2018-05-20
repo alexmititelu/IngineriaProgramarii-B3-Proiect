@@ -17,44 +17,35 @@ public class TokenGenerator {
         String domain = getTokenDomain();
         StringBuilder token = new StringBuilder();
         Random random = new Random();
+
         for (int i = 0; i < size; i++) {
             int randomIndex = Math.abs(random.nextInt()) % domain.length();
             token.append(domain.charAt(randomIndex));
         }
+
         return token.toString();
     }
 
-    private static boolean isTokenAlreadyUsed(String token, String tableName) {
+    private static boolean isTokenAlreadyUsed(String token, String tableName) throws SQLException {
         boolean isTokenUsed = false;
-        Connection dbConnection = null;
+        Connection connection;
 
-        try {
-            dbConnection = Database.getInstance().getConnection();
-            String query = "SELECT * FROM " + tableName + " WHERE token LIKE ?";
+        connection = Database.getInstance().getConnection();
+        String query = "SELECT * FROM " + tableName + " WHERE token = ?";
 
-            Statement queryStatement = dbConnection.prepareStatement(query);
-            ((PreparedStatement) queryStatement).setString(1, token);
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, token);
 
-            ResultSet resultSet = ((PreparedStatement) queryStatement).executeQuery();
+        ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()) {
-                isTokenUsed = true;
-                break;
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        } finally {
-            try {
-                dbConnection.close();
-            } catch (Exception e) {
-                System.out.println("[" + System.nanoTime() + "] " + e.getMessage());
-            }
+        if (resultSet.next()) {
+            isTokenUsed = true;
         }
 
         return isTokenUsed;
     }
 
-    public static String getToken(int size, String tableName) {
+    public static String getToken(int size, String tableName) throws SQLException {
         String generatedToken;
 
         do {

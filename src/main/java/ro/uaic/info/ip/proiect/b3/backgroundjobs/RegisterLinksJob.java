@@ -4,7 +4,6 @@ import ro.uaic.info.ip.proiect.b3.database.Database;
 
 import java.sql.SQLException;
 
-
 public class RegisterLinksJob implements Runnable {
     public void run() {
         while (true) {
@@ -15,7 +14,7 @@ public class RegisterLinksJob implements Runnable {
             }
 
             try {
-                Thread.sleep(1000 * 60 * 30);
+                Thread.sleep(1000 * 60 * 10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

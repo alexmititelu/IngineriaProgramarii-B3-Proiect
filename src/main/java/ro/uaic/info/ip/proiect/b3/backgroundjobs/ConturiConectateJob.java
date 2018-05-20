@@ -14,7 +14,7 @@ public class ConturiConectateJob implements Runnable {
             }
 
             try {
-                Thread.sleep(1000 * 1800);
+                Thread.sleep(1000 * 60 * 30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
