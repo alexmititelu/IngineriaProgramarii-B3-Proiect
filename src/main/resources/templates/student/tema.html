@@ -39,8 +39,30 @@
                 <p class="mb-1">[[${enuntTema}]]</p>
                 <p class="mb-1">Deadline: [[${deadlineTema}]]</p>
             </a>
+            <!-- <a class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">1.</h5>
+                </div>
+                <p class="mb-1">asdfsadfasdf</p>
+                <small>Extensie acceptata: .cpp</small>
+                <hr>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="row">
+                                <button class="btn btn-success" name="1" style="margin: 5px 0;">Vezi solutie</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            Nota: -
+                        </div>
+                    </div>
+                </div>
+            </a> -->
         </div>
         <!-- <button class="btn btn-primary" style="margin-top: 10px;" role="button" data-toggle="modal" data-target="#exampleModalCenter">Creaza tema noua</button> -->
+
+        <p id="err" style="color: red">&nbsp;</p>
     </div>
 
     <!-- Modal -->
@@ -48,66 +70,18 @@
         <div class="modal-dialog modal-dialog-centered" style="max-width: 900px;" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="titleForm">Creare tema noua</h5>
+                    <h5 class="modal-title" id="titleForm">Solutie</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="form">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="username">Nume tema</label>
-                                    <input type="text" class="form-control" id="nume" aria-describedby="usernameHelp" placeholder="Nume tema">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <!-- Date input -->
-                                    <label class="control-label" for="date">Deadline</label>
-                                    <input class="form-control" id="deadline" name="date" placeholder="Deadline" type="text" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Descriere</label>
-                            <!-- <input type="text" class="form-control" id="enunt" placeholder="Enunt"> -->
-                            <textarea class="form-control" name="enunt" id="enunt" cols="30" rows="4"></textarea>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                Exercitiul 1
-                            </div>
-
-                            <div class="col-md-12">
-                                <label>Enunt</label>
-                                <!-- <input type="text" class="form-control" id="enunt" placeholder="Enunt"> -->
-                                <textarea class="form-control enunt-exercitiu" name="enuntExercitiu[]" cols="30" rows="4"></textarea>
-                            </div>
-
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label for="password">Extensie fisier acceptat</label>
-                                    <!-- <input type="text" class="form-control" id="extensie" placeholder="Extensie fisier"> -->
-                                    <select name="extensie[]" class="extensie form-control">
-                                        <option value="" selected disabled>Extensie</option>
-                                        <option value="cpp">C++</option>
-                                        <option value="c">C</option>
-                                        <option value="java">Java</option>
-                                        <option value="py">Python</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button id="add" class="btn btn-primary">
-                            <span style="transform: rotate(45deg)" aria-hidden="true">+</span>
-                        </button>
-                        <h6 class="error" id="err">&nbsp;</h6>
-                        <button id="btn" type="submit" class="btn btn-primary">Creare tema</button>
-                    </form>
+                    <table class="table" id="tableModel">
+                        <tr>
+                            <th style="width: 50px">#</th>
+                            <th>Continut</th>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
