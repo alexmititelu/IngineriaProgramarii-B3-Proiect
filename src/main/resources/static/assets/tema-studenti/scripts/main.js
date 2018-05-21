@@ -61,14 +61,17 @@ $(document).ready(function () {
 
                         col1.appendChild(row2);
                     } else {
+                        var form = document.createElement('form');
                         var input = document.createElement('input');
                         input.type = 'file';
                         input.className = 'exFile';
-                        input.name = 'upload';
+                        input.name = 'file';
                         input.setAttribute('name2', exercitii);
                         input.setAttribute('extensie', element.extensie);
 
-                        row2.appendChild(input);
+                        form.appendChild(input);
+
+                        row2.appendChild(form);
 
                         var row3 = document.createElement('div');
                         row3.className = 'row';
@@ -155,7 +158,10 @@ $(document).ready(function () {
                     const element = upload[index];
 
                     element.onclick = () => {
-                        var input = element.parentNode.parentNode.childNodes[0].childNodes[0];
+                        var input = element.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0];
+
+                        var form = element.parentNode.parentNode.childNodes[0].childNodes[0];
+
                         err.innerText = '';
                         err.innerHTML = '&nbsp;';
 
@@ -170,17 +176,13 @@ $(document).ready(function () {
                             if (element.attributes.extensie.value !== realExtension) {
                                 err.innerText = 'Ai incarcat un fisier cu o extensie gresita.';
                             } else {
-
-                                var form = $('#form');
-
                                 var data = new FormData(form);
 
-                                console.log(data, form);
                                 $.ajax({
                                     type: 'POST',
                                     url: `${window.location.href}/upload/${element.attributes.exercitiu.value}`,
-                                    data: file,
-                                    processData: false, //prevent jQuery from automatically transforming the data into a query string
+                                    data: data,
+                                    processData: false,
                                     contentType: false,
                                     enctype: 'multipart/form-data',
                                     success: data => {
