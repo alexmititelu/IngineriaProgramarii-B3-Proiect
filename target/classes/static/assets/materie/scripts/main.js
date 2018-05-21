@@ -44,15 +44,15 @@ $(document).ready(function () {
                     p.innerText = element.enunt;
 
                     var small2 = document.createElement('small');
-                    small2.innerText = `Numar exercitii: ${element.nrExercitii} | `;
+                    small2.innerText = `Numar exercitii: ${element.nrExercitii}`;
 
-                    var small3 = document.createElement('small');
-                    small3.innerText = `Extensie fisier: .${element.extensieFisier}`;
+                    // var small3 = document.createElement('small');
+                    // small3.innerText = `Extensie fisier: .${element.extensieFisier}`;
 
                     a.appendChild(div);
                     a.appendChild(p);
                     a.appendChild(small2);
-                    a.appendChild(small3);
+                    // a.appendChild(small3);
 
                     group.appendChild(a);
                 });
