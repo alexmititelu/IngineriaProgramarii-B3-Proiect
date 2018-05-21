@@ -18,8 +18,9 @@ import java.util.ArrayList;
 public class ContinutFisierController {
     private final static Logger logger = Logger.getLogger(ContinutFisierController.class);
 
-    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/continut_fisier", method = RequestMethod.GET)
-    public ArrayList<String> getContinutFisier(
+    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/continut_fisier", method = RequestMethod.POST)
+    public @ResponseBody
+    ArrayList<String> getContinutFisier(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken,
             @PathVariable("numeMaterie") String numeMaterie,
             @PathVariable("numeTema") String numeTema,
