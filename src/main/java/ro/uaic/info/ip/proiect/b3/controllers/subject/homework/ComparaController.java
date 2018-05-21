@@ -5,7 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
+import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.student.Student;
+import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
+import ro.uaic.info.ip.proiect.b3.database.objects.temaexercitiuextensie.TemaExercitiuExtensie;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 
 import java.sql.SQLException;
@@ -28,11 +31,43 @@ public class ComparaController {
             Model model) {
         try {
             if (PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
+                Materie materie = Materie.getByTitlu(numeMaterie);
+                if (materie == null) {
+                    model.addAttribute("errorMessage", "Materia accesata nu exista!");
+                    return "error";
+                }
+
+                Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
+                if (tema == null) {
+                    model.addAttribute("errorMessage", "Aceasta tema nu exista in cadrul materiei!");
+                    return "error";
+                }
+
+                TemaExercitiuExtensie temaExercitiuExtensie = TemaExercitiuExtensie.get(tema.getId(), nrExercitiu);
+                if (temaExercitiuExtensie == null) {
+                    model.addAttribute("errorMessage", "Acest exercitiu nu exista in cadrul temei!");
+                    return "error";
+                }
+
                 Cont cont1 = Cont.getByUsername(username1);
+                if (cont1 == null) {
+                    model.addAttribute("errorMessage", "Utilizatorul " + username1 + " nu exista!");
+                    return "error";
+                }
                 Student student1 = Student.getByEmail(cont1.getEmail());
 
                 Cont cont2 = Cont.getByUsername(username2);
+                if (cont2 == null) {
+                    model.addAttribute("errorMessage", "Utilizatorul " + username2 + " nu exista!");
+                    return "error";
+                }
                 Student student2 = Student.getByEmail(cont2.getEmail());
+
+                model.addAttribute("numeMateie", numeMaterie);
+                model.addAttribute("numeTema", numeTema);
+                model.addAttribute("numeExercitiu", "Exercitiul " + nrExercitiu);
+                model.addAttribute("enunt", temaExercitiuExtensie.getEnunt());
+                model.addAttribute("extensie", temaExercitiuExtensie.getExtensieAcceptata());
 
                 model.addAttribute("nume1", student1.getNume());
                 model.addAttribute("prenume1", student1.getPrenume());
