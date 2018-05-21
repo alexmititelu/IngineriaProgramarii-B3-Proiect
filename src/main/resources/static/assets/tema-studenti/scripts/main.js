@@ -12,9 +12,11 @@ $(document).ready(function () {
         url: `${window.location.href}/student_info_json`,
         success: data => {
             if (data.length > 0) {
-                exercitii++;
+
 
                 data.forEach(element => {
+
+                    exercitii++;
                     var a = document.createElement('a');
                     a.className = 'list-group-item list-group-item-action flex-column align-items-start';
 
@@ -23,21 +25,16 @@ $(document).ready(function () {
 
                     var h5 = document.createElement('h5');
                     h5.className = 'mb-1';
-                    h5.innerText = `${exercitii}.`;
+                    h5.innerText = `${exercitii}. ${element.enunt}`;
 
                     flex.appendChild(h5);
                     a.appendChild(flex);
-
-                    var p = document.createElement('p');
-                    p.className = 'mb-1';
-                    p.innerText = element.enunt;
 
                     var small = document.createElement('small');
                     small.innerText = `Extensie acceptata: .${element.extensie}`;
 
                     var hr = document.createElement('hr');
 
-                    a.appendChild(p);
                     a.appendChild(small);
                     a.appendChild(hr);
 
@@ -65,6 +62,7 @@ $(document).ready(function () {
                     var btnUpload = document.createElement('button');
                     btnUpload.className = 'btn btn-primary';
                     btnUpload.style = 'margin: 5px 0';
+                    btnUpload.innerText = 'Incarca';
 
                     row3.appendChild(btnUpload);
 
@@ -78,6 +76,12 @@ $(document).ready(function () {
                     col2.innerHTML = `Nota: ${element.nota}`;
 
                     row.appendChild(col2);
+
+                    container.appendChild(row);
+
+                    a.appendChild(container);
+
+                    group.appendChild(a);
                 });
             }
         }
