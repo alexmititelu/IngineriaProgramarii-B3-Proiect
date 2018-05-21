@@ -134,6 +134,11 @@ $(document).ready(function () {
 
                                         var td = document.createElement('td');
                                         td.innerText = element;
+
+                                        tr.appendChild(th);
+                                        tr.appendChild(td);
+
+                                        table.appendChild(tr);
                                     });
                                 }
                             }
