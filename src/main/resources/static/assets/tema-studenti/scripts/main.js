@@ -64,7 +64,8 @@ $(document).ready(function () {
                         var input = document.createElement('input');
                         input.type = 'file';
                         input.className = 'exFile';
-                        input.name = exercitii;
+                        input.name = 'upload';
+                        input.setAttribute('name2', exercitii);
                         input.setAttribute('extensie', element.extensie);
 
                         row2.appendChild(input);
@@ -77,6 +78,7 @@ $(document).ready(function () {
                         btnUpload.style = 'margin: 5px 0';
                         btnUpload.innerText = 'Incarca';
                         btnUpload.setAttribute('exercitiu', exercitii);
+                        btnUpload.setAttribute('extensie', element.extensie);
 
                         row3.appendChild(btnUpload);
 
@@ -119,7 +121,7 @@ $(document).ready(function () {
                             url: `${window.location.href}/continut_fisier`,
                             data: {
                                 username: '-',
-                                nrExercitiu: parseInt(element.name)
+                                nrExercitiu: parseInt(element.attributes.name.value)
                             },
                             success: data => {
                                 if (data.length > 0) {
@@ -165,16 +167,22 @@ $(document).ready(function () {
 
                             var realExtension = extension[extension.length - 1];
 
-                            if (element.extensie !== realExtension) {
+                            if (element.attributes.extensie.value !== realExtension) {
                                 err.innerText = 'Ai incarcat un fisier cu o extensie gresita.';
                             } else {
+
+                                var form = $('#form');
+
+                                var data = new FormData(form);
+
+                                console.log(data, form);
                                 $.ajax({
                                     type: 'POST',
-                                    url: `${window.location.href}/upload`,
-                                    data: {
-                                        nrExercitiu: element.exercitiu,
-                                        file: file
-                                    },
+                                    url: `${window.location.href}/upload/${element.attributes.exercitiu.value}`,
+                                    data: file,
+                                    processData: false, //prevent jQuery from automatically transforming the data into a query string
+                                    contentType: false,
+                                    enctype: 'multipart/form-data',
                                     success: data => {
                                         if (data === 'valid') {
                                             element.classList.remove('btn-primary');
