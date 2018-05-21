@@ -34,40 +34,34 @@ public class UploadHomeworkController {
             if (PermissionManager.isLoggedUserStudent(loginToken)) {
 
                 Materie materie = Materie.getByTitlu(numeMaterie);
-
                 if (materie == null) {
-                    return "Materie invalida";
+                    return "Materie invalida!";
                 }
 
                 Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
-
                 if(tema == null) {
-                    return "Tema invalida";
+                    return "Tema invalida!";
                 }
 
                 TemaIncarcata temaIncarcata = TemaIncarcata.get(Cont.getByLoginToken(loginToken).getId(), tema.getId(), nrExercitiu);
-
-
                 if (temaIncarcata != null) {
-                    return "Solutie deja uploadata";
+                    return "Solutie deja uploadata!";
                 }
 
 
                 Date deadline = tema.getDeadline();
-
                 if (new Date().after(deadline)) {
-                    return "Deadline depasit";
+                    return "Deadline depasit!";
                 }
 
                 /* verificam extensia.. */
 
                 String fileName = FileNameGenerator.getNewFileName();
-
                 new FileSystemStorageService(new StorageProperties()).store(fileName, file);
 
-                Database.getInstance().updateOperation("INSERT into teme_incarcate (id_cont,id_tema,nr_exercitiu,nume_fisier_tema) "
-                                + "VALUES (select id from conturi where username = ?),(select id from teme where nume_tema=? and id_materie in (select id_materie from materii where titlu = ?)),?,?)"
-                        , Cont.getByLoginToken(loginToken).getUsername(), numeTema, numeMaterie, Integer.toString(nrExercitiu), fileName);
+                Database.getInstance().updateOperation("INSERT into teme_incarcate (id_cont, id_tema, nr_exercitiu, nume_fisier_tema) "
+                                + "VALUES (?, ?, ?, ?)"
+                        , Long.toString(Cont.getByLoginToken(loginToken).getId()), Long.toString(tema.getId()), Integer.toString(nrExercitiu), fileName);
 
                 return "valid";
             } else return ServerErrorMessages.UNAUTHORIZED_ACCESS_MESSAGE;
