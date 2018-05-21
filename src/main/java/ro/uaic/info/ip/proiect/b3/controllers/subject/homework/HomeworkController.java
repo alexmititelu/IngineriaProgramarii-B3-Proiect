@@ -22,7 +22,6 @@ import static ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages.INTE
 public class HomeworkController {
     private final static Logger logger = Logger.getLogger(HomeworkController.class);
 
-
     @RequestMapping(value = "/materii/{numeMaterie}/teme_json", method = RequestMethod.GET)
     public @ResponseBody
     List<Tema> getTeme(

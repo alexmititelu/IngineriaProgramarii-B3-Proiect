@@ -1,58 +1,73 @@
 package ro.uaic.info.ip.proiect.b3.controllers.subject.homework;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
-import ro.uaic.info.ip.proiect.b3.database.objects.contconectat.ContConectat;
 import ro.uaic.info.ip.proiect.b3.database.objects.didactic.Didactic;
 import ro.uaic.info.ip.proiect.b3.database.objects.didactic.exceptions.DidacticException;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
+import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
+import ro.uaic.info.ip.proiect.b3.database.objects.temaincarcata.TemaIncarcata;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
+import ro.uaic.info.ip.proiect.b3.storage.StorageProperties;
 
-import javax.validation.constraints.Null;
 import java.io.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @Controller
 public class ContinutFisierController {
-    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/continut_fisier", method = RequestMethod.POST)
-    public String[] getContinutFisier(
+    private final static Logger logger = Logger.getLogger(ContinutFisierController.class);
+
+    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/continut_fisier", method = RequestMethod.GET)
+    public ArrayList<String> getContinutFisier(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken,
-            @RequestParam("username") String usernameToGetHomeworkFor,
-            @RequestParam("nrExercitiu") int nrExercitiu,
             @PathVariable("numeMaterie") String numeMaterie,
-            @PathVariable("numeTema") String numeTema) throws SQLException, DidacticException {
-
-        String[] result = new String[1024];
-        int lineNo = 0;
-
+            @PathVariable("numeTema") String numeTema,
+            @RequestParam("nrExercitiu") int nrExercitiu,
+            @RequestParam("username") String username) {
         try {
-            File file = new File("Teme/Tema" + nrExercitiu + "-" + numeMaterie + "/" + numeTema + "/continut_fisier");//Introduceti aici pathul bun
-            Cont cont = Cont.getByLoginToken(loginToken);
+            Cont cont = null;
 
-            if (cont.getUsername().compareTo(usernameToGetHomeworkFor) != 0 && cont.getPermission() == 1) {
+            if (PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken) &&
+                    !username.equals("-")) {
+                cont = Cont.getByUsername(username);
+            } else if (PermissionManager.isLoggedUserStudent(loginToken)) {
+                cont = Cont.getByLoginToken(loginToken);
+            } else {
                 return null;
             }
 
-            if (cont.getPermission() == 2) {
-                if (Didactic.getByIdMaterieAndIdProfesor(Materie.getByTitlu(numeMaterie).getId(), cont.getId()) == null) {
-                    return null;
+            if (cont == null) {
+                return null;
+            }
+
+            ArrayList<String> liniiFisier = new ArrayList<>();
+
+            Materie materie = Materie.getByTitlu(numeMaterie);
+            Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
+            TemaIncarcata temaIncarcata = TemaIncarcata.get(cont.getId(), tema.getId(), nrExercitiu);
+
+            if (temaIncarcata != null) {
+                File fisierTema = new File(new StorageProperties().getLocation() + temaIncarcata.getNumeFisierTema());
+
+                try (BufferedReader br = new BufferedReader(new FileReader(fisierTema))) {
+                    String line;
+
+                    while ((line = br.readLine()) != null) {
+                        liniiFisier.add(line);
+                    }
                 }
             }
-            BufferedReader br = new BufferedReader(new FileReader(file));
 
-            String line;
-            while ((line = br.readLine()) != null) {
-                result[lineNo] = line;
-                lineNo++;
-            }
-        }
-            catch (NullPointerException e){
+            return liniiFisier;
+        } catch (FileNotFoundException e) {
+            return null;
+        } catch (SQLException | IOException e) {
+            logger.error(e.getMessage(), e);
             return null;
         }
-         catch (IOException e) {
-            return null;
-        }
-
-        return result;
     }
 }
