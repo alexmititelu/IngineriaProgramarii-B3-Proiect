@@ -1,0 +1,7 @@
+public class TestForFrontEnd {
+    private:
+        int val;
+        int el;
+    public:
+    int someMethod();
+}
