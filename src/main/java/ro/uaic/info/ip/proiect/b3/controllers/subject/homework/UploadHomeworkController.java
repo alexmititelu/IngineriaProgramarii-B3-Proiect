@@ -12,25 +12,23 @@ import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
 import ro.uaic.info.ip.proiect.b3.database.objects.temaincarcata.TemaIncarcata;
 import ro.uaic.info.ip.proiect.b3.generators.FileNameGenerator;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
-import ro.uaic.info.ip.proiect.b3.plagiarism.PlagiarismDetector;
 import ro.uaic.info.ip.proiect.b3.storage.StorageProperties;
 import ro.uaic.info.ip.proiect.b3.storage.filesystemstorage.FileSystemStorageService;
 
 import java.sql.SQLException;
 import java.util.Date;
 
-
 @Controller
 public class UploadHomeworkController {
     Logger logger = Logger.getLogger(UploadHomeworkController.class);
 
-    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/upload/{nrExercitiu}", method = RequestMethod.POST)
     public String uploadHomework(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken,
             @PathVariable("numeMaterie") String numeMaterie,
             @PathVariable("numeTema") String numeTema,
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("nrExercitiu") int nrExercitiu) {
+            @PathVariable("nrExercitiu") int nrExercitiu,
+            @RequestParam("file") MultipartFile file) {
 
 
         try {

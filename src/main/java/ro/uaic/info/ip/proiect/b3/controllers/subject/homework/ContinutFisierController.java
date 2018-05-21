@@ -1,12 +1,9 @@
 package ro.uaic.info.ip.proiect.b3.controllers.subject.homework;
 
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
-import ro.uaic.info.ip.proiect.b3.database.objects.didactic.Didactic;
-import ro.uaic.info.ip.proiect.b3.database.objects.didactic.exceptions.DidacticException;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
 import ro.uaic.info.ip.proiect.b3.database.objects.temaincarcata.TemaIncarcata;
