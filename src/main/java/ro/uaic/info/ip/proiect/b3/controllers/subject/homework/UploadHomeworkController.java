@@ -15,6 +15,7 @@ import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 import ro.uaic.info.ip.proiect.b3.plagiarism.PlagiarismDetector;
 import ro.uaic.info.ip.proiect.b3.storage.StorageProperties;
 import ro.uaic.info.ip.proiect.b3.storage.filesystemstorage.FileSystemStorageService;
+
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -35,9 +36,17 @@ public class UploadHomeworkController {
         try {
             if (PermissionManager.isLoggedUserStudent(loginToken)) {
 
-                long idMaterie = Materie.getByTitlu(numeMaterie).getId();
+                Materie materie = Materie.getByTitlu(numeMaterie);
 
-                Tema tema = Tema.getByMaterieIdAndNumeTema(idMaterie, numeTema);
+                if (materie == null) {
+                    return "Materie invalida";
+                }
+
+                Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
+
+                if(tema == null) {
+                    return "Tema invalida";
+                }
 
                 TemaIncarcata temaIncarcata = TemaIncarcata.get(Cont.getByLoginToken(loginToken).getId(), tema.getId(), nrExercitiu);
 
@@ -50,17 +59,14 @@ public class UploadHomeworkController {
                 Date deadline = tema.getDeadline();
 
                 if (new Date().after(deadline)) {
-                    return "Deadline depasit.";
+                    return "Deadline depasit";
                 }
 
-                /* verificam extensia */
-                /* cream nume unic pt fisier */
+                /* verificam extensia.. */
 
                 String fileName = FileNameGenerator.getNewFileName();
 
-
                 new FileSystemStorageService(new StorageProperties()).store(fileName, file);
-
 
                 Database.getInstance().updateOperation("INSERT into teme_incarcate (id_cont,id_tema,nr_exercitiu,nume_fisier_tema) "
                                 + "VALUES (select id from conturi where username = ?),(select id from teme where nume_tema=? and id_materie in (select id_materie from materii where titlu = ?)),?,?)"
@@ -69,7 +75,7 @@ public class UploadHomeworkController {
                 return "valid";
             } else return ServerErrorMessages.UNAUTHORIZED_ACCESS_MESSAGE;
         } catch (SQLException e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
             return ServerErrorMessages.INTERNAL_ERROR_MESSAGE;
         }
     }
