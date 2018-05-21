@@ -1,21 +1,44 @@
 package ro.uaic.info.ip.proiect.b3.controllers.login;
+
+import com.google.common.hash.Hashing;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
+import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
+import ro.uaic.info.ip.proiect.b3.database.objects.contconectat.exceptions.ContConectatException;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 import java.io.IOException;
 import java.io.PrintWriter;
+import static com.googlecode.catchexception.CatchException.catchException;
+import static com.googlecode.catchexception.CatchException.caughtException;
+import static java.lang.invoke.MethodHandles.catchException;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.*;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Constructor;
+import java.nio.charset.StandardCharsets;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Locale;
 
 public class LoginControllerTest {
 
-    private LoginController controller = new LoginController();
+    private LoginController controller;
+    private HttpServletResponse raspuns;
+    private PermissionManager perm;
+    private String hashedPassword;
 
-    @Test
-    public void login() throws Exception {
-        HttpServletResponse raspuns = new HttpServletResponse() {
+    @Rule
+    public ExpectedException none = ExpectedException.none();
+
+    @Before
+    public void setUp() {
+        controller = new LoginController();
+        raspuns = new HttpServletResponse() {
             @Override
             public void addCookie(Cookie cookie) {
 
@@ -201,8 +224,51 @@ public class LoginControllerTest {
                 return null;
             }
         };
+        perm = new PermissionManager();
+        hashedPassword = Hashing.sha256().hashString("proiectip123", StandardCharsets.UTF_8).toString();
+    }
+
+    @Test
+    public void login() throws Exception {
 
         assertNotEquals("valid", controller.login("jteeest", "adfsdf", raspuns));
-        assertEquals("valid",controller.login("teodorproca","test123456",raspuns));
+        assertNotEquals("Numele de utilizator sau parola sunt invalide!",
+                controller.login("vladpetcu", "proiectip123", raspuns));
+        assertNotEquals(null, controller.login("vladpetcu", "proiectip123", raspuns));
+
+        assertEquals("valid", controller.login("vladpetcu", "proiectip123", raspuns));
+        assertEquals("Numele de utilizator sau parola sunt invalide!", controller.login("vladpetcu", "0000000", raspuns));
+        assertEquals("Numele de utilizator sau parola sunt invalide!", controller.login("vladpetcu0", "proiectip123", raspuns));
+
+        assertTrue("success",perm.isLoginDataValid("vladpetcu",hashedPassword) == true);
+        assertFalse("fail",perm.isLoginDataValid(";",hashedPassword) == true);
+
+        //assertEquals("Numele de utilizator este invalid!",invalidCont = new ContConectat("'''"));
+
     }
+
+    @Test
+    public void testForCatch() throws SQLException{
+
+        Constructor<Cont> constructor= (Constructor<Cont>) Cont.class.getDeclaredConstructors()[0];
+        constructor.setAccessible(true);
+
+        LoginController invalidController = Mockito.mock(LoginController.class);
+        none.expect(Exception.class);
+
+        PermissionManager invalidPerm = Mockito.mock(PermissionManager.class);
+        Mockito.when(invalidPerm.isLoginDataValid(";",";"))
+                .thenReturn(true);
+
+        Cont blaCont = Mockito.mock(Cont.class);
+        Mockito.when(blaCont.getByUsername(";")).thenReturn(null);
+
+        invalidController.login(";",";",raspuns);
+
+        catchException(invalidController).login(";",";",raspuns);
+        assertThat(caughtException(),instanceOf(ContConectatException.class));
+
+
+    }
+
 }
