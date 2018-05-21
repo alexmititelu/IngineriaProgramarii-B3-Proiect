@@ -113,10 +113,8 @@ $(document).ready(function () {
                     element.onclick = () => {
                         var line = 0;
 
-                        for (let index = 1; index < table.childNodes.length; index++) {
-                            const element = table.childNodes[index];
-
-                            table.removeChild(element);
+                        while(table.firstChild) {
+                            table.removeChild(table.firstChild);
                         }
 
                         $.ajax({
@@ -128,7 +126,6 @@ $(document).ready(function () {
                             },
                             success: data => {
                                 if (data.length > 0) {
-
                                     data.forEach(element => {
                                         line++;
 
