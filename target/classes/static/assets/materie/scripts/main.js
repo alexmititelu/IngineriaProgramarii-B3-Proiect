@@ -22,7 +22,7 @@ $(document).ready(function () {
 
                 data.forEach(element => {
                     var a = document.createElement('a');
-                    a.href = `/materii/${element.numeTema}`;
+                    a.href = `${window.location.href}/${element.numeTema}`;
                     a.className = 'list-group-item list-group-item-action flex-column align-items-start';
 
                     var div = document.createElement('div');
