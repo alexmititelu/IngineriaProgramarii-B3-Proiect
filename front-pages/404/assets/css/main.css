@@ -1,0 +1,72 @@
+:root {
+  --main-color: #29324b;
+  --main-border: #1daaa0;
+  --light-border: #78ded7;
+
+  --second-color: #a6b2d6;
+  --menu-item: #8089a6;
+  --menu-item-active: #eee;
+  --button-menu: #384363;
+  --button-menu-hover: #495782;
+  --button-color: #e7ebf9;
+
+  --text-main-color: #5ddfcb;
+  --text-second-color: #8e9bac;
+  --text-header-color: #3a4563;
+  --text-main-light: #aaefeb;
+  --text-link: #5fcac3;
+
+  --header-section: #3b4563;
+
+  --background: #f5f9fc;
+
+  --footer-link: #b0c1d8;
+}
+* {
+  font-family: 'Lato', sans-serif;
+}
+body{
+  position: relative;
+  background-color: #0F0E0E;
+  overflow: hidden;
+}
+.button-primary{
+  background: var(--main-border);
+  border-radius: 30px;
+  box-shadow: 0 5px 13px 0 rgba(69,194,185,.44);
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  margin: 45px 15px 20px 0;
+  padding: 15px 40px;
+  border-width: 0px;
+  position: absolute;
+  top: 55%;
+  left: 70%;
+  font-size: 15px;
+}
+.button-primary:hover {
+  box-shadow: 0 7px 13px 0 rgba(69,194,185,.98);
+}
+#serverMsg{
+  font-size: 70px;
+  color: white;
+  font-family: 'Caveat Brush', cursive;
+}
+.position{
+  position: absolute;
+  left:48%;
+  top:25%;
+  margin:0;
+  width:50%;
+  text-align: center;
+}
+/* RESPONSIVE */
+
+@media screen and (max-width: 575px) {
+  #button{
+    left:35%;
+    top:86%;
+    padding: 10px 30px;
+  }
+}
