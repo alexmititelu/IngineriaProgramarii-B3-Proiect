@@ -42,14 +42,10 @@ public class ContinutFisierController {
             ArrayList<String> liniiFisier = new ArrayList<>();
 
             Materie materie = Materie.getByTitlu(numeMaterie);
-
-            if (materie == null)
-                return null;
+            if (materie == null) return null;
 
             Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
-
-            if (tema == null)
-                return null;
+            if (tema == null) return null;
 
             TemaIncarcata temaIncarcata = TemaIncarcata.get(cont.getId(), tema.getId(), nrExercitiu);
 

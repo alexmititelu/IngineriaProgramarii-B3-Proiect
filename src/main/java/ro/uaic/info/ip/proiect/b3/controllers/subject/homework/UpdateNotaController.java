@@ -9,6 +9,7 @@ import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
+
 import java.sql.SQLException;
 
 @Controller
@@ -16,7 +17,8 @@ public class UpdateNotaController {
     private final static Logger logger = Logger.getLogger(UpdateNotaController.class);
 
     @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/update_nota", method = RequestMethod.POST)
-    public @ResponseBody String updateNota(
+    public @ResponseBody
+    String updateNota(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken,
             @PathVariable("numeMaterie") String numeMaterie,
             @PathVariable("numeTema") String numeTema,
