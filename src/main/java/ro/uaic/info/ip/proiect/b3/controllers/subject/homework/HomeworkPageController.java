@@ -28,16 +28,25 @@ public class HomeworkPageController {
             Model model) {
         try {
             if (PermissionManager.isUserLoggedIn(loginToken)) {
-                if (PermissionManager.isLoggedUserProfesor(loginToken)) {
+                Materie materie = Materie.getByTitlu(numeMaterie);
+                if (materie == null) {
+                    model.addAttribute("errorMessage", "Materia cu acest nume nu exista!");
+                    return "error";
+                }
 
+                Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
+                if (tema == null) {
+                    model.addAttribute("errorMessage", "Tema cu acest nume din cadrul materiei nu exista!");
+                    return "error";
+                }
+
+                model.addAttribute("numeTema", tema.getNumeTema());
+                model.addAttribute("enuntTema", tema.getEnunt());
+                model.addAttribute("deadlineTema", tema.getDeadline());
+
+                if (PermissionManager.isLoggedUserProfesor(loginToken)) {
                     return "./profesor/tema";
                 } else {
-                    Materie materie = Materie.getByTitlu(numeMaterie);
-                    Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
-
-                    model.addAttribute("numeTema", tema.getNumeTema());
-                    model.addAttribute("enuntTema", tema.getEnunt());
-                    model.addAttribute("deadlineTema", tema.getDeadline());
                     return "./student/tema";
                 }
             } else {
