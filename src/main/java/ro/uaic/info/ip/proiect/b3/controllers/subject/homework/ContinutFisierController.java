@@ -29,13 +29,10 @@ public class ContinutFisierController {
         try {
             Cont cont = null;
 
-            if (PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken) &&
-                    !username.equals("-")) {
+            if (PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
                 cont = Cont.getByUsername(username);
             } else if (PermissionManager.isLoggedUserStudent(loginToken)) {
                 cont = Cont.getByLoginToken(loginToken);
-            } else {
-                return null;
             }
 
             if (cont == null) {
@@ -45,7 +42,15 @@ public class ContinutFisierController {
             ArrayList<String> liniiFisier = new ArrayList<>();
 
             Materie materie = Materie.getByTitlu(numeMaterie);
+
+            if (materie == null)
+                return null;
+
             Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
+
+            if (tema == null)
+                return null;
+
             TemaIncarcata temaIncarcata = TemaIncarcata.get(cont.getId(), tema.getId(), nrExercitiu);
 
             if (temaIncarcata != null) {
@@ -58,6 +63,8 @@ public class ContinutFisierController {
                         liniiFisier.add(line);
                     }
                 }
+            } else {
+                return null;
             }
 
             return liniiFisier;

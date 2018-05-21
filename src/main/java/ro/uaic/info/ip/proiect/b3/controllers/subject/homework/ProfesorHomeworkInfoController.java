@@ -3,7 +3,7 @@ package ro.uaic.info.ip.proiect.b3.controllers.subject.homework;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ro.uaic.info.ip.proiect.b3.clientinfo.ExercitiuInfoProfesor;
+import ro.uaic.info.ip.proiect.b3.clientinfo.InfoExercitiuProfesor;
 import ro.uaic.info.ip.proiect.b3.clientinfo.StudentNenotat;
 import ro.uaic.info.ip.proiect.b3.clientinfo.StudentNotat;
 import ro.uaic.info.ip.proiect.b3.clientinfo.TemaPlagiata;
@@ -24,7 +24,7 @@ public class ProfesorHomeworkInfoController {
 
     @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/profesor_info", method = RequestMethod.GET)
     public @ResponseBody
-    ArrayList<ExercitiuInfoProfesor> getProfesorInfo(
+    ArrayList<InfoExercitiuProfesor> getProfesorInfo(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken,
             @PathVariable("numeMaterie") String numeMaterie,
             @PathVariable("numeTema") String numeTema) {
@@ -111,7 +111,7 @@ public class ProfesorHomeworkInfoController {
                 temePlagiate.add(new TemaPlagiata(username1, nume1, prenume1, username2, nume2, prenume2, procent));
             }
 
-            ArrayList<ExercitiuInfoProfesor> finalList = new ArrayList<>();
+            ArrayList<InfoExercitiuProfesor> finalList = new ArrayList<>();
             ResultSet exercitii = Database.getInstance().selectQuery(connection, "SELECT  tema_exercitiu_extensie.nr_exercitiu," +
                     "      tema_exercitiu_extensie.enunt," +
                     "      tema_exercitiu_extensie.extensie_acceptata " +
@@ -128,7 +128,7 @@ public class ProfesorHomeworkInfoController {
                 nrExercitiu = exercitii.getInt(1);
                 enunt = exercitii.getString(2);
                 extensie = exercitii.getString(3);
-                finalList.add(new ExercitiuInfoProfesor(Integer.toString(nrExercitiu), enunt, extensie, studentiNenotati, studentiNotati, temePlagiate));
+                finalList.add(new InfoExercitiuProfesor(Integer.toString(nrExercitiu), enunt, extensie, studentiNenotati, studentiNotati, temePlagiate));
             }
 
             return finalList;

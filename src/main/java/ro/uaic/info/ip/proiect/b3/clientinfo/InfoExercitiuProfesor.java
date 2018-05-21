@@ -2,7 +2,7 @@ package ro.uaic.info.ip.proiect.b3.clientinfo;
 
 import java.util.ArrayList;
 
-public class ExercitiuInfoProfesor {
+public class InfoExercitiuProfesor {
     private String nume;
     private String enunt;
     private String extensie;
@@ -10,7 +10,7 @@ public class ExercitiuInfoProfesor {
     private ArrayList<StudentNotat> studentiNotati;
     private ArrayList<TemaPlagiata> temePlagiate;
 
-    public ExercitiuInfoProfesor(String nume, String enunt, String extensie, ArrayList<StudentNenotat> studentiNenotati, ArrayList<StudentNotat> studentiNotati, ArrayList<TemaPlagiata> temePlagiate) {
+    public InfoExercitiuProfesor(String nume, String enunt, String extensie, ArrayList<StudentNenotat> studentiNenotati, ArrayList<StudentNotat> studentiNotati, ArrayList<TemaPlagiata> temePlagiate) {
         this.nume = nume;
         this.enunt = enunt;
         this.extensie = extensie;

@@ -49,31 +49,6 @@ public class HomeworkController {
         }
     }
 
-    /**
-     * Acest controller este asociat actiunii unui profesor de a crea o tema in cadrul unei materii.
-     * <p>
-     * 1. Verificam daca cel ce face requestul este logat si, respectiv, daca este profesor.
-     * In caz afirmativ, se trece la pasul 2. Altfel, se returneaza "Trebuie sa fiti autentificat in cont mai intai."
-     * 2. Se face verificarea datelor introduse, si anume:
-     * - numeMaterie -> caractere alfa numerice si acest nume de materii sa existe deja in baza de date
-     * - numeTema -> caractere alfa numerice si acest nume de tema as nu fie in baza de date
-     * - deadline -> format de zi valid
-     * - nrExercitii -> nr natural
-     * - extensieFisierAcceptat -> ce tip de extensie este acceptat pentru fisierele uploadate
-     * In caz pozitiv se trece la pasul 3, altfel, este aruncata o exceptie si prinsa ulterior, fiind returnat mesajul exceptiei.
-     * 3. Se verifica daca materia cu numele respectiv exista deja in baza de date, in caz afirmativ, se arunca o exceptie, iar in cazul in care
-     * materia nu exista in baza de date aceasta va fi inserata.
-     * 4. Daca totul a decurs cu succes se returneaza "valid", altfel, se returneaza mesajul de eroare prins anterior.
-     *
-     * @param numeMaterie
-     * @param numeTema
-     * @param deadline
-     * @param enunt
-     * @param nrExercitii
-     * @param extensiiFisiere
-     * @param response
-     * @return
-     */
     @RequestMapping(value = "/materii/{numeMaterie}/createTema", method = RequestMethod.POST)
     public @ResponseBody
     String creeazaTema(@PathVariable("numeMaterie") String numeMaterie,
