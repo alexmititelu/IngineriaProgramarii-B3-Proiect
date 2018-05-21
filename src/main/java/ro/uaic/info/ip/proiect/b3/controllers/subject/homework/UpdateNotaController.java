@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
-
 import java.sql.SQLException;
 
 
@@ -26,8 +25,7 @@ public class UpdateNotaController {
 
         try {
             if (PermissionManager.isLoggedUserProfesor(loginToken) &&
-                    PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken) &&
-                    PermissionManager.isRegisterTokenValid(loginToken)) {
+                    PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
 
                 Database.getInstance().updateOperation("update teme_incarcate set nota = ? where id_cont = " +
                                 "(select id from conturi where username = ?) and nr_exercitiu = ? and id_tema = " +
