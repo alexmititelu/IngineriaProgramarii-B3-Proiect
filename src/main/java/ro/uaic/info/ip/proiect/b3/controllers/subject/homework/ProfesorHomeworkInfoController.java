@@ -8,7 +8,10 @@ import ro.uaic.info.ip.proiect.b3.clientinfo.StudentNenotat;
 import ro.uaic.info.ip.proiect.b3.clientinfo.StudentNotat;
 import ro.uaic.info.ip.proiect.b3.clientinfo.TemaPlagiata;
 import ro.uaic.info.ip.proiect.b3.database.Database;
+import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
+import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,63 +19,68 @@ import java.util.ArrayList;
 import java.util.Date;
 
 @Controller
-public class HomeworkProfesorInfoController {
-    Logger logger = Logger.getLogger(HomeworkProfesorInfoController.class);
+public class ProfesorHomeworkInfoController {
+    private Logger logger = Logger.getLogger(ProfesorHomeworkInfoController.class);
 
     @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/profesor_info", method = RequestMethod.GET)
-    public @ResponseBody ArrayList<ExercitiuInfoProfesor> getProfesorInfo(
+    public @ResponseBody
+    ArrayList<ExercitiuInfoProfesor> getProfesorInfo(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken,
             @PathVariable("numeMaterie") String numeMaterie,
             @PathVariable("numeTema") String numeTema) {
 
         try {
-            if (!PermissionManager.isUserLoggedIn(loginToken)) {
-                return null;
-            }
-            //daca nu este profesor returnam null
-            if (!PermissionManager.isLoggedUserProfesor(loginToken)) {
-                return null;
-            }
-            //daca nu are drept de editare returnam null
-            if (!PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
+            if (!PermissionManager.isUserLoggedIn(loginToken) ||
+                    !PermissionManager.isLoggedUserProfesor(loginToken) ||
+                    !PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
                 return null;
             }
 
-            //aici toate cerintele sunt verificate, incepem sa construim obiectele de returnat
+            Materie materie = Materie.getByTitlu(numeMaterie);
+            Tema tema = null;
+
+            if (materie != null) {
+                tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
+            }
+
+            if (tema == null) {
+                return null;
+            }
+
+            // aici toate cerintele sunt verificate, incepem sa construim obiectele de returnat
             // nume, enunt, extensie, studenti nenotati[], studenti notati[], temePlagiate[]
 
             ArrayList<StudentNotat> studentiNotati = new ArrayList<>();
             ArrayList<StudentNenotat> studentiNenotati = new ArrayList<>();
+
             Connection connection = Database.getInstance().getConnection();
             ResultSet studenti = Database.getInstance().selectQuery(connection, "SELECT conturi.username, " +
                     "        studenti.nume, " +
                     "        studenti.prenume, " +
                     "        teme_incarcate.data_incarcarii, " +
                     "        teme_incarcate.nota " +
-                    "FROM studenti JOIN conturi ON studenti.email=conturi.email " +
-                                  "JOIN teme_incarcate ON conturi.id=teme_incarcate.id_cont " +
-                                  "JOIN teme ON teme_incarcate.id_tema=teme.id " +
-                    "WHERE teme.nume_tema=?", numeTema);
+                    "FROM studenti JOIN conturi ON studenti.email = conturi.email " +
+                    "JOIN teme_incarcate ON conturi.id = teme_incarcate.id_cont " +
+                    "JOIN teme ON teme_incarcate.id_tema = teme.id " +
+                    "WHERE teme.id = ?", Long.toString(tema.getId()));
 
-            String username;
-            String nume;
-            String prenume;
+            String username, nume, prenume;
             Date data_creare;
-            Object nota;
+            int nota;
 
             while (studenti.next()) {
                 username = studenti.getString(1);
                 nume = studenti.getString(2);
                 prenume = studenti.getString(3);
                 data_creare = studenti.getDate(4);
-                nota = studenti.getObject(5);
-                if (nota == null) {
+                nota = studenti.getInt(5);
+
+                if (nota == 0) {
                     studentiNenotati.add(new StudentNenotat(username, nume, prenume, data_creare));
                 } else {
-                    studentiNotati.add(new StudentNotat(username, nume, prenume, data_creare, (Integer) nota));
+                    studentiNotati.add(new StudentNotat(username, nume, prenume, data_creare, nota));
                 }
             }
-
 
             ArrayList<TemaPlagiata> temePlagiate = new ArrayList<>();
             ResultSet teme = Database.getInstance().selectQuery(connection, "SELECT s1.nume," +
@@ -87,13 +95,9 @@ public class HomeworkProfesorInfoController {
                     "            JOIN conturi c2 on c2.username=plagiat.username2" +
                     "            JOIN studenti s1 ON s1.email=c1.email AND c1.username=plagiat.username1" +
                     "            JOIN studenti s2 ON s2.email=c2.email AND c2.username=plagiat.username2 " +
-                    "WHERE teme.nume_tema=?", numeTema);
-            String username1;
-            String nume1;
-            String prenume1;
-            String username2;
-            String nume2;
-            String prenume2;
+                    "WHERE teme.id = ?", Long.toString(tema.getId()));
+
+            String username1, nume1, prenume1, username2, nume2, prenume2;
             Integer procent;
 
             while (teme.next()) {
