@@ -23,7 +23,8 @@ public class UploadHomeworkController {
     Logger logger = Logger.getLogger(UploadHomeworkController.class);
 
     @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/upload/{nrExercitiu}", method = RequestMethod.POST)
-    public @ResponseBody String uploadHomework(
+    public @ResponseBody
+    String uploadHomework(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken,
             @PathVariable("numeMaterie") String numeMaterie,
             @PathVariable("numeTema") String numeTema,
@@ -39,7 +40,7 @@ public class UploadHomeworkController {
                 }
 
                 Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
-                if(tema == null) {
+                if (tema == null) {
                     return "Tema invalida!";
                 }
 
