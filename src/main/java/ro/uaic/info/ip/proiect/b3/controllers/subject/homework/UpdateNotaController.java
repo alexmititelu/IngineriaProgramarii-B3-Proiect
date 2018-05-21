@@ -1,20 +1,19 @@
-/*package ro.uaic.info.ip.proiect.b3.controllers.subject.homework;
+package ro.uaic.info.ip.proiect.b3.controllers.subject.homework;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 
 @Controller
 public class UpdateNotaController {
 
-    private final static Logger logger = Logger.getLogger(HomeworkController.class);
+    private final static Logger logger = Logger.getLogger(UpdateNotaController.class);
 
     @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/update_nota", method = RequestMethod.POST)
     public String updateNota(
@@ -24,24 +23,25 @@ public class UpdateNotaController {
             @RequestParam("username") String usernameToGrade,
             @RequestParam("nrExercitiu") String nrExercitiu,
             @RequestParam("nota") String nota) {
-        Connection connection = null;
+
         try {
             if (PermissionManager.isLoggedUserProfesor(loginToken) &&
                     PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken) &&
                     PermissionManager.isRegisterTokenValid(loginToken)) {
 
                 Database.getInstance().updateOperation("update teme_incarcate set nota = ? where id_cont = " +
-                                "(select id from conturi where username=?) and numar exercitiu= ? and id_tema=" +
-                                "select id where nume_tema =?"
-                        , nota, usernameToGrade, nrExercitiu,nume_tema);
-
+                                "(select id from conturi where username = ?) and nr_exercitiu = ? and id_tema = " +
+                                "(select id where nume_tema = ?)"
+                        , nota, usernameToGrade, nrExercitiu, nume_tema);
 
                 return "Valid";
+            } else {
+                return ServerErrorMessages.UNAUTHORIZED_ACCESS_MESSAGE;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
+            return ServerErrorMessages.INTERNAL_ERROR_MESSAGE;
         }
-        return "Invalid";
     }
 }
-*/
+
