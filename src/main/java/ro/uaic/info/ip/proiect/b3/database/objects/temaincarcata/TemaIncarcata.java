@@ -52,6 +52,70 @@ public class TemaIncarcata {
         return temaIncarcata;
     }
 
+    public static TemaIncarcata get(long idCont, long idTema, int nrExercitiu) throws SQLException {
+        TemaIncarcata temaIncarcata;
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT id, id_cont, id_tema, data_incarcarii, nr_exercitiu, nume_fisier_tema, nota FROM teme_incarcate " +
+                        "WHERE id_cont = ? AND id_tema = ? AND nr_exercitiu = ?"
+        );
+
+        preparedStatement.setLong(1, idCont);
+        preparedStatement.setLong(2,idTema);
+        preparedStatement.setInt(3,nrExercitiu);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            temaIncarcata = new TemaIncarcata(
+                    resultSet.getLong(1),
+                    resultSet.getLong(2),
+                    resultSet.getLong(3),
+                    resultSet.getDate(4),
+                    resultSet.getInt(5),
+                    resultSet.getString(6),
+                    resultSet.getInt(7)
+            );
+        } else {
+            temaIncarcata = null;
+        }
+
+        connection.close();
+        return temaIncarcata;
+    }
+
+
+    public static TemaIncarcata getByNumeFisier(String numeFisier) throws SQLException {
+        TemaIncarcata temaIncarcata;
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT id, id_cont, id_tema, data_incarcarii, nr_exercitiu, nume_fisier_tema, nota FROM teme_incarcate WHERE nume_fisier_tema = ?"
+        );
+
+        preparedStatement.setString(1, numeFisier);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (resultSet.next()) {
+            temaIncarcata = new TemaIncarcata(
+                    resultSet.getLong(1),
+                    resultSet.getLong(2),
+                    resultSet.getLong(3),
+                    resultSet.getDate(4),
+                    resultSet.getInt(5),
+                    resultSet.getString(6),
+                    resultSet.getInt(7)
+            );
+        } else {
+            temaIncarcata = null;
+        }
+
+        connection.close();
+        return temaIncarcata;
+    }
+
+
     public long getId() {
         return id;
     }

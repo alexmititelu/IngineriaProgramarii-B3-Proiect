@@ -31,14 +31,9 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public void store(String username, MultipartFile file) {
-        String filename = StringUtils.cleanPath(file.getOriginalFilename());
+    public void store(String fileNameToSave, MultipartFile file) {
 
-        try {
-            Files.createDirectories(rootLocation.resolve(username));
-        } catch (IOException e) {
-            throw new StorageException("Could not create user storage directory", e);
-        }
+        String filename = StringUtils.cleanPath(file.getOriginalFilename());
 
         try {
             if (file.isEmpty()) {
@@ -50,7 +45,7 @@ public class FileSystemStorageService implements StorageService {
             }
 
             try (InputStream inputStream = file.getInputStream()) {
-                Files.copy(inputStream, this.rootLocation.resolve(username + "/" + filename), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(inputStream, this.rootLocation.resolve(fileNameToSave), StandardCopyOption.REPLACE_EXISTING);
             }
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
