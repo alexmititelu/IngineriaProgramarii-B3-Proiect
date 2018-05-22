@@ -1,5 +1,16 @@
 package ro.uaic.info.ip.proiect.b3.clientinfo;
 
+import ro.uaic.info.ip.proiect.b3.database.Database;
+import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
+import ro.uaic.info.ip.proiect.b3.database.objects.student.Student;
+import ro.uaic.info.ip.proiect.b3.database.objects.temaexercitiuextensie.TemaExercitiuExtensie;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 public class TemaPlagiata {
     private String username1;
     private String nume1;
@@ -17,6 +28,39 @@ public class TemaPlagiata {
         this.nume2 = nume2;
         this.prenume2 = prenume2;
         this.procentPlagiarism = procentPlagiarism;
+    }
+
+    public static ArrayList<TemaPlagiata> getAllForExercise(TemaExercitiuExtensie exercitiu) throws SQLException {
+        ArrayList<TemaPlagiata> temePlagiate = new ArrayList<>();
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT username1, username2, procent_plagiat FROM plagiat WHERE id_tema = ? AND nr_exercitiu = ?");
+        preparedStatement.setLong(1, exercitiu.getIdTema());
+        preparedStatement.setInt(2, exercitiu.getNrExercitiu());
+
+        ResultSet rs = preparedStatement.executeQuery();
+
+        while(rs.next()) {
+            Cont cont1 = Cont.getByUsername(rs.getString(1));
+            Student student1 = Student.getByEmail(cont1.getEmail());
+
+            Cont cont2 = Cont.getByUsername(rs.getString(2));
+            Student student2 = Student.getByEmail(cont2.getEmail());
+
+            temePlagiate.add(new TemaPlagiata(
+               cont1.getUsername(),
+               student1.getNume(),
+               student2.getPrenume(),
+               cont2.getUsername(),
+               student2.getNume(),
+               student2.getPrenume(),
+               rs.getInt(3)
+            ));
+        }
+
+        connection.close();
+        return temePlagiate;
     }
 
     public String getUsername1() {

@@ -62,7 +62,7 @@ public class TemaExercitiuExtensie {
 
         PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT id, id_tema, nr_exercitiu, extensie_acceptata, enunt FROM tema_exercitiu_extensie " +
-                        "WHERE id_tema = ?"
+                        "WHERE id_tema = ? ORDER BY nr_exercitiu ASC"
         );
 
         preparedStatement.setLong(1, idTema);
