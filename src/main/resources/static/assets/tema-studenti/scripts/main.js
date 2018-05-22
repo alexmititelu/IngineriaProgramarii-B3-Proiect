@@ -105,6 +105,7 @@ $(document).ready(function () {
                 });
 
                 var solutie = document.getElementsByClassName('solutie');
+                console.log(solutie);
                 var table = document.getElementById('tableModel');
 
                 for (let index = 0; index < solutie.length; index++) {
