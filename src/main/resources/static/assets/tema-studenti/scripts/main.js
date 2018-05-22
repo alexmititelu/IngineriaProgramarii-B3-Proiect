@@ -210,4 +210,17 @@ $(document).ready(function () {
             }
         }
     });
+
+    var btn=document.getElementById("logOutBtn");
+    btn.onclick=()=>{
+        $.ajax({
+            type:"GET",
+            url: "/sign-out",
+            success: data => {
+                if(data==="valid"){
+                    window.location.href="/";
+                }
+            }
+        })
+    };
 });
