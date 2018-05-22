@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title> Register </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"
+    />
+
+    <link rel="stylesheet" href="/assets/tema-profesori/css/main.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="nav">
+            <a class="logo" href="#" style="display: inline-block; text-decoration: none">
+                <img src="/assets/tema-profesori/images/logo.svg" width="27px;" alt="home" style="display: inline-block;">&nbsp;&nbsp;&nbsp;GestiON
+            </a>
+            <div class="responsive-menu">
+                <a class="nav-link responsive" href="/">Dashboard</a>
+                <a class="nav-link responsive" href="/materii">Materii</a>
+            </div>
+            <img class="menu" src="/assets/tema-profesori/images/menu.svg" alt="menu">
+        </nav>
+    </div>
+
+    <div class="container dashboard-container">
+        <div class="list-group" id="group">
+            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 id="numeMaterie" class="mb-1">[[${numeTema}]]</h5>
+                </div>
+                <p class="mb-1">[[${enuntTema}]]</p>
+                <p class="mb-1">Deadline: [[${deadlineTema}]]</p>
+            </a>
+        </div>
+
+        <p id="err" style="color: red">&nbsp;</p>
+    </div>
+
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-12 col-sm-5  students-container">
+                    <h3>Teme încărcate</h3>
+                    <input type="text" placeholder="Cautati dupa nume" class="search search--grade">
+                    <ul class="grade-nav nav nav-pills">
+                        <li class="active"><a href="#tab1" data-toggle="pill">Notati</a></li>
+                        <li><a href="#tab2" data-toggle="pill">Nenotati</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab1" class="tab-pane fade in active">
+                            <ul id="graded" class="student-list">
+                            </ul>
+                        </div>
+                        <div id="tab2" class="tab-pane fade">
+                            <ul id="ungraded" class="student-list">
+                            </ul>
+                        </div>
+                    </div>
+                   
+                </div>
+                <div class="col-12 col-sm-5 plagiarism-container">
+                        <h3>Plagiat</h3>
+                    <input type="text" placeholder="Cautati dupa nume" class="search search--plag">
+                    <table id="plag-table" class="table">
+                            <tr>
+                                <th>Student1</th>
+                                <th>Student2</th>
+                                <th>Procentaj</th>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 900px;" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="titleForm">Solutie</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table" id="tableModel">
+                        <tr>
+                            <th style="width: 50px">#</th>
+                            <th>Continut</th>
+                        </tr>
+                    </table>
+                    <input type="number" placeholder="Nota">
+                    <button class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container-fluid footer">
+        <div class="overlay-echipa"></div>
+        <div class="container container-footer">
+
+            <div class="footer-content row text-center">
+                <div class="col-sm-4">
+                    <h1>Proiect</h1>
+                    <a href="">
+                        Acasa
+                    </a>
+                    <a href="">
+                        Despre
+                    </a>
+                    <a href="">
+                        Echipa
+                    </a>
+                    <a href="">
+                        Contact
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <h1>Mai mult</h1>
+                    <a href="">
+                        Logare
+                    </a>
+                    <a href="">
+                        Inregistrare
+                    </a>
+                    <a href="">
+                        Regulament
+                    </a>
+                </div>
+                <div class="col-sm-4">
+                    <h1>Comunitate</h1>
+                    <a href="">
+                        Facebook
+                    </a>
+                    <a href="">
+                        Twitter
+                    </a>
+                    <a href="">
+                        GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="/assets/tema-profesori/scripts/main.js"></script>
+
+
+</body>
+
+</html>

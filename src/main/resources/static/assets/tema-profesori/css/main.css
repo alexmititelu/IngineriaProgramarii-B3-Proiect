@@ -571,3 +571,54 @@ nav {
         margin-bottom: 0px;
     }
 }
+
+/* Styles for tema-profesori */
+.students-container,
+.plagiarism-container {
+    padding:15px;
+
+    background-color: var(--background);
+    border: 1px solid var(--main-border);
+    border-radius: 5px;
+
+    font-size: 1.2em;
+}
+
+.search {
+    padding: 5px;
+    margin-bottom: 10px;
+
+    width: 100%;
+
+    color: var(--main-color);
+}
+
+.search::placeholder {
+    color: var(--second-color);
+}
+
+.grade-nav {
+    padding: 10px 15px;
+    background-color: transparent;
+}
+
+.grade-nav li {
+    margin-right: 20px;
+}
+
+.grade-nav a {
+    font-size: 1.1em;
+}
+
+.grade-nav a:hover {
+    color: var(--main-color);
+}
+
+.student-list{
+    margin-top: 10px;
+
+    list-style: none;
+
+    max-height: 450px;
+    overflow-y: auto;
+}
