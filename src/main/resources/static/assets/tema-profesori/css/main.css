@@ -573,23 +573,20 @@ nav {
 }
 
 /* Styles for tema-profesori */
+
 .students-container,
 .plagiarism-container {
-    padding:15px;
-
+    padding: 15px;
     background-color: var(--background);
     border: 1px solid var(--main-border);
     border-radius: 5px;
-
-    font-size: 1.2em;
+    font-size: 1em;
 }
 
 .search {
     padding: 5px;
     margin-bottom: 10px;
-
     width: 100%;
-
     color: var(--main-color);
 }
 
@@ -597,28 +594,43 @@ nav {
     color: var(--second-color);
 }
 
-.grade-nav {
-    padding: 10px 15px;
+.grade-nav.nav {
+    /* padding: 10px 15px; */
+    padding: 0;
     background-color: transparent;
 }
 
-.grade-nav li {
-    margin-right: 20px;
+a.active.show {
+    padding: 5px 10px;
+    background: #1daaa0;
+    color: white;
 }
 
-.grade-nav a {
-    font-size: 1.1em;
+li.active a.active.show {
+    background: #1daaa0;
+    color: white;
 }
 
-.grade-nav a:hover {
-    color: var(--main-color);
-}
-
-.student-list{
+.student-list {
     margin-top: 10px;
-
     list-style: none;
-
     max-height: 450px;
     overflow-y: auto;
+}
+
+#graded {
+    padding: 0;
+}
+
+.list-item {
+    padding: 5px 20px;
+    border-top: 1px solid rgba(208, 207, 222, .28);
+    cursor: pointer;
+}
+.list-item:hover {
+    background: #f9f9f9;
+}
+#collapseOne {
+    max-height: 600px;
+    overflow-y: scroll;
 }

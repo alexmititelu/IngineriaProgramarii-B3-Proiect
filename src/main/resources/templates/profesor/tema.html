@@ -46,20 +46,30 @@
         </div>
 
         <p id="err" style="color: red">&nbsp;</p>
-    </div>
 
-    <div class="container-fluid">
         <div class="container">
             <div class="row justify-content-between">
-                <div class="col-12 col-sm-5  students-container">
-                    <h3>Teme încărcate</h3>
-                    <input type="text" placeholder="Cautati dupa nume" class="search search--grade">
-                    <ul class="grade-nav nav nav-pills">
-                        <li class="active"><a href="#tab1" data-toggle="pill">Notati</a></li>
-                        <li><a href="#tab2" data-toggle="pill">Nenotati</a></li>
+                <div class="col-md-6 students-container" style="margin-top: 5px;">
+                    <h4>Teme încărcate</h4>
+                    <!-- <input type="text" placeholder="Cautati dupa nume" class="search search--grade"> -->
+                    <!-- <ul class="grade-nav nav nav-pills">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6 text-left" style="padding: 0">
+                                    <li class="active">
+                                        <a href="#tab1" data-toggle="pill">Notati</a>
+                                    </li>
+                                </div>
+                                <div class="col-6 text-right" style="padding: 0">
+                                    <li>
+                                        <a href="#tab2" data-toggle="pill">Nenotati</a>
+                                    </li>
+                                </div>
+                            </div>
+                        </div>
                     </ul>
                     <div class="tab-content">
-                        <div id="tab1" class="tab-pane fade in active">
+                        <div id="tab1" class="tab-pane fade in">
                             <ul id="graded" class="student-list">
                             </ul>
                         </div>
@@ -67,18 +77,46 @@
                             <ul id="ungraded" class="student-list">
                             </ul>
                         </div>
+                    </div> -->
+
+
+                    <div id="accordion">
+                        <div class="card">
+                            <div class="list-group-item d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#collapseOne"
+                                aria-expanded="true" aria-controls="collapseOne" id="headingOne" style="cursor: pointer; border: none;">
+                                Studenti notati
+                                <span id="notati-pill" class="badge badge-primary badge-pill"></span>
+                            </div>
+
+                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="col-12">
+                                    <input id="srch1" type="text" placeholder="Cautati dupa nume" class="search search--grade" style="margin-top: 5px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="list-group-item d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#collapseThree"
+                                aria-expanded="true" aria-controls="collapseThree" id="headingOne" style="cursor: pointer; border: none;">
+                                Studenti nenotati
+                                <span id="nenotati-pill" class="badge badge-primary badge-pill"></span>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                <div class="col-12">
+                                    <input id="srch2" type="text" placeholder="Cautati dupa nume" class="search search--grade" style="margin-top: 5px;">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                   
                 </div>
-                <div class="col-12 col-sm-5 plagiarism-container">
-                        <h3>Plagiat</h3>
+                <div class="col-md-5 plagiarism-container" style="margin-top: 5px;">
+                    <h3>Plagiat</h3>
                     <input type="text" placeholder="Cautati dupa nume" class="search search--plag">
                     <table id="plag-table" class="table">
-                            <tr>
-                                <th>Student1</th>
-                                <th>Student2</th>
-                                <th>Procentaj</th>
-                            </tr>
+                        <tr>
+                            <th>Student1</th>
+                            <th>Student2</th>
+                            <th>Procentaj</th>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -102,8 +140,9 @@
                             <th>Continut</th>
                         </tr>
                     </table>
-                    <input type="number" placeholder="Nota">
-                    <button class="btn btn-success">Submit</button>
+                    <input id="notaValue" type="text" placeholder="Nota">
+                    <button id="notaUpdate" class="btn btn-primary">Submit</button>
+                    <p id="errNota" style="color: red;"></p>
                 </div>
             </div>
         </div>
