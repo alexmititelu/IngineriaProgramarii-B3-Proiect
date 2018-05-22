@@ -45,7 +45,7 @@ public class Tema {
 
         PreparedStatement preparedStatement = connection.prepareStatement(
                 "SELECT id, id_materie, deadline, enunt, nr_exercitii, nume_tema, verificata_plagiat FROM teme " +
-                        "WHERE CURRENT_TIMESTAMP < deadline AND verificata_plagiat = 0"
+                        "WHERE CURRENT_TIMESTAMP > deadline AND verificata_plagiat = 0"
         );
 
         ResultSet temeToBeUpdatedForPlagiat = preparedStatement.executeQuery();
