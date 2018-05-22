@@ -49,8 +49,8 @@ public class Cont {
         if (resultSet.next()) {
             cont = new Cont(
                     resultSet.getLong(1),
-                    resultSet.getString(2),
                     resultSet.getString(3),
+                    resultSet.getString(2),
                     resultSet.getString(4),
                     resultSet.getInt(5));
         } else {
