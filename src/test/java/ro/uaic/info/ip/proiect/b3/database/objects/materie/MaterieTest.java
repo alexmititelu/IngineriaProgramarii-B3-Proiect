@@ -1,4 +1,4 @@
-package ro.uaic.info.ip.proiect.b3.database.objects;
+package ro.uaic.info.ip.proiect.b3.database.objects.materie;
 
 import org.junit.Test;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
