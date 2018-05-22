@@ -3,15 +3,10 @@ package ro.uaic.info.ip.proiect.b3.email;
 import ro.uaic.info.ip.proiect.b3.configurations.EmailConfiguration;
 import ro.uaic.info.ip.proiect.b3.configurations.HostConfiguration;
 
-import java.util.Properties;
-
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 public class EmailService {
     public static void sendRegistrationMail(String toEmail, String registerToken) {
@@ -38,7 +33,7 @@ public class EmailService {
                     InternetAddress.parse(toEmail));
             message.setSubject("UAIC E-Learning Registration Link");
             message.setText("Hello Student,"
-                    + "\n\n You can create your account here: " + hostConfiguration.getName() + "register/" +  registerToken);
+                    + "\n\n You can create your account here: " + hostConfiguration.getName() + "register/" + registerToken);
 
             Transport.send(message);
         } catch (MessagingException e) {

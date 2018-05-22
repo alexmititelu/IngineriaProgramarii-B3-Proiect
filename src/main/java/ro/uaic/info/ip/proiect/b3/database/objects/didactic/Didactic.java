@@ -14,46 +14,11 @@ public class Didactic {
     private long idMaterie;
     private long idProfesor;
 
-    private void validateIdMaterie(long idMaterie) throws SQLException, DidacticException {
-        Materie materie = Materie.getById(idMaterie);
-
-        if (materie == null) {
-            throw new DidacticException("Materia la care se incearca asignarea profesorului nu exista!");
-        }
-    }
-
-    private void validateIdProfesor(long idProfesor) throws SQLException, DidacticException {
-        Profesor profesor = Profesor.getById(idProfesor);
-
-        if (profesor == null) {
-            throw new DidacticException("Profesorul nu exista!");
-        }
-    }
-
-    private void validateData(long idMaterie, long idProfesor) throws SQLException, DidacticException {
-        validateIdMaterie(idMaterie);
-        validateIdProfesor(idProfesor);
-    }
-
     public Didactic(long idMaterie, long idProfesor) throws SQLException, DidacticException {
         validateData(idMaterie, idProfesor);
 
         this.idMaterie = idMaterie;
         this.idProfesor = idProfesor;
-    }
-
-    public void insert() throws SQLException {
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO didactic (id_materie, id_profesor) VALUES (?, ?)");
-
-        preparedStatement.setLong(1, idMaterie);
-        preparedStatement.setLong(2, idProfesor);
-
-        preparedStatement.executeUpdate();
-
-        connection.close();
     }
 
     public static Didactic getByIdMaterieAndIdProfesor(long idMaterie, long idProfesor) throws SQLException, DidacticException {
@@ -78,6 +43,41 @@ public class Didactic {
 
         connection.close();
         return didactic;
+    }
+
+    private void validateIdMaterie(long idMaterie) throws SQLException, DidacticException {
+        Materie materie = Materie.getById(idMaterie);
+
+        if (materie == null) {
+            throw new DidacticException("Materia la care se incearca asignarea profesorului nu exista!");
+        }
+    }
+
+    private void validateIdProfesor(long idProfesor) throws SQLException, DidacticException {
+        Profesor profesor = Profesor.getById(idProfesor);
+
+        if (profesor == null) {
+            throw new DidacticException("Profesorul nu exista!");
+        }
+    }
+
+    private void validateData(long idMaterie, long idProfesor) throws SQLException, DidacticException {
+        validateIdMaterie(idMaterie);
+        validateIdProfesor(idProfesor);
+    }
+
+    public void insert() throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO didactic (id_materie, id_profesor) VALUES (?, ?)");
+
+        preparedStatement.setLong(1, idMaterie);
+        preparedStatement.setLong(2, idProfesor);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
     }
 
     public long getIdMaterie() {

@@ -43,7 +43,7 @@ public class InfoExercitiuStudent {
             preparedStatement.setLong(1, tema.getId());
 
             ResultSet exercitii = preparedStatement.executeQuery();
-            while(exercitii.next()) {
+            while (exercitii.next()) {
                 infoExercitiiStudent.add(new InfoExercitiuStudent(
                         exercitii.getString(1),
                         exercitii.getString(2),
@@ -59,11 +59,11 @@ public class InfoExercitiuStudent {
             preparedStatement.setLong(2, tema.getId());
 
             ResultSet infoStudent = preparedStatement.executeQuery();
-            while(infoStudent.next()) {
+            while (infoStudent.next()) {
                 infoExercitiiStudent.get(infoStudent.getInt(1) - 1).setUploaded(true);
 
                 if (infoStudent.getInt(2) != 0) {
-                    infoExercitiiStudent.get(infoStudent.getInt(1) -1).setNota(
+                    infoExercitiiStudent.get(infoStudent.getInt(1) - 1).setNota(
                             Integer.toString(infoStudent.getInt(2)));
                 }
             }

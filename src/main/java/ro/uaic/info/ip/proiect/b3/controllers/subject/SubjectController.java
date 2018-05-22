@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 import ro.uaic.info.ip.proiect.b3.configurations.Permissions;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.didactic.Didactic;
@@ -12,6 +11,7 @@ import ro.uaic.info.ip.proiect.b3.database.objects.didactic.exceptions.DidacticE
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.exceptions.MaterieException;
 import ro.uaic.info.ip.proiect.b3.database.objects.profesor.Profesor;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 
 import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
@@ -53,7 +53,8 @@ public class SubjectController {
     }
 
     @RequestMapping(value = "/materii_json", method = RequestMethod.GET)
-    public @ResponseBody List<Materie> listeazaMaterii(@CookieValue(value = "user", defaultValue = "-1") String loginToken) {
+    public @ResponseBody
+    List<Materie> listeazaMaterii(@CookieValue(value = "user", defaultValue = "-1") String loginToken) {
         try {
             if (PermissionManager.isUserLoggedIn(loginToken)) {
                 Cont cont = Cont.getByLoginToken(loginToken);

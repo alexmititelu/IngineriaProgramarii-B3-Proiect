@@ -18,37 +18,6 @@ public class Tema {
     private String[] extensiiFisiere;
     private String[] enunturi;
 
-    private void validateIdMaterie(long idMaterie) throws SQLException, TemaException {
-        Materie materie = Materie.getById(idMaterie);
-
-        if (materie == null) {
-            throw new TemaException("Materia pentru care se incearca creare temei nu exista!");
-        }
-    }
-
-    private void validateNrExercitii(int nrExercitii) throws TemaException {
-        if (nrExercitii < 1) {
-            throw new TemaException("Numarul de exercitii pentru tema nu poate fi mai mic decat 1!");
-        }
-    }
-
-    private void validateNumeTema(String numeTema) throws TemaException {
-        if (!numeTema.matches("[A-Za-z0-9 ]+")) {
-            throw new TemaException("Numele temei poate contine doar caractere alfanumerice si spatiu!");
-        }
-    }
-
-    private void validateData(long idMaterie, int nrExercitii, String numeTema) throws SQLException, TemaException {
-        validateIdMaterie(idMaterie);
-        validateNrExercitii(nrExercitii);
-        validateNumeTema(numeTema);
-
-        Tema tema = Tema.getByMaterieIdAndNumeTema(idMaterie, numeTema);
-        if (tema != null) {
-            throw new TemaException("Exista deja o tema cu acest nume la aceasta materie!");
-        }
-    }
-
     public Tema(long idMaterie, Date deadline, String enunt, int nrExercitii, String numeTema, String[] extensiiFisiere, String[] enunturi) throws SQLException, TemaException {
         validateData(idMaterie, nrExercitii, numeTema);
 
@@ -61,29 +30,6 @@ public class Tema {
         this.enunturi = enunturi;
     }
 
-    public void insert() throws SQLException {
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO teme (id_materie, deadline, enunt, nr_exercitii, nume_tema) VALUES (?, ?, ?, ?, ?)");
-
-        preparedStatement.setLong(1, idMaterie);
-        preparedStatement.setDate(2, deadline);
-        preparedStatement.setString(3, enunt);
-        preparedStatement.setInt(4, nrExercitii);
-        preparedStatement.setString(5, numeTema);
-
-        preparedStatement.executeUpdate();
-
-        connection.close();
-
-        Tema tema = Tema.getByMaterieIdAndNumeTema(idMaterie, numeTema);
-        for (int i = 0; i < extensiiFisiere.length; ++i) {
-            TemaExercitiuExtensie temaExercitiuExtensie = new TemaExercitiuExtensie(tema.getId(), i + 1, extensiiFisiere[i], enunturi[i]);
-            temaExercitiuExtensie.insert();
-        }
-    }
-
     private Tema(long id, long idMaterie, Date deadline, String enunt, int nrExercitii, String numeTema) {
         this.id = id;
         this.idMaterie = idMaterie;
@@ -91,6 +37,29 @@ public class Tema {
         this.nrExercitii = nrExercitii;
         this.numeTema = numeTema;
         this.enunt = enunt;
+    }
+
+    public static ArrayList<Tema> getAllSubjectsReadyToUpdatePlagiarism() throws SQLException {
+        ArrayList<Tema> teme = new ArrayList<>();
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT id, id_materie, deadline, enunt, nr_exercitii, nume_tema, verificata_plagiat FROM teme " +
+                        "WHERE CURRENT_TIMESTAMP < deadline AND verificata_plagiat = 0"
+        );
+
+        ResultSet temeToBeUpdatedForPlagiat = preparedStatement.executeQuery();
+        while (temeToBeUpdatedForPlagiat.next()) {
+            teme.add(new Tema(
+                    temeToBeUpdatedForPlagiat.getLong(1),
+                    temeToBeUpdatedForPlagiat.getLong(2),
+                    temeToBeUpdatedForPlagiat.getDate(3),
+                    temeToBeUpdatedForPlagiat.getString(4),
+                    temeToBeUpdatedForPlagiat.getInt(5),
+                    temeToBeUpdatedForPlagiat.getString(6)));
+        }
+
+        return teme;
     }
 
     public static Tema getById(long id) throws SQLException {
@@ -170,6 +139,60 @@ public class Tema {
         }
 
         return teme;
+    }
+
+    private void validateIdMaterie(long idMaterie) throws SQLException, TemaException {
+        Materie materie = Materie.getById(idMaterie);
+
+        if (materie == null) {
+            throw new TemaException("Materia pentru care se incearca creare temei nu exista!");
+        }
+    }
+
+    private void validateNrExercitii(int nrExercitii) throws TemaException {
+        if (nrExercitii < 1) {
+            throw new TemaException("Numarul de exercitii pentru tema nu poate fi mai mic decat 1!");
+        }
+    }
+
+    private void validateNumeTema(String numeTema) throws TemaException {
+        if (!numeTema.matches("[A-Za-z0-9 ]+")) {
+            throw new TemaException("Numele temei poate contine doar caractere alfanumerice si spatiu!");
+        }
+    }
+
+    private void validateData(long idMaterie, int nrExercitii, String numeTema) throws SQLException, TemaException {
+        validateIdMaterie(idMaterie);
+        validateNrExercitii(nrExercitii);
+        validateNumeTema(numeTema);
+
+        Tema tema = Tema.getByMaterieIdAndNumeTema(idMaterie, numeTema);
+        if (tema != null) {
+            throw new TemaException("Exista deja o tema cu acest nume la aceasta materie!");
+        }
+    }
+
+    public void insert() throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO teme (id_materie, deadline, enunt, nr_exercitii, nume_tema) VALUES (?, ?, ?, ?, ?)");
+
+        preparedStatement.setLong(1, idMaterie);
+        preparedStatement.setDate(2, deadline);
+        preparedStatement.setString(3, enunt);
+        preparedStatement.setInt(4, nrExercitii);
+        preparedStatement.setString(5, numeTema);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
+
+        Tema tema = Tema.getByMaterieIdAndNumeTema(idMaterie, numeTema);
+        for (int i = 0; i < extensiiFisiere.length; ++i) {
+            TemaExercitiuExtensie temaExercitiuExtensie = new TemaExercitiuExtensie(tema.getId(), i + 1, extensiiFisiere[i], enunturi[i]);
+            temaExercitiuExtensie.insert();
+        }
     }
 
     public long getId() {

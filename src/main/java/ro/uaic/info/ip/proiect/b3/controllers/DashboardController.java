@@ -21,8 +21,8 @@ public class DashboardController {
     /**
      * Aceasta metoda este apelata de oriunde se doreste returnarea unui view ce reprezinta dashboardul unui utilizator.
      *
-     * @param model acest parametru este folosit pentru a modela view-ul returnat catre utilizator
-     *              prin intermediul modelului putem seta variabile in pagina trimisa catre utilizator
+     * @param model    acest parametru este folosit pentru a modela view-ul returnat catre utilizator
+     *                 prin intermediul modelului putem seta variabile in pagina trimisa catre utilizator
      * @param username numele utilizatorului pentru care trebuie contruit dashboardul
      * @return numele view-ului ce reprezinta dashboardul
      */

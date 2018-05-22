@@ -13,37 +13,11 @@ public class ContConectat {
     private String token;
     private Date creationTime;
 
-    private void validateUsername(String username) throws SQLException, ContConectatException {
-        Cont cont = Cont.getByUsername(username);
-
-        if (cont == null) {
-            throw new ContConectatException("Numele de utilizator este invalid!");
-        }
-    }
-
-    private void validateData(String username) throws ContConectatException, SQLException {
-        validateUsername(username);
-    }
-
     public ContConectat(String username) throws ContConectatException, SQLException {
         validateData(username);
 
         this.username = username;
         this.token = TokenGenerator.getToken(64, "conturi_conectate");
-    }
-
-    public void insert() throws SQLException {
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO conturi_conectate (username, token, creation_time) VALUES (?, ?, CURRENT_TIMESTAMP)");
-
-        preparedStatement.setString(1, username);
-        preparedStatement.setString(2, token);
-
-        preparedStatement.executeUpdate();
-
-        connection.close();
     }
 
     private ContConectat(long id, String username, String token, Date creationTime) {
@@ -126,6 +100,32 @@ public class ContConectat {
 
         connection.close();
         return contConectat;
+    }
+
+    private void validateUsername(String username) throws SQLException, ContConectatException {
+        Cont cont = Cont.getByUsername(username);
+
+        if (cont == null) {
+            throw new ContConectatException("Numele de utilizator este invalid!");
+        }
+    }
+
+    private void validateData(String username) throws ContConectatException, SQLException {
+        validateUsername(username);
+    }
+
+    public void insert() throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO conturi_conectate (username, token, creation_time) VALUES (?, ?, CURRENT_TIMESTAMP)");
+
+        preparedStatement.setString(1, username);
+        preparedStatement.setString(2, token);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
     }
 
     public long getId() {

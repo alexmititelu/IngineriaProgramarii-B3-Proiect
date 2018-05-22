@@ -17,36 +17,6 @@ public class Materie implements Serializable {
     private int semestru;
     private String descriere;
 
-    private void validateTitlu(String titlu) throws SQLException, MaterieException {
-        Materie materie = Materie.getByTitlu(titlu);
-
-        if (materie != null) {
-            throw new MaterieException("Exista deja o materie cu acest nume!");
-        }
-
-        if (!titlu.matches("[A-Za-z0-9 ]+")) {
-            throw new MaterieException("Numele materiei poate contine doar caractere alfanumerice si spatiu!");
-        }
-    }
-
-    private void validateAn(int an) throws MaterieException {
-        if (an < 1 || an > 3) {
-            throw new MaterieException("Anul materiei poate lua valori intre 1 si 3!");
-        }
-    }
-
-    private void validateSemestru(int semestru) throws MaterieException {
-        if (semestru < 1 || semestru > 2) {
-            throw new MaterieException("Semestrul materiei poate lua valori intre 1 si 2!");
-        }
-    }
-
-    private void validateData(String titlu, int an, int semestru) throws SQLException, MaterieException {
-        validateTitlu(titlu);
-        validateAn(an);
-        validateSemestru(semestru);
-    }
-
     public Materie(String titlu, int an, int semestru, String descriere) throws SQLException, MaterieException {
         validateData(titlu, an, semestru);
 
@@ -54,22 +24,6 @@ public class Materie implements Serializable {
         this.an = an;
         this.semestru = semestru;
         this.descriere = descriere;
-    }
-
-    public void insert() throws SQLException {
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO materii (titlu, an, semestru, descriere) VALUES (?, ?, ?, ?)");
-
-        preparedStatement.setString(1, titlu);
-        preparedStatement.setInt(2, an);
-        preparedStatement.setInt(3, semestru);
-        preparedStatement.setString(4, descriere);
-
-        preparedStatement.executeUpdate();
-
-        connection.close();
     }
 
     private Materie(long id, String titlu, int an, int semestru, String descriere) {
@@ -173,6 +127,52 @@ public class Materie implements Serializable {
         }
 
         return materii;
+    }
+
+    private void validateTitlu(String titlu) throws SQLException, MaterieException {
+        Materie materie = Materie.getByTitlu(titlu);
+
+        if (materie != null) {
+            throw new MaterieException("Exista deja o materie cu acest nume!");
+        }
+
+        if (!titlu.matches("[A-Za-z0-9 ]+")) {
+            throw new MaterieException("Numele materiei poate contine doar caractere alfanumerice si spatiu!");
+        }
+    }
+
+    private void validateAn(int an) throws MaterieException {
+        if (an < 1 || an > 3) {
+            throw new MaterieException("Anul materiei poate lua valori intre 1 si 3!");
+        }
+    }
+
+    private void validateSemestru(int semestru) throws MaterieException {
+        if (semestru < 1 || semestru > 2) {
+            throw new MaterieException("Semestrul materiei poate lua valori intre 1 si 2!");
+        }
+    }
+
+    private void validateData(String titlu, int an, int semestru) throws SQLException, MaterieException {
+        validateTitlu(titlu);
+        validateAn(an);
+        validateSemestru(semestru);
+    }
+
+    public void insert() throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO materii (titlu, an, semestru, descriere) VALUES (?, ?, ?, ?)");
+
+        preparedStatement.setString(1, titlu);
+        preparedStatement.setInt(2, an);
+        preparedStatement.setInt(3, semestru);
+        preparedStatement.setString(4, descriere);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
     }
 
     public long getId() {

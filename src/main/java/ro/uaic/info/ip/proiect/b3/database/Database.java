@@ -20,14 +20,13 @@ import java.sql.SQLException;
 @Service
 public class Database {
     /**
-     * Un DataSource ce contine informatii despre baza de date la care se face conectarea si diverse configuratii.
-     */
-    private HikariDataSource dataSource;
-
-    /**
      * Instanta bazei de date initializata la runtime.
      */
     private static final Database instance = new Database();
+    /**
+     * Un DataSource ce contine informatii despre baza de date la care se face conectarea si diverse configuratii.
+     */
+    private HikariDataSource dataSource;
 
 
     /**
@@ -36,7 +35,7 @@ public class Database {
     @Autowired
     private Database() {
         HikariConfig config = new HikariConfig();
-         DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
+        DatabaseConfiguration databaseConfiguration = new DatabaseConfiguration();
 
         config.setJdbcUrl(databaseConfiguration.getConnectionUrl());
         config.setUsername(databaseConfiguration.getUsername());

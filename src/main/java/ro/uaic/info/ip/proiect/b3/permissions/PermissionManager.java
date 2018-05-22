@@ -37,7 +37,8 @@ public class PermissionManager {
         Cont cont = Cont.getByLoginToken(loginToken);
         return (cont != null && cont.getPermission() > 1);
     }
-    public static boolean isLoggedUserStudent (String loginToken) throws SQLException {
+
+    public static boolean isLoggedUserStudent(String loginToken) throws SQLException {
         Cont cont = Cont.getByLoginToken(loginToken);
         return (cont != null && cont.getPermission() == 1);
     }

@@ -14,46 +14,11 @@ public class Inscriere {
     private long idCont;
     private long idMaterie;
 
-    private void validateIdCont(long idCont) throws SQLException, InscriereException {
-        Cont cont = Cont.getById(idCont);
-
-        if (cont == null) {
-            throw new InscriereException("Contul pentru care se incearca inscrierea la materie nu exista!");
-        }
-    }
-
-    private void validateIdMaterie(long idMaterie) throws SQLException, InscriereException {
-        Materie materie = Materie.getById(idMaterie);
-
-        if (materie == null) {
-            throw new InscriereException("Materia pentru care se incearca inscrierea nu exista!");
-        }
-    }
-
-    private void validateData(long idCont, long idMaterie) throws SQLException, InscriereException{
-        validateIdCont(idCont);
-        validateIdMaterie(idMaterie);
-    }
-
     public Inscriere(long idCont, long idMaterie) throws SQLException, InscriereException {
         validateData(idCont, idMaterie);
 
         this.idCont = idCont;
         this.idMaterie = idMaterie;
-    }
-
-    public void insert() throws SQLException {
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO inscrieri (id_cont, id_materie) VALUES (?, ?)");
-
-        preparedStatement.setLong(1, idCont);
-        preparedStatement.setLong(2, idMaterie);
-
-        preparedStatement.executeUpdate();
-
-        connection.close();
     }
 
     public static Inscriere getByIdCont(long idCont) throws SQLException, InscriereException {
@@ -100,6 +65,41 @@ public class Inscriere {
 
         connection.close();
         return inscriere;
+    }
+
+    private void validateIdCont(long idCont) throws SQLException, InscriereException {
+        Cont cont = Cont.getById(idCont);
+
+        if (cont == null) {
+            throw new InscriereException("Contul pentru care se incearca inscrierea la materie nu exista!");
+        }
+    }
+
+    private void validateIdMaterie(long idMaterie) throws SQLException, InscriereException {
+        Materie materie = Materie.getById(idMaterie);
+
+        if (materie == null) {
+            throw new InscriereException("Materia pentru care se incearca inscrierea nu exista!");
+        }
+    }
+
+    private void validateData(long idCont, long idMaterie) throws SQLException, InscriereException {
+        validateIdCont(idCont);
+        validateIdMaterie(idMaterie);
+    }
+
+    public void insert() throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO inscrieri (id_cont, id_materie) VALUES (?, ?)");
+
+        preparedStatement.setLong(1, idCont);
+        preparedStatement.setLong(2, idMaterie);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
     }
 
     public long getIdCont() {
