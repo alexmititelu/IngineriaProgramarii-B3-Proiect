@@ -21,5 +21,12 @@ public class InitializeBackgroundJobs implements CommandLineRunner {
         conturiConectateJob.setDaemon(true);
         conturiConectateJob.start();
         logger.info("Started conturi conectate background job successfully");
+
+        /*
+        Thread checkPlagiarismJob = new Thread(new CheckPlagiarismJob());
+        checkPlagiarismJob.setDaemon(true);
+        checkPlagiarismJob.start();
+        logger.info("Started check plagiarism background job successfully");
+        */
     }
 }

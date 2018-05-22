@@ -1,8 +1,10 @@
 package ro.uaic.info.ip.proiect.b3.database.objects.temaincarcata;
 
 import ro.uaic.info.ip.proiect.b3.database.Database;
+import ro.uaic.info.ip.proiect.b3.database.objects.temaexercitiuextensie.TemaExercitiuExtensie;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class TemaIncarcata {
     private long id;
@@ -62,8 +64,8 @@ public class TemaIncarcata {
         );
 
         preparedStatement.setLong(1, idCont);
-        preparedStatement.setLong(2,idTema);
-        preparedStatement.setInt(3,nrExercitiu);
+        preparedStatement.setLong(2, idTema);
+        preparedStatement.setInt(3, nrExercitiu);
 
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -84,7 +86,6 @@ public class TemaIncarcata {
         connection.close();
         return temaIncarcata;
     }
-
 
     public static TemaIncarcata getByNumeFisier(String numeFisier) throws SQLException {
         TemaIncarcata temaIncarcata;
@@ -115,6 +116,33 @@ public class TemaIncarcata {
         return temaIncarcata;
     }
 
+    public static ArrayList<TemaIncarcata> getAllTemeIncarcate(TemaExercitiuExtensie exercitiu) throws SQLException {
+        ArrayList<TemaIncarcata> temeIncarcate = new ArrayList<>();
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT id, id_cont, id_tema, data_incarcarii, nr_exercitiu, nume_fisier_tema, nota FROM teme_incarcate " +
+                        "WHERE id_tema = ? AND nr_exercitiu = ?"
+        );
+        preparedStatement.setLong(1, exercitiu.getIdTema());
+        preparedStatement.setInt(2, exercitiu.getNrExercitiu());
+
+        ResultSet temeIncarcateResultSet = preparedStatement.executeQuery();
+
+        while (temeIncarcateResultSet.next()) {
+            temeIncarcate.add(new TemaIncarcata(
+                    temeIncarcateResultSet.getLong(1),
+                    temeIncarcateResultSet.getLong(2),
+                    temeIncarcateResultSet.getLong(3),
+                    temeIncarcateResultSet.getDate(4),
+                    temeIncarcateResultSet.getInt(5),
+                    temeIncarcateResultSet.getString(6),
+                    temeIncarcateResultSet.getInt(7)
+            ));
+        }
+
+        return temeIncarcate;
+    }
 
     public long getId() {
         return id;

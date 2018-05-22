@@ -19,46 +19,6 @@ public class ComentariuProfesor {
     private int endRow;
     private String comentariu;
 
-    private void validateIdTemaIncarcata(long idTemaIncarcata) throws SQLException, ComentariuProfesorException {
-        TemaIncarcata temaIncarcata = TemaIncarcata.getById(idTemaIncarcata);
-
-        if (temaIncarcata == null) {
-            throw new ComentariuProfesorException("Tema la care se incearca adaugarea comentariului nu exista!");
-        }
-    }
-
-    private void validateNumarExercitiu(long idTemaIncarcata, int numarExercitiu) throws SQLException, ComentariuProfesorException {
-        TemaIncarcata temaIncarcata = TemaIncarcata.getById(idTemaIncarcata);
-        Tema tema = Tema.getById(temaIncarcata.getIdTema());
-
-        if (numarExercitiu > tema.getNrExercitii() || numarExercitiu < 1) {
-            throw new ComentariuProfesorException("Exercitiul cu numarul " + numarExercitiu + " nu exista pentru aceasta tema!");
-        }
-    }
-
-    private void validateStartRow(int startRow) throws ComentariuProfesorException{
-        if (startRow < 1) {
-            throw new ComentariuProfesorException("Randul de start al comentariului nu poate fi mai mic decat 1!");
-        }
-    }
-
-    private void validateEndRow(int endRow) throws ComentariuProfesorException {
-        if (endRow < 1) {
-            throw new ComentariuProfesorException("Randul de sfarsit al comentariului nu poate fi mai mic decat 1!");
-        }
-    }
-
-    private void validateData(long idTemaIncarcata, int numarExercitiu, int startRow, int endRow) throws SQLException, ComentariuProfesorException {
-        validateIdTemaIncarcata(idTemaIncarcata);
-        validateNumarExercitiu(idTemaIncarcata, numarExercitiu);
-        validateStartRow(startRow);
-        validateEndRow(endRow);
-
-        if (startRow > endRow) {
-            throw new ComentariuProfesorException("Randul de start al comentariului nu poate fi mai mare decat randul de sfarsit al acestuia!");
-        }
-    }
-
     public ComentariuProfesor(long idTemaIncarcata, int numarExercitiu, int startRow, int endRow, String comentariu) throws SQLException, ComentariuProfesorException {
         validateData(idTemaIncarcata, numarExercitiu, startRow, endRow);
 
@@ -67,23 +27,6 @@ public class ComentariuProfesor {
         this.startRow = startRow;
         this.endRow = endRow;
         this.comentariu = comentariu;
-    }
-
-    public void insert() throws SQLException, ComentariuProfesorException {
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO comentarii_profesori (id_tema_incarcata, nr_exercitiu, start_row, end_row, comentariu) VALUES (?, ?, ?, ?, ?)");
-
-        preparedStatement.setLong(1, idTemaIncarcata);
-        preparedStatement.setInt(2, numarExercitiu);
-        preparedStatement.setInt(3, startRow);
-        preparedStatement.setInt(4, endRow);
-        preparedStatement.setString(5, comentariu);
-
-        preparedStatement.executeUpdate();
-
-        connection.close();
     }
 
     private ComentariuProfesor(long id, long idTemaIncarcata, int numarExercitiu, int startRow, int endRow, String comentariu) {
@@ -146,6 +89,63 @@ public class ComentariuProfesor {
 
         connection.close();
         return comentariiExercitiu;
+    }
+
+    private void validateIdTemaIncarcata(long idTemaIncarcata) throws SQLException, ComentariuProfesorException {
+        TemaIncarcata temaIncarcata = TemaIncarcata.getById(idTemaIncarcata);
+
+        if (temaIncarcata == null) {
+            throw new ComentariuProfesorException("Tema la care se incearca adaugarea comentariului nu exista!");
+        }
+    }
+
+    private void validateNumarExercitiu(long idTemaIncarcata, int numarExercitiu) throws SQLException, ComentariuProfesorException {
+        TemaIncarcata temaIncarcata = TemaIncarcata.getById(idTemaIncarcata);
+        Tema tema = Tema.getById(temaIncarcata.getIdTema());
+
+        if (numarExercitiu > tema.getNrExercitii() || numarExercitiu < 1) {
+            throw new ComentariuProfesorException("Exercitiul cu numarul " + numarExercitiu + " nu exista pentru aceasta tema!");
+        }
+    }
+
+    private void validateStartRow(int startRow) throws ComentariuProfesorException {
+        if (startRow < 1) {
+            throw new ComentariuProfesorException("Randul de start al comentariului nu poate fi mai mic decat 1!");
+        }
+    }
+
+    private void validateEndRow(int endRow) throws ComentariuProfesorException {
+        if (endRow < 1) {
+            throw new ComentariuProfesorException("Randul de sfarsit al comentariului nu poate fi mai mic decat 1!");
+        }
+    }
+
+    private void validateData(long idTemaIncarcata, int numarExercitiu, int startRow, int endRow) throws SQLException, ComentariuProfesorException {
+        validateIdTemaIncarcata(idTemaIncarcata);
+        validateNumarExercitiu(idTemaIncarcata, numarExercitiu);
+        validateStartRow(startRow);
+        validateEndRow(endRow);
+
+        if (startRow > endRow) {
+            throw new ComentariuProfesorException("Randul de start al comentariului nu poate fi mai mare decat randul de sfarsit al acestuia!");
+        }
+    }
+
+    public void insert() throws SQLException, ComentariuProfesorException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO comentarii_profesori (id_tema_incarcata, nr_exercitiu, start_row, end_row, comentariu) VALUES (?, ?, ?, ?, ?)");
+
+        preparedStatement.setLong(1, idTemaIncarcata);
+        preparedStatement.setInt(2, numarExercitiu);
+        preparedStatement.setInt(3, startRow);
+        preparedStatement.setInt(4, endRow);
+        preparedStatement.setString(5, comentariu);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
     }
 
     public long getId() {

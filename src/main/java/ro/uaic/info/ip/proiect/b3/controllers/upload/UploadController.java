@@ -7,11 +7,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 import ro.uaic.info.ip.proiect.b3.database.Database;
+import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
+import ro.uaic.info.ip.proiect.b3.storage.StorageService;
 import ro.uaic.info.ip.proiect.b3.storage.exceptions.FileFormatException;
 import ro.uaic.info.ip.proiect.b3.storage.exceptions.StorageException;
-import ro.uaic.info.ip.proiect.b3.storage.StorageService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -37,11 +37,12 @@ public class UploadController {
     }
 
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
-    public @ResponseBody String upload(@RequestParam("file") MultipartFile file,
-                                       @RequestParam("titluMaterie") String titluMaterie,
-                                       @RequestParam("numeTema") String numeTema,
-                                       @RequestParam("exercitiu") String exercitiu,
-                                       HttpServletResponse response, @CookieValue(value = "user", defaultValue = "-1") String loginToken) {
+    public @ResponseBody
+    String upload(@RequestParam("file") MultipartFile file,
+                  @RequestParam("titluMaterie") String titluMaterie,
+                  @RequestParam("numeTema") String numeTema,
+                  @RequestParam("exercitiu") String exercitiu,
+                  HttpServletResponse response, @CookieValue(value = "user", defaultValue = "-1") String loginToken) {
         try {
             if (PermissionManager.isUserLoggedIn(loginToken)) {
                 String username = PermissionManager.getUsernameLoggedIn(loginToken);

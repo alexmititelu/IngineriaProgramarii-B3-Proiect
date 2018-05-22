@@ -14,39 +14,11 @@ public class RegisterLink {
     private String token;
     private Date creationTime;
 
-    private void validateEmail(String email) throws SQLException, RegisterLinkException {
-        Student student = Student.getByEmail(email);
-        Profesor profesor = Profesor.getByEmail(email);
-
-        if (student == null && profesor == null) {
-            throw new RegisterLinkException("Nu se poate genera un link de inregistrare pentru un email ce nu apartine unui student sau profesor!");
-        }
-    }
-
-    private void validateData(String email) throws SQLException, RegisterLinkException {
-        validateEmail(email);
-    }
-
     public RegisterLink(String email) throws SQLException, RegisterLinkException {
         validateData(email);
 
         this.email = email;
         this.token = TokenGenerator.getToken(64, "register_links");
-    }
-
-    public void insert() throws SQLException {
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO register_links (email, token, creation_time) VALUES (?, ?, CURRENT_TIMESTAMP)"
-        );
-
-        preparedStatement.setString(1, email);
-        preparedStatement.setString(2, token);
-
-        preparedStatement.executeUpdate();
-
-        connection.close();
     }
 
     private RegisterLink(long id, String email, String token, Date creationTime) {
@@ -134,6 +106,34 @@ public class RegisterLink {
 
         connection.close();
         return registerLink;
+    }
+
+    private void validateEmail(String email) throws SQLException, RegisterLinkException {
+        Student student = Student.getByEmail(email);
+        Profesor profesor = Profesor.getByEmail(email);
+
+        if (student == null && profesor == null) {
+            throw new RegisterLinkException("Nu se poate genera un link de inregistrare pentru un email ce nu apartine unui student sau profesor!");
+        }
+    }
+
+    private void validateData(String email) throws SQLException, RegisterLinkException {
+        validateEmail(email);
+    }
+
+    public void insert() throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO register_links (email, token, creation_time) VALUES (?, ?, CURRENT_TIMESTAMP)"
+        );
+
+        preparedStatement.setString(1, email);
+        preparedStatement.setString(2, token);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
     }
 
     public long getId() {

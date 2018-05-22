@@ -1,6 +1,7 @@
 package ro.uaic.info.ip.proiect.b3.generators;
 
 import ro.uaic.info.ip.proiect.b3.database.objects.temaincarcata.TemaIncarcata;
+
 import java.sql.SQLException;
 import java.util.Random;
 
@@ -27,7 +28,7 @@ public class FileNameGenerator {
 
     private static boolean isFileNameAlreadyUsed(String fileName) throws SQLException {
 
-        if(TemaIncarcata.getByNumeFisier(fileName) == null) {
+        if (TemaIncarcata.getByNumeFisier(fileName) == null) {
             return true;
         }
 

@@ -2,7 +2,10 @@ package ro.uaic.info.ip.proiect.b3.database.objects.student;
 
 import ro.uaic.info.ip.proiect.b3.database.Database;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Student {
     private long id;

@@ -14,40 +14,12 @@ public class Profesor {
     private String prenume;
     private String email;
 
-    private void validateEmail(String email) throws SQLException, ProfesorException {
-        Profesor profesor = Profesor.getByEmail(email);
-
-        if (profesor != null) {
-            throw new ProfesorException("Exista deja un profesor cu acest email!");
-        }
-    }
-
-    private void validateData(String email) throws SQLException, ProfesorException {
-        validateEmail(email);
-    }
-
     public Profesor(String nume, String prenume, String email) throws SQLException, ProfesorException {
         validateData(email);
 
         this.nume = nume;
         this.prenume = prenume;
         this.email = email;
-    }
-
-    public void insert() throws SQLException {
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "INSERT INTO profesori (nume, prenume, email) VALUES (?, ?, ?)"
-        );
-
-        preparedStatement.setString(1, nume);
-        preparedStatement.setString(2, prenume);
-        preparedStatement.setString(3, email);
-
-        preparedStatement.executeUpdate();
-
-        connection.close();
     }
 
     private Profesor(long id, String nume, String prenume, String email) {
@@ -107,6 +79,34 @@ public class Profesor {
 
         connection.close();
         return profesor;
+    }
+
+    private void validateEmail(String email) throws SQLException, ProfesorException {
+        Profesor profesor = Profesor.getByEmail(email);
+
+        if (profesor != null) {
+            throw new ProfesorException("Exista deja un profesor cu acest email!");
+        }
+    }
+
+    private void validateData(String email) throws SQLException, ProfesorException {
+        validateEmail(email);
+    }
+
+    public void insert() throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "INSERT INTO profesori (nume, prenume, email) VALUES (?, ?, ?)"
+        );
+
+        preparedStatement.setString(1, nume);
+        preparedStatement.setString(2, prenume);
+        preparedStatement.setString(3, email);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
     }
 
     public long getId() {
