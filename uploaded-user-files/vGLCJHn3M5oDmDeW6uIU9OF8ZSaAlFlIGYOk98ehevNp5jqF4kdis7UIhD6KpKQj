@@ -1,0 +1,28 @@
+DECLARE
+   v_nume_input studenti.nume%TYPE := &i_nume;
+   v_nr_rezultate INTEGER;
+   v_nume_gasit studenti.nume%TYPE; 
+   v_prenume_gasit studenti.prenume%TYPE;
+   v_id_gasit studenti.id%TYPE;
+   v_nota_minima note.valoare%TYPE;
+   v_nota_maxima note.valoare%TYPE;
+   
+BEGIN   
+   select count(nume) INTO v_nr_rezultate FROM studenti where nume=v_nume_input;
+   
+  IF ( v_nr_rezultate>0)
+        THEN
+            select nume,prenume,id INTO v_nume_gasit,v_prenume_gasit,v_id_gasit  from (SELECT s.nume,s.prenume,s.id FROM studenti s where s.nume=v_nume_input order by s.prenume asc) where  ROWNUM=1;
+   
+            DBMS_OUTPUT.PUT_LINE('Am gasit: ' || v_nume_gasit);
+            DBMS_OUTPUT.PUT_LINE(v_nr_rezultate || ' studenti cu numele ' || v_nume_gasit);
+            DBMS_OUTPUT.PUT_LINE('Prenumele si ID-ul primului student: ' || v_prenume_gasit || ' ' || v_id_gasit);
+            
+            select min(n.valoare),max(n.valoare) INTO v_nota_minima,v_nota_maxima from note n where n.id_student=v_id_gasit group by n.id_student;
+            DBMS_OUTPUT.PUT_LINE('Nota minima: ' || v_nota_minima || ' si nota maxima: ' || v_nota_maxima);
+            DBMS_OUTPUT.PUT_LINE(POWER(v_nota_maxima,v_nota_minima));
+            
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('N-am gasit niciun student cu numele cerut');
+    END IF;        
+END;
