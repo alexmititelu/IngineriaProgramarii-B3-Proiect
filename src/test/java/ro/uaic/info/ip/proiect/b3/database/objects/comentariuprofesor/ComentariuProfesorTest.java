@@ -35,7 +35,7 @@ public class ComentariuProfesorTest {
         //constructor2.setAccessible(true);
         comProf = constructor.newInstance(9,3,1,1,101,"Nota 10!");
         //invalidCom = constructor2.newInstance(9,3,1,-1,300,"Rau");*/
-        comProf = new ComentariuProfesor(2,1,1,101,"Nota 10!");
+        comProf = new ComentariuProfesor(6,1,1,101,"Nota 10!");
         comentariiExercitiu = new ArrayList<>();
     }
 
@@ -62,7 +62,7 @@ public class ComentariuProfesorTest {
         catchException(invalidCom).insert();
         assertThat(caughtException(),instanceOf(ComentariuProfesorException.class));*/
 
-         ComentariuProfesor com2 = ComentariuProfesor.getById(3);
+         ComentariuProfesor com2 = ComentariuProfesor.getById(1);
 
     }
 
@@ -81,7 +81,7 @@ public class ComentariuProfesorTest {
 
     @Test
     public void getIdTemaIncarcata() {
-        assertEquals(2,comProf.getIdTemaIncarcata());
+        assertEquals(6,comProf.getIdTemaIncarcata());
         assertNotEquals(-1,comProf.getIdTemaIncarcata());
     }
 

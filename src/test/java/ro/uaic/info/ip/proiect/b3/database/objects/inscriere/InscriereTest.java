@@ -21,7 +21,7 @@ public class InscriereTest {
 
     @Before
     public void setUp() throws SQLException, InscriereException {
-        inscriere = new Inscriere(20,33);
+        inscriere = new Inscriere(20,1);
     }
 
     @Test(expected = InscriereException.class)
@@ -66,7 +66,7 @@ public class InscriereTest {
 
     @Test
     public void getIdMaterie() {
-        assertEquals(33,inscriere.getIdMaterie());
+        assertEquals(1,inscriere.getIdMaterie());
         assertNotEquals(-1,inscriere.getIdMaterie());
     }
 }
