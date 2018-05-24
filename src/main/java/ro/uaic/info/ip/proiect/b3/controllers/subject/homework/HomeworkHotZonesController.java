@@ -31,7 +31,6 @@ public class HomeworkHotZonesController {
         Connection connection = null;
         ResultSet hotZoneResultSet;
         ArrayList<HotZone> hotZones = new ArrayList<>();
-        HotZone hotZone = new HotZone();
 
         try {
             if (PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
@@ -51,6 +50,7 @@ public class HomeworkHotZonesController {
                             "and p.nr_exercitiu = ?", Long.toString(tema.getId()), username1, username2, username1, username2, nrExercitiu);
 
                     while (hotZoneResultSet.next()) {
+                        HotZone hotZone = new HotZone();
                         hotZone.setStudent1(new int[]{hotZoneResultSet.getInt(1), hotZoneResultSet.getInt(2)});
                         hotZone.setStudent2(new int[]{hotZoneResultSet.getInt(3), hotZoneResultSet.getInt(4)});
                         hotZone.setProcent(hotZoneResultSet.getInt(5));
