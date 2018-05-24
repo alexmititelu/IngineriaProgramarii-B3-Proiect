@@ -26,7 +26,7 @@ public class InfoExercitiuStudentTest {
 
     @Test
     public void getInfoExercitiiStudent() throws SQLException {
-        assertTrue("succes",infoList.isEmpty());
+        assertTrue("success",infoList.isEmpty());
         infoList = infoExStudExistent.getInfoExercitiiStudent(
                 "WEEfR5PzpSUvVNld4IHOWlTZ9AFT7wd1ihPOaQwXxMizcnTeOk0RqswKWhokhERO","test44","test");
         //contul lui Codrin
