@@ -40,9 +40,19 @@ public class Database {
         config.setJdbcUrl(databaseConfiguration.getConnectionUrl());
         config.setUsername(databaseConfiguration.getUsername());
         config.setPassword(databaseConfiguration.getPassword());
-        config.addDataSourceProperty("cachePrepStmts", "true");
-        config.addDataSourceProperty("prepStmtCacheSize", "250");
-        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+        config.addDataSourceProperty("cachePrepStmts", true);
+        config.addDataSourceProperty("prepStmtCacheSize", 250);
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", 2048);
+        config.addDataSourceProperty("useServerPrepStmts", true);
+        config.addDataSourceProperty("useLocalSessionStat", true);
+        config.addDataSourceProperty("rewriteBatchedStatements", true);
+        config.addDataSourceProperty("cacheResultSetMetadata", true);
+        config.addDataSourceProperty("cacheServerConfiguration", true);
+        config.addDataSourceProperty("elideSetAutoCommits", true);
+        config.addDataSourceProperty("maintainTimeStats", false);
+        config.setLeakDetectionThreshold(60 * 1000);
+        config.setMaximumPoolSize(20);
+        config.setIdleTimeout(30000);
 
         dataSource = new HikariDataSource(config);
     }

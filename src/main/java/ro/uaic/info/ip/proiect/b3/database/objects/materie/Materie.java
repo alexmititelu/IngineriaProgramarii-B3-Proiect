@@ -103,6 +103,8 @@ public class Materie implements Serializable {
             );
         }
 
+        connection.close();
+
         return materii;
     }
 
@@ -126,6 +128,7 @@ public class Materie implements Serializable {
             );
         }
 
+        connection.close();
         return materii;
     }
 

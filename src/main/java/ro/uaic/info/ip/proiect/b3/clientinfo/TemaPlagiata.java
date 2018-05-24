@@ -51,7 +51,7 @@ public class TemaPlagiata {
             temePlagiate.add(new TemaPlagiata(
                cont1.getUsername(),
                student1.getNume(),
-               student2.getPrenume(),
+               student1.getPrenume(),
                cont2.getUsername(),
                student2.getNume(),
                student2.getPrenume(),
