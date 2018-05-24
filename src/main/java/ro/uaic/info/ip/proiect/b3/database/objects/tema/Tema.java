@@ -138,6 +138,7 @@ public class Tema {
             );
         }
 
+        connection.close();
         return teme;
     }
 

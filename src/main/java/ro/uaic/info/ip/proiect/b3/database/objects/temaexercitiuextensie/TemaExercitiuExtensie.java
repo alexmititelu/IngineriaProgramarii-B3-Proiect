@@ -78,6 +78,7 @@ public class TemaExercitiuExtensie {
             ));
         }
 
+        connection.close();
         return exercitii;
     }
 

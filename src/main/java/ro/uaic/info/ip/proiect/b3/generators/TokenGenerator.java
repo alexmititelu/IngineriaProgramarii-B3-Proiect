@@ -45,6 +45,7 @@ public class TokenGenerator {
             isTokenUsed = true;
         }
 
+        connection.close();
         return isTokenUsed;
     }
 
