@@ -485,6 +485,33 @@ nav {
     padding: 80px 20px;
 }
 
+.title {
+    padding: 20px;
+    background: #f9f9f9;
+}
+
+.rows-table {
+    max-height: 600px;
+    overflow-y: scroll;
+}
+
+.row-plag {
+    padding: 20px;
+    cursor: pointer;
+    background: #f9f9f9;
+}
+
+.row-plag:hover {
+    background: #f6f6f6;
+}
+
+.light {
+    background: rgb(255, 181, 181);
+}
+
+#mainRow {
+    margin: 0;
+}
 /* Responsive */
 
 @media screen and (max-width: 1199px) {
@@ -570,76 +597,4 @@ nav {
     .form-container {
         margin-bottom: 0px;
     }
-}
-
-/* Styles for tema-profesori */
-
-.students-container,
-.plagiarism-container {
-    padding: 15px;
-    background-color: var(--background);
-    border: 1px solid var(--main-border);
-    border-radius: 5px;
-    font-size: 1em;
-}
-
-.search {
-    padding: 5px;
-    margin-bottom: 10px;
-    width: 100%;
-    color: var(--main-color);
-}
-
-.search::placeholder {
-    color: var(--second-color);
-}
-
-.grade-nav.nav {
-    /* padding: 10px 15px; */
-    padding: 0;
-    background-color: transparent;
-}
-
-a.active.show {
-    padding: 5px 10px;
-    background: #1daaa0;
-    color: white;
-}
-
-li.active a.active.show {
-    background: #1daaa0;
-    color: white;
-}
-
-.student-list {
-    margin-top: 10px;
-    list-style: none;
-    max-height: 450px;
-    overflow-y: auto;
-}
-
-#graded {
-    padding: 0;
-}
-
-.list-item {
-    padding: 5px 20px;
-    border-top: 1px solid rgba(208, 207, 222, .28);
-    cursor: pointer;
-}
-
-.list-item:hover {
-    background: #f9f9f9;
-}
-
-#collapseOne {
-    max-height: 600px;
-    overflow-y: scroll;
-}
-
-.rowPlagiat {
-    cursor: pointer;
-}
-.rowPlagiat:hover {
-    background: white;
 }
