@@ -21,37 +21,15 @@ public class Inscriere {
         this.idMaterie = idMaterie;
     }
 
-    public static Inscriere getByIdCont(long idCont) throws SQLException, InscriereException {
+    public static Inscriere get(long idCont, long idMaterie) throws SQLException, InscriereException {
         Inscriere inscriere;
         Connection connection = Database.getInstance().getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT id_cont, id_materie FROM inscrieri WHERE id_cont = ?");
+                "SELECT id_cont, id_materie FROM inscrieri WHERE id_cont = ? AND id_materie = ?");
 
         preparedStatement.setLong(1, idCont);
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        if (resultSet.next()) {
-            inscriere = new Inscriere(
-                    resultSet.getLong(1),
-                    resultSet.getLong(2));
-        } else {
-            inscriere = null;
-        }
-
-        connection.close();
-        return inscriere;
-    }
-
-    public static Inscriere getByIdMaterie(long idMaterie) throws SQLException, InscriereException {
-        Inscriere inscriere;
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "SELECT id_cont, id_materie FROM inscrieri WHERE id_materie = ?");
-
-        preparedStatement.setLong(1, idMaterie);
+        preparedStatement.setLong(2, idMaterie);
 
         ResultSet resultSet = preparedStatement.executeQuery();
 

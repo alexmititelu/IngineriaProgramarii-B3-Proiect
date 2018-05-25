@@ -1,4 +1,4 @@
-package ro.uaic.info.ip.proiect.b3.database.objects.inscriere;
+/*package ro.uaic.info.ip.proiect.b3.database.objects.inscriere;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -70,3 +70,4 @@ public class InscriereTest {
         assertNotEquals(-1,inscriere.getIdMaterie());
     }
 }
+*/
