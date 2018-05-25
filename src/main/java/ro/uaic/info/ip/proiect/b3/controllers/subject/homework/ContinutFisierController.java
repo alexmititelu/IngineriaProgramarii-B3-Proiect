@@ -3,6 +3,8 @@ package ro.uaic.info.ip.proiect.b3.controllers.subject.homework;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ro.uaic.info.ip.proiect.b3.controllers.subject.homework.objects.LinieContinutFisier;
+import ro.uaic.info.ip.proiect.b3.database.objects.comentariuprofesor.ComentariuProfesor;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
@@ -20,7 +22,7 @@ public class ContinutFisierController {
 
     @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/continut_fisier", method = RequestMethod.POST)
     public @ResponseBody
-    ArrayList<String> getContinutFisier(
+    ArrayList<LinieContinutFisier> getContinutFisier(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken,
             @PathVariable("numeMaterie") String numeMaterie,
             @PathVariable("numeTema") String numeTema,
@@ -39,8 +41,6 @@ public class ContinutFisierController {
                 return null;
             }
 
-            ArrayList<String> liniiFisier = new ArrayList<>();
-
             Materie materie = Materie.getByTitlu(numeMaterie);
             if (materie == null) return null;
 
@@ -49,21 +49,38 @@ public class ContinutFisierController {
 
             TemaIncarcata temaIncarcata = TemaIncarcata.get(cont.getId(), tema.getId(), nrExercitiu);
 
+
+            ArrayList<ComentariuProfesor> comentarii = ComentariuProfesor.getByIdTemaIncarcataAndNrExercitiu(temaIncarcata.getId(), nrExercitiu);
+
+
+            ArrayList<LinieContinutFisier> liniiContinutFisier = new ArrayList<>();
+
+
             if (temaIncarcata != null) {
                 File fisierTema = new File(new StorageProperties().getLocation() + temaIncarcata.getNumeFisierTema());
 
                 try (BufferedReader br = new BufferedReader(new FileReader(fisierTema))) {
                     String line;
-
+                    int indexLinie = 1;
                     while ((line = br.readLine()) != null) {
-                        liniiFisier.add(line);
+                        LinieContinutFisier linieContinutFisier = new LinieContinutFisier();
+                        linieContinutFisier.setLineValue(line);
+
+                        for (ComentariuProfesor comentariu : comentarii) {
+                            if (comentariu.getStartRow() == indexLinie) {
+                                linieContinutFisier.setComment(comentariu.getComentariu());
+                                linieContinutFisier.setCommentedLines(comentariu.getEndRow() - indexLinie + 1);
+                                comentarii.remove(comentariu);
+                                break;
+                            }
+                        }
+                        indexLinie++;
                     }
                 }
-            } else {
-                return null;
             }
 
-            return liniiFisier;
+
+            return liniiContinutFisier;
         } catch (FileNotFoundException e) {
             return null;
         } catch (SQLException | IOException e) {
