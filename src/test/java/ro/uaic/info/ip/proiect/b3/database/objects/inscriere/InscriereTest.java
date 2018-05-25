@@ -1,4 +1,4 @@
-/*package ro.uaic.info.ip.proiect.b3.database.objects.inscriere;
+package ro.uaic.info.ip.proiect.b3.database.objects.inscriere;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -18,6 +18,7 @@ public class InscriereTest {
     private Inscriere inscriere;
     private Inscriere inscriere2;
     private Inscriere inscriere3;
+    private Inscriere inscriere4;
 
     @Before
     public void setUp() throws SQLException, InscriereException {
@@ -26,36 +27,31 @@ public class InscriereTest {
 
     @Test(expected = InscriereException.class)
     public void expExceptions() throws SQLException, InscriereException {
-        inscriere3 = new Inscriere(-1,-1);
+        inscriere2 = new Inscriere(20,-1);
+        assertEquals("Materia pentru care se incearca inscrierea nu exista!",inscriere2.getIdMaterie());
+    }
+
+    @Test(expected = InscriereException.class)
+    public void expExceptions2() throws SQLException, InscriereException {
+        inscriere3 = new Inscriere(-1,1);
+        assertEquals("Contul pentru care se incearca inscrierea la materie nu exista!",inscriere3.getIdCont());
+
+    }
+
+    @Test
+    public void get() throws SQLException, InscriereException {
+        assertEquals(null, inscriere.get(-1,-1));
     }
 
     @Test(expected = Exception.class)
     public void insert() throws SQLException, InscriereException {
-        inscriere3 = Mockito.mock(Inscriere.class);
-        inscriere3 = inscriere.getByIdCont(-1);
+        inscriere4 = Mockito.mock(Inscriere.class);
+        inscriere4 = inscriere.get(20,1);
         doThrow(new SQLException())
-                .when(inscriere3).insert();
-        inscriere3.insert();
-        catchException(inscriere3).insert();
+                .when(inscriere4).insert();
+        inscriere4.insert();
+        catchException(inscriere4).insert();
         assertThat(caughtException(),instanceOf(SQLException.class));
-    }
-
-    @Test
-    public void getByIdCont() throws SQLException, InscriereException {
-        inscriere2 = inscriere.getByIdCont(inscriere.getIdCont());
-        inscriere3 = inscriere.getByIdCont(-1);
-        assertEquals(null,inscriere3);
-        assertEquals(inscriere2.getIdCont(),inscriere.getIdCont());
-        assertEquals(inscriere2.getIdMaterie(),inscriere.getIdMaterie());
-    }
-
-    @Test
-    public void getByIdMaterie() throws SQLException, InscriereException {
-        inscriere2 = inscriere.getByIdMaterie(inscriere.getIdMaterie());
-        inscriere3 = inscriere.getByIdMaterie(-1);
-        assertEquals(null,inscriere3);
-        assertEquals(inscriere2.getIdCont(),inscriere.getIdCont());
-        assertEquals(inscriere2.getIdMaterie(),inscriere.getIdMaterie());
     }
 
     @Test
@@ -70,4 +66,3 @@ public class InscriereTest {
         assertNotEquals(-1,inscriere.getIdMaterie());
     }
 }
-*/
