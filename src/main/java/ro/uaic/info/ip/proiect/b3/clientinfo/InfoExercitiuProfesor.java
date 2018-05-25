@@ -19,7 +19,8 @@ public class InfoExercitiuProfesor {
         this.temePlagiate = temePlagiate;
     }
 
-    public InfoExercitiuProfesor() {}
+    public InfoExercitiuProfesor() {
+    }
 
     public String getNume() {
 

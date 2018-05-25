@@ -32,7 +32,7 @@ public class StudentNenotat {
 
         ResultSet rs = preparedStatement.executeQuery();
 
-        while(rs.next()) {
+        while (rs.next()) {
             studentiNenotati.add(new StudentNenotat(
                     rs.getString(1),
                     rs.getString(2),

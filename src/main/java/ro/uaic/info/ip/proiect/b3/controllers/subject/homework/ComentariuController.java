@@ -8,15 +8,11 @@ import ro.uaic.info.ip.proiect.b3.database.objects.comentariuprofesor.exceptions
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
-import ro.uaic.info.ip.proiect.b3.database.objects.tema.exceptions.TemaException;
 import ro.uaic.info.ip.proiect.b3.database.objects.temaincarcata.TemaIncarcata;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 import static ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages.INTERNAL_ERROR_MESSAGE;
 
@@ -121,7 +117,7 @@ public class ComentariuController {
             } else {
                 return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
             }
-        } catch (SQLException | ComentariuProfesorException e) {
+        } catch (SQLException e) {
             logger.error(e.getMessage(), e);
             return INTERNAL_ERROR_MESSAGE;
         }

@@ -1,7 +1,6 @@
 package ro.uaic.info.ip.proiect.b3.clientinfo;
 
 import ro.uaic.info.ip.proiect.b3.database.Database;
-import ro.uaic.info.ip.proiect.b3.database.objects.student.Student;
 import ro.uaic.info.ip.proiect.b3.database.objects.temaexercitiuextensie.TemaExercitiuExtensie;
 
 import java.sql.Connection;
@@ -33,7 +32,7 @@ public class StudentNotat extends StudentNenotat {
 
         ResultSet rs = preparedStatement.executeQuery();
 
-        while(rs.next()) {
+        while (rs.next()) {
             studentiNotati.add(new StudentNotat(
                     rs.getString(1),
                     rs.getString(2),

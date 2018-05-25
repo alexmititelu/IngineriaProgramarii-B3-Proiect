@@ -91,6 +91,22 @@ public class ComentariuProfesor {
         return comentariiExercitiu;
     }
 
+    public static void delete(long idTemaIncarcata, int numarExercitiu, int startRow, int endRow) throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "DELETE FROM comentarii_profesori WHERE id_tema_incarcata = ? AND nr_exercitiu = ? AND start_row = ? AND end_row = ?");
+
+        preparedStatement.setLong(1, idTemaIncarcata);
+        preparedStatement.setInt(2, numarExercitiu);
+        preparedStatement.setInt(3, startRow);
+        preparedStatement.setInt(4, endRow);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
+    }
+
     private void validateIdTemaIncarcata(long idTemaIncarcata) throws SQLException, ComentariuProfesorException {
         TemaIncarcata temaIncarcata = TemaIncarcata.getById(idTemaIncarcata);
 
@@ -170,21 +186,5 @@ public class ComentariuProfesor {
 
     public String getComentariu() {
         return comentariu;
-    }
-
-    public static void delete(long idTemaIncarcata, int numarExercitiu, int startRow, int endRow) throws SQLException {
-        Connection connection = Database.getInstance().getConnection();
-
-        PreparedStatement preparedStatement = connection.prepareStatement(
-                "DELETE FROM comentarii_profesori WHERE id_tema_incarcata = ? AND nr_exercitiu = ? AND start_row = ? AND end_row = ?");
-
-        preparedStatement.setLong(1, idTemaIncarcata);
-        preparedStatement.setInt(2, numarExercitiu);
-        preparedStatement.setInt(3, startRow);
-        preparedStatement.setInt(4, endRow);
-
-        preparedStatement.executeUpdate();
-
-        connection.close();
     }
 }

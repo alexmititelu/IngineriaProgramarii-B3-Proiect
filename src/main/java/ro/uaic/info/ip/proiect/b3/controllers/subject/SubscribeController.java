@@ -34,7 +34,8 @@ public class SubscribeController {
                 if (materie == null) return "Materia cu acest nume nu exista!";
 
                 Inscriere inscriere = Inscriere.get(cont.getId(), materie.getId());
-                if (inscriere != null) return "Utilizatorul " + cont.getUsername() + " este deja inscris la aceasta materie!";
+                if (inscriere != null)
+                    return "Utilizatorul " + cont.getUsername() + " este deja inscris la aceasta materie!";
 
                 inscriere = new Inscriere(cont.getId(), materie.getId());
                 inscriere.insert();
@@ -68,7 +69,8 @@ public class SubscribeController {
                 if (materie == null) return "Materia cu acest nume nu exista!";
 
                 Inscriere inscriere = Inscriere.get(cont.getId(), materie.getId());
-                if (inscriere == null) return "Utilizatorul " + cont.getUsername() + " nu este inscris la aceasta materie!";
+                if (inscriere == null)
+                    return "Utilizatorul " + cont.getUsername() + " nu este inscris la aceasta materie!";
 
                 int updatedRows = Database.getInstance().updateOperation("DELETE FROM inscrieri WHERE id_cont = ? AND id_materie = ?",
                         Long.toString(cont.getId()), Long.toString(materie.getId()));

@@ -41,7 +41,7 @@ public class TemaPlagiata {
 
         ResultSet rs = preparedStatement.executeQuery();
 
-        while(rs.next()) {
+        while (rs.next()) {
             Cont cont1 = Cont.getByUsername(rs.getString(1));
             Student student1 = Student.getByEmail(cont1.getEmail());
 
@@ -49,13 +49,13 @@ public class TemaPlagiata {
             Student student2 = Student.getByEmail(cont2.getEmail());
 
             temePlagiate.add(new TemaPlagiata(
-               cont1.getUsername(),
-               student1.getNume(),
-               student1.getPrenume(),
-               cont2.getUsername(),
-               student2.getNume(),
-               student2.getPrenume(),
-               rs.getInt(3)
+                    cont1.getUsername(),
+                    student1.getNume(),
+                    student1.getPrenume(),
+                    cont2.getUsername(),
+                    student2.getNume(),
+                    student2.getPrenume(),
+                    rs.getInt(3)
             ));
         }
 
