@@ -39,7 +39,7 @@ $(document).ready(function () {
             if (data) {
                 var group = document.getElementById('group');
 
-                data.forEach(element => {
+                data.forEach((element, exercitiu) => {
                     ex++;
                     var a = document.createElement('a');
                     // a.href = `/materii/${element.titlu}`;
@@ -200,6 +200,46 @@ $(document).ready(function () {
                         var list = document.getElementById("collapseThree");
                         list.appendChild(a);
                     });
+
+                    element.temePlagiate.sort(function (a, b) {
+                        return a - b;
+                    }).reverse();
+
+                    var tablePlagiat = document.getElementById('plag-table');
+
+                    element.temePlagiate.forEach(plagiat => {
+                        var row = document.createElement('tr');
+                        row.classList = 'rowPlagiat';
+                        row.setAttribute('username1', plagiat.username1);
+                        row.setAttribute('username2', plagiat.username2);
+                        row.setAttribute('exercitiu', exercitiu + 1);
+
+                        var th1 = document.createElement('th');
+                        th1.innerText = `${plagiat.nume1} ${plagiat.prenume1}`;
+
+                        var th2 = document.createElement('th');
+                        th2.innerText = `${plagiat.nume2} ${plagiat.prenume2}`;
+
+                        var th3 = document.createElement('th');
+                        th3.innerText = `${plagiat.procentPlagiarism} %`;
+                        th3.style.width = '70px';
+
+                        row.appendChild(th1);
+                        row.appendChild(th2);
+                        row.appendChild(th3);
+
+                        tablePlagiat.appendChild(row);
+                    });
+
+                    var rowsPlagiat = document.getElementsByClassName('rowPlagiat');
+
+                    for (let index = 0; index < rowsPlagiat.length; index++) {
+                        const element = rowsPlagiat[index];
+                        
+                        element.onclick = () => {
+                            window.location.href = `${window.location.href}/compara?username1=${element.attributes.username1.value}&username2=${element.attributes.username2.value}&nrExercitiu=${element.attributes.exercitiu.value}`;
+                        }
+                    }
                 });
 
                 notatiPill.innerText = nrNotati;
