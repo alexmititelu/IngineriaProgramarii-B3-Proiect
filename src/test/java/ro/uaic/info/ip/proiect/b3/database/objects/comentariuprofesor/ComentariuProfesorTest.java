@@ -26,6 +26,8 @@ public class ComentariuProfesorTest {
     */
     private ComentariuProfesor comProf;
     private ComentariuProfesor invalidCom;
+    private ComentariuProfesor comInsert;
+    private ComentariuProfesor comDelete;
     private ArrayList<ComentariuProfesor> comentariiExercitiu;
 
 
@@ -47,8 +49,8 @@ public class ComentariuProfesorTest {
 
     @Test
     public void insert() throws SQLException, ComentariuProfesorException {
-        ComentariuProfesor com = ComentariuProfesor.getById(5);
-        //com.insert();
+        comInsert = ComentariuProfesor.getById(4);
+        comInsert.insert();
     }
 
     @Test//(expected = ComentariuProfesorException.class)
@@ -83,6 +85,12 @@ public class ComentariuProfesorTest {
     public void getIdTemaIncarcata() {
         assertEquals(6,comProf.getIdTemaIncarcata());
         assertNotEquals(-1,comProf.getIdTemaIncarcata());
+    }
+
+    @Test
+    public void delete() throws SQLException {
+
+        comDelete.delete(39,1,4,9);
     }
 
     @Test
