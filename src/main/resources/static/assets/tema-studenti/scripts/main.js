@@ -7,6 +7,31 @@ $(document).ready(function () {
 
     var exercitii = 0;
 
+    var totalLines;
+
+    var continut1 = [];
+    var continut2 = [];
+
+    var totalLines2;
+
+    var continut11 = [];
+    var continut22 = [];
+
+    var rowStart1, rowEnd1;
+    var rowStart2, rowEnd2;
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+
+        color += '40';
+
+        return color;
+    }
+
     $.ajax({
         type: 'GET',
         url: `${window.location.href}/student_info_json`,
@@ -105,16 +130,15 @@ $(document).ready(function () {
                 });
 
                 var solutie = document.getElementsByClassName('solutie');
-                console.log(solutie);
                 var table = document.getElementById('tableModel');
 
                 for (let index = 0; index < solutie.length; index++) {
                     const element = solutie[index];
 
                     element.onclick = () => {
-                        var line = 0;
+                        var line1 = 0;
 
-                        while(table.firstChild) {
+                        while (table.firstChild) {
                             table.removeChild(table.firstChild);
                         }
 
@@ -126,22 +150,133 @@ $(document).ready(function () {
                                 nrExercitiu: parseInt(element.attributes.name.value)
                             },
                             success: data => {
+                                var nr = 0;
+
+                                var curColor;
+                                var curComment;
+
+                                totalLines = 0;
                                 if (data.length > 0) {
-                                    data.forEach(element => {
-                                        line++;
+                                    data.forEach((element, ind) => {
+                                        totalLines++;
+                                        if (nr > 0) {
+                                            line1++;
 
-                                        var tr = document.createElement('tr');
+                                            var tr = document.createElement('tr');
 
-                                        var th = document.createElement('th');
-                                        th.innerText = line;
+                                            var th = document.createElement('th');
+                                            th.innerText = line1;
+                                            th.style = `width: 50px; background: ${curColor};cursor: pointer;`;
+                                            th.classList = 'rowSol';
+                                            th.setAttribute('role', 'button');
+                                            th.setAttribute('data-toggle', 'popover');
+                                            th.setAttribute('data-trigger', 'focus');
+                                            th.setAttribute('title', 'Comeptariu');
+                                            th.setAttribute('data-content', curComment);
 
-                                        var td = document.createElement('td');
-                                        td.innerText = element;
+                                            th.setAttribute('startr', rowStart);
+                                            th.setAttribute('endr', rowEnd);
 
-                                        tr.appendChild(th);
-                                        tr.appendChild(td);
+                                            var td = document.createElement('td');
+                                            td.innerText = element.lineValue;
 
-                                        table.appendChild(tr);
+                                            continut1.push(element.lineValue);
+                                            continut2.push(curComment);
+
+                                            tr.appendChild(th);
+                                            tr.appendChild(td);
+
+                                            table.appendChild(tr);
+
+                                            nr--;
+
+                                            th.onclick = () => {
+                                                var index = parseInt(th.innerText);
+                                                var cont = th.parentElement.parentElement.childNodes[ind].childNodes[1];
+
+                                                if (!th.classList.contains('viz')) {
+                                                    cont.innerText += `\n${continut2[ind]}\n`;
+                                                    th.classList.add('viz');
+                                                } else {
+                                                    cont.innerText = continut1[ind];
+                                                    th.classList.remove('viz');
+                                                }
+                                            }
+                                        } else {
+                                            if (element.comment) {
+                                                nr = parseInt(element.commentedLines);
+
+                                                rowStart = ind + 1;
+                                                rowEnd = rowStart + element.commentedLines - 1;
+
+                                                var color = getRandomColor();
+                                                curColor = color;
+
+                                                curComment = element.comment;
+
+                                                line1++;
+
+                                                var tr = document.createElement('tr');
+
+                                                var th = document.createElement('th');
+                                                th.innerText = line1;
+                                                th.style = `width: 50px; background: ${curColor};cursor: pointer;`;
+                                                th.classList = 'rowSol';
+                                                th.setAttribute('role', 'button');
+                                                th.setAttribute('data-toggle', 'popover');
+                                                th.setAttribute('data-trigger', 'focus');
+                                                th.setAttribute('title', 'Comeptariu');
+                                                th.setAttribute('data-content', curComment);
+
+                                                th.setAttribute('startr', rowStart);
+                                                th.setAttribute('endr', rowEnd);
+
+                                                var td = document.createElement('td');
+                                                td.innerText = element.lineValue;
+
+                                                continut1.push(element.lineValue);
+                                                continut2.push(curComment);
+
+                                                tr.appendChild(th);
+                                                tr.appendChild(td);
+
+                                                table.appendChild(tr);
+
+                                                nr--;
+
+                                                th.onclick = () => {
+                                                    var index = parseInt(th.innerText);
+                                                    var cont = th.parentElement.parentElement.childNodes[ind].childNodes[1];
+
+                                                    if (!th.classList.contains('viz')) {
+                                                        cont.innerText += `\n${continut2[ind]}\n`;
+                                                        th.classList.add('viz');
+                                                    } else {
+                                                        cont.innerText = continut1[ind];
+                                                        th.classList.remove('viz');
+                                                    }
+                                                }
+                                            } else {
+                                                line1++;
+
+                                                var tr = document.createElement('tr');
+
+                                                var th = document.createElement('th');
+                                                th.innerText = line1;
+                                                th.style = 'width: 50px;cursor: pointer;';
+
+                                                var td = document.createElement('td');
+                                                td.innerText = element.lineValue;
+
+                                                continut1.push(element.lineValue);
+                                                continut2.push('');
+
+                                                tr.appendChild(th);
+                                                tr.appendChild(td);
+
+                                                table.appendChild(tr);
+                                            }
+                                        }
                                     });
                                 }
                             }
@@ -211,14 +346,14 @@ $(document).ready(function () {
         }
     });
 
-    var btn=document.getElementById("logOutBtn");
-    btn.onclick=()=>{
+    var btn = document.getElementById("logOutBtn");
+    btn.onclick = () => {
         $.ajax({
-            type:"GET",
+            type: "GET",
             url: "/sign-out",
             success: data => {
-                if(data==="valid"){
-                    window.location.href="/";
+                if (data === "valid") {
+                    window.location.href = "/";
                 }
             }
         })
