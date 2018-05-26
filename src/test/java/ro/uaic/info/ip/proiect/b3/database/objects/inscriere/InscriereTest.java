@@ -25,6 +25,10 @@ public class InscriereTest {
         inscriere = new Inscriere(20,1);
     }
 
+    @Test
+    public void insert1() throws SQLException {
+        inscriere.insert();
+    }
     @Test(expected = InscriereException.class)
     public void expExceptions() throws SQLException, InscriereException {
         inscriere2 = new Inscriere(20,-1);
