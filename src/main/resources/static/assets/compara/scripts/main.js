@@ -36,7 +36,7 @@ $(document).ready(function () {
                     th.style = 'width: 50px;'
 
                     var td = document.createElement('td');
-                    td.innerText = element;
+                    td.innerText = element.lineValue;
 
                     tr.appendChild(th);
                     tr.appendChild(td);
@@ -66,7 +66,7 @@ $(document).ready(function () {
                     th.style = 'width: 50px;'
 
                     var td = document.createElement('td');
-                    td.innerText = element;
+                    td.innerText = element.lineValue;
 
                     tr.appendChild(th);
                     tr.appendChild(td);

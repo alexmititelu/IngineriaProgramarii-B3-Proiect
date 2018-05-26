@@ -74,6 +74,7 @@ public class ContinutFisierController {
                                 break;
                             }
                         }
+                        liniiContinutFisier.add(linieContinutFisier);
                         indexLinie++;
                     }
                 }
