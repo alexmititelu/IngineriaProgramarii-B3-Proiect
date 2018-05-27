@@ -13,6 +13,12 @@ $(document).ready(function () {
 
     var location = window.location.href;
 
+    var sub = document.getElementById('subscribe');
+    sub.style.display = 'none';
+
+    var sub2 = document.getElementById('no-subscribe');
+    sub2.style.display = 'none';
+
     $.ajax({
         type: 'GET',
         url: location + '/teme_json',
@@ -55,6 +61,47 @@ $(document).ready(function () {
                     // a.appendChild(small3);
 
                     group.appendChild(a);
+                });
+            }
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: `${window.location.href}/is-subscribed`,
+        success: data => {
+            if (data === 'YES') {
+                sub.style.display = 'unset';
+            } else {
+                sub2.style.display = 'unset';
+            }
+
+            var sub11 = document.getElementById('sub');
+            var subb11 = document.getElementById('subb');
+
+            sub11.onclick = event => {
+                event.preventDefault();
+
+                sub.style.display = 'none';
+                sub2.style.display = 'unset';
+
+                $.ajax({
+                    type: 'POST',
+                    url: `${window.location.href}/unsubscribe`,
+                    data: null
+                });
+            }
+
+            subb11.onclick = event => {
+                event.preventDefault();
+
+                sub2.style.display = 'none';
+                sub.style.display = 'unset';
+
+                $.ajax({
+                    type: 'POST',
+                    url: `${window.location.href}/subscribe`,
+                    data: null
                 });
             }
         }

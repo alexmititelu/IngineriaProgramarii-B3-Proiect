@@ -40,7 +40,16 @@
             <a href="" class="list-group-item list-group-item-action flex-column align-items-start active">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 id="numeMaterie" class="mb-1">[[${materieNume}]]</h5>
-                    <small>3 days ago</small>
+                    <small id="subscribe">
+                        <div id="sub" class="btn btn-success">
+                            Abonat
+                        </div>
+                    </small>
+                    <small id="no-subscribe">
+                        <div id="subb" class="btn btn-danger">
+                            Aboneaza-te
+                        </div>
+                    </small>
                 </div>
                 <p class="mb-1">[[${materieDescriere}]]</p>
                 <small>An: [[${materieAn}]] | Semestru: [[${materieSemestru}]]</small>
@@ -107,7 +116,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <button id="add" class="btn btn-primary">
                             <span style="transform: rotate(45deg)" aria-hidden="true">+</span>
                         </button>
