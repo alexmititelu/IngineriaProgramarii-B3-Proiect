@@ -24,7 +24,7 @@ $(document).ready(function () {
 
         var btn = document.getElementById('btn-log');
         btn.setAttribute('disabled', 'disabled');
-        btn.innerText = 'Se valideaza..';
+        btn.innerText = 'Se validează..';
 
         $.ajax({
             type: 'POST',
@@ -34,7 +34,7 @@ $(document).ready(function () {
                 if (data === 'valid') {
                     errLogin.classList.add('success');
                     errLogin.innerText =
-                        'Te-ai logat cu succes, vei fi redirectionat catre pagina principala!';
+                        'Te-ai logat cu succes, vei fi redirecționat către pagina principală!';
 
                     btn.innerText = 'Succes';
 
@@ -48,7 +48,7 @@ $(document).ready(function () {
                     usr.removeAttribute('disabled');
                     pwd.removeAttribute('disabled');
                     btn.removeAttribute('disabled');
-                    btn.innerText = 'Log In';
+                    btn.innerText = 'Logare';
                 }
             }
         });
@@ -61,7 +61,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         var title = document.getElementById('titleForm');
-        title.innerText = 'Register';
+        title.innerText = 'Înregistrare';
 
         var login = document.getElementById('formLogin');
         login.hidden = true;
@@ -86,7 +86,7 @@ $(document).ready(function () {
         event.preventDefault();
 
         var title = document.getElementById('titleForm');
-        title.innerText = 'Login';
+        title.innerText = 'Logare';
 
         var login = document.getElementById('formLogin');
         login.hidden = false;
@@ -122,7 +122,7 @@ $(document).ready(function () {
         errReg.innerHTML = '&nbsp;';
 
         var btnReg = document.getElementById('btn-reg');
-        btnReg.innerText = 'Se valideaza..';
+        btnReg.innerText = 'Se validează..';
         btnReg.setAttribute('disabled', 'disabled');
 
         $.ajax({
@@ -133,7 +133,7 @@ $(document).ready(function () {
                 if (data === 'valid') {
                     errReg.classList.add('success');
                     errReg.innerText =
-                        'Te-ai inregistrat cu succes, vei primi in scurt timp un email pe adresa asociata numarului matricol pentru a continua inregistrarea!';
+                        'Te-ai înregistrat cu succes, vei primi în scurt timp un email pe adresa asociată numărului matricol pentru a continua înregistrarea!';
 
                     btnReg.innerText = 'Succes';
 
@@ -143,7 +143,7 @@ $(document).ready(function () {
                     errReg.classList.remove('success');
                     errReg.innerText = data;
 
-                    btnReg.innerText = 'Register';
+                    btnReg.innerText = 'Înregistrare';
                     btnReg.removeAttribute('disabled');
 
                     nr_matricol.removeAttribute('disabled');
