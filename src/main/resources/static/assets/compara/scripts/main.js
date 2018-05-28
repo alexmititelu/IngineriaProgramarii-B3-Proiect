@@ -30,6 +30,9 @@ $(document).ready(function () {
     var rowStart1, rowEnd1;
     var rowStart2, rowEnd2;
 
+    var okViz = false;
+    var okViz2 = false;
+
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
@@ -78,7 +81,11 @@ $(document).ready(function () {
                         th.setAttribute('endr', rowEnd);
 
                         var td = document.createElement('td');
-                        td.innerText = element.lineValue;
+
+                        var pre = document.createElement('pre');
+                        pre.innerHTML = element.lineValue;
+
+                        td.appendChild(pre);
 
                         continut1.push(element.lineValue);
                         continut2.push(curComment);
@@ -92,23 +99,41 @@ $(document).ready(function () {
 
                         th.onclick = () => {
                             var index = parseInt(th.innerText);
-                            var cont = th.parentElement.parentElement.childNodes[ind + 1].childNodes[1];
+                            var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value)].childNodes[1];
 
                             var btn = document.createElement('button');
                             btn.innerText = 'Sterge comentariu';
+                            btn.classList = 'btn btn-danger';
                             btn.setAttribute('startr', parseInt(th.attributes.startr.value));
                             btn.setAttribute('endr', parseInt(th.attributes.endr.value));
 
                             var err = document.createElement('p');
 
-                            if (!th.classList.contains('viz')) {
-                                cont.innerText += `\n${continut2[ind]}\n`;
-                                cont.appendChild(btn);
-                                cont.appendChild(err);
-                                th.classList.add('viz');
+                            var div = document.createElement('div');
+                            div.classList = 'commentSol';
+
+                            var p = document.createElement('p');
+                            p.innerText = continut2[ind];
+
+                            div.appendChild(p);
+                            div.appendChild(btn);
+                            div.appendChild(err);
+
+                            var pre = document.createElement('pre');
+                            pre.innerHTML = `${continut1[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                            if (!okViz) {
+                                cont.innerHTML = '';
+                                cont.appendChild(pre);
+
+                                cont.appendChild(div);
+                                okViz = true;
                             } else {
-                                cont.innerText = continut1[ind];
-                                th.classList.remove('viz');
+                                cont.innerText = '';
+
+                                cont.appendChild(pre);
+
+                                okViz = false;
                             }
 
                             btn.onclick = () => {
@@ -156,7 +181,7 @@ $(document).ready(function () {
 
                             var th = document.createElement('th');
                             th.innerText = line1;
-                            th.style = `width: 50px; background: ${curColor};cursor: pointer;`;
+                            th.style = `width: 60px; background: ${curColor};cursor: pointer;`;
                             th.classList = 'rowSol';
                             th.setAttribute('role', 'button');
                             th.setAttribute('data-toggle', 'popover');
@@ -168,8 +193,11 @@ $(document).ready(function () {
                             th.setAttribute('endr', rowEnd);
 
                             var td = document.createElement('td');
-                            td.innerText = element.lineValue;
 
+                            var pre = document.createElement('pre');
+                            pre.innerHTML = element.lineValue;
+
+                            td.appendChild(pre);
                             continut1.push(element.lineValue);
                             continut2.push(curComment);
 
@@ -182,9 +210,10 @@ $(document).ready(function () {
 
                             th.onclick = () => {
                                 var index = parseInt(th.innerText);
-                                var cont = th.parentElement.parentElement.childNodes[ind + 1].childNodes[1];
+                                var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value)].childNodes[1];
 
                                 var btn = document.createElement('button');
+                                btn.classList = 'btn btn-danger';
                                 btn.innerText = 'Sterge comentariu';
 
                                 var err = document.createElement('p');
@@ -192,14 +221,33 @@ $(document).ready(function () {
                                 btn.setAttribute('startr', parseInt(th.attributes.startr.value));
                                 btn.setAttribute('endr', parseInt(th.attributes.endr.value));
 
-                                if (!th.classList.contains('viz')) {
-                                    cont.innerText += `\n${continut2[ind]}\n`;
-                                    cont.appendChild(btn);
-                                    cont.appendChild(err);
-                                    th.classList.add('viz');
+                                var div = document.createElement('div');
+                                div.classList = 'commentSol';
+
+                                var p = document.createElement('p');
+                                p.innerText = continut2[ind];
+
+                                div.appendChild(p);
+                                div.appendChild(btn);
+                                div.appendChild(err);
+
+                                var pre = document.createElement('pre');
+                                pre.innerHTML = `${continut1[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                                if (!okViz) {
+                                    cont.innerHTML = '';
+                                    cont.appendChild(pre);
+
+                                    cont.appendChild(div);
+                                    // cont.appendChild(btn);
+                                    // cont.appendChild(err);
+                                    okViz = true;
                                 } else {
-                                    cont.innerText = continut1[ind];
-                                    th.classList.remove('viz');
+                                    cont.innerText = '';
+
+                                    cont.appendChild(pre);
+
+                                    okViz = false;
                                 }
 
                                 btn.onclick = () => {
@@ -235,11 +283,16 @@ $(document).ready(function () {
                             var tr = document.createElement('tr');
 
                             var th = document.createElement('th');
-                            th.innerText = line1;
+                            th.classList = 'th-hover';
+                            th.innerHTML = line1 + '<i class="far fa-plus-square" style="margin-left: 5px;"></i>';
                             th.style = 'width: 50px;cursor: pointer;';
 
                             var td = document.createElement('td');
-                            td.innerText = element.lineValue;
+
+                            var pre = document.createElement('pre');
+                            pre.innerHTML = element.lineValue;
+
+                            td.appendChild(pre);
 
                             continut1.push(element.lineValue);
                             continut2.push('');
@@ -265,19 +318,31 @@ $(document).ready(function () {
                                 var button = document.createElement('button');
                                 button.id = `bt${ind}`;
                                 button.innerText = 'Adauga comentariu';
+                                button.classList = 'btn btn-primary';
 
                                 var err = document.createElement('p');
 
+                                var div = document.createElement('div');
+                                div.classList = 'commentSol';
+
+                                div.appendChild(inp1);
+                                div.appendChild(inp2);
+                                div.appendChild(input);
+                                div.appendChild(button);
+                                div.appendChild(err);
+
+                                var pre = document.createElement('pre');
+                                pre.innerHTML = `${continut1[ind]}\n`;
+
                                 if (!th.classList.contains('viz2')) {
-                                    cont.innerText += "\n";
-                                    cont.appendChild(inp1);
-                                    cont.appendChild(inp2);
-                                    cont.appendChild(input);
-                                    cont.appendChild(button);
-                                    cont.appendChild(err);
+                                    cont.innerText = "";
+                                    cont.appendChild(pre);
+
+                                    cont.appendChild(div);
                                     th.classList.add('viz2');
                                 } else {
-                                    cont.innerText = continut1[ind];
+                                    cont.innerText = '';
+                                    cont.appendChild(pre);
                                     th.classList.remove('viz2');
                                 }
 
@@ -352,7 +417,11 @@ $(document).ready(function () {
                         th.setAttribute('endr', rowEnd2);
 
                         var td = document.createElement('td');
-                        td.innerText = element.lineValue;
+
+                        var pre = document.createElement('pre');
+                        pre.innerHTML = element.lineValue;
+
+                        td.appendChild(pre);
 
                         continut11.push(element.lineValue);
                         continut22.push(curComment);
@@ -366,23 +435,40 @@ $(document).ready(function () {
 
                         th.onclick = () => {
                             var index = parseInt(th.innerText);
-                            var cont = th.parentElement.parentElement.childNodes[ind + 1].childNodes[1];
+                            var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value)].childNodes[1];
 
                             var btn = document.createElement('button');
                             btn.innerText = 'Sterge comentariu';
+                            btn.classList = 'btn btn-danger';
                             btn.setAttribute('startr', parseInt(th.attributes.startr.value));
                             btn.setAttribute('endr', parseInt(th.attributes.endr.value));
 
                             var err = document.createElement('p');
 
-                            if (!th.classList.contains('viz')) {
-                                cont.innerText += `\n${continut22[ind]}\n`;
-                                cont.appendChild(btn);
-                                cont.appendChild(err);
-                                th.classList.add('viz');
+                            var div = document.createElement('div');
+                            div.classList = 'commentSol';
+
+                            var p = document.createElement('p');
+                            p.innerText = continut22[ind];
+
+                            div.appendChild(p);
+                            div.appendChild(btn);
+                            div.appendChild(err);
+
+                            var pre = document.createElement('pre');
+                            pre.innerHTML = `${continut11[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                            if (!okViz2) {
+                                cont.innerHTML = '';
+                                cont.appendChild(pre);
+
+                                cont.appendChild(div);
+                                okViz2 = true;
                             } else {
-                                cont.innerText = continut11[ind];
-                                th.classList.remove('viz');
+                                cont.innerText = '';
+                                cont.appendChild(pre);
+
+                                okViz2 = false;
                             }
 
                             btn.onclick = () => {
@@ -442,7 +528,11 @@ $(document).ready(function () {
                             th.setAttribute('endr', rowEnd2);
 
                             var td = document.createElement('td');
-                            td.innerText = element.lineValue;
+
+                            var pre = document.createElement('pre');
+                            pre.innerHTML = element.lineValue;
+
+                            td.appendChild(pre);
 
                             continut11.push(element.lineValue);
                             continut22.push(curComment);
@@ -456,9 +546,10 @@ $(document).ready(function () {
 
                             th.onclick = () => {
                                 var index = parseInt(th.innerText);
-                                var cont = th.parentElement.parentElement.childNodes[ind + 1].childNodes[1];
+                                var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value)].childNodes[1];
 
                                 var btn = document.createElement('button');
+                                btn.classList = 'btn btn-danger';
                                 btn.innerText = 'Sterge comentariu';
 
                                 var err = document.createElement('p');
@@ -466,14 +557,30 @@ $(document).ready(function () {
                                 btn.setAttribute('startr', parseInt(th.attributes.startr.value));
                                 btn.setAttribute('endr', parseInt(th.attributes.endr.value));
 
-                                if (!th.classList.contains('viz')) {
-                                    cont.innerText += `\n${continut22[ind]}\n`;
-                                    cont.appendChild(btn);
-                                    cont.appendChild(err);
-                                    th.classList.add('viz');
+                                var div = document.createElement('div');
+                                div.classList = 'commentSol';
+
+                                var p = document.createElement('p');
+                                p.innerText = continut2[ind];
+
+                                div.appendChild(p);
+                                div.appendChild(btn);
+                                div.appendChild(err);
+
+                                var pre = document.createElement('pre');
+                                pre.innerHTML = `${continut11[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                                if (!okViz2) {
+                                    cont.innerHTML = '';
+                                    cont.appendChild(pre);
+
+                                    cont.appendChild(div);
+                                    okViz2 = true;
                                 } else {
-                                    cont.innerText = continut11[ind];
-                                    th.classList.remove('viz');
+                                    cont.innerText = '';
+                                    cont.appendChild(pre);
+
+                                    okViz2 = false;
                                 }
 
                                 btn.onclick = () => {
@@ -509,11 +616,16 @@ $(document).ready(function () {
                             var tr = document.createElement('tr');
 
                             var th = document.createElement('th');
-                            th.innerText = line2;
-                            th.style = 'width: 50px;cursor: pointer;';
+                            th.classList = 'th-hover';
+                            th.innerHTML = line2 + '<i class="far fa-plus-square" style="margin-left: 5px;"></i>';
+                            th.style = 'width: 60px;cursor: pointer;';
 
                             var td = document.createElement('td');
-                            td.innerText = element.lineValue;
+
+                            var pre = document.createElement('pre');
+                            pre.innerHTML = element.lineValue;
+
+                            td.appendChild(pre);
 
                             continut11.push(element.lineValue);
                             continut22.push('');
@@ -539,19 +651,31 @@ $(document).ready(function () {
                                 var button = document.createElement('button');
                                 button.id = `bt${ind}`;
                                 button.innerText = 'Adauga comentariu';
+                                button.classList = 'btn btn-primary';
 
                                 var err = document.createElement('p');
 
+                                var div = document.createElement('div');
+                                div.classList = 'commentSol';
+
+                                div.appendChild(inp1);
+                                div.appendChild(inp2);
+                                div.appendChild(input);
+                                div.appendChild(button);
+                                div.appendChild(err);
+
+                                var pre = document.createElement('pre');
+                                pre.innerHTML = `${continut11[ind]}\n`;
+
                                 if (!th.classList.contains('viz2')) {
-                                    cont.innerText += "\n";
-                                    cont.appendChild(inp1);
-                                    cont.appendChild(inp2);
-                                    cont.appendChild(input);
-                                    cont.appendChild(button);
-                                    cont.appendChild(err);
+                                    cont.innerText = "";
+                                    cont.appendChild(pre);
+
+                                    cont.appendChild(div);
                                     th.classList.add('viz2');
                                 } else {
-                                    cont.innerText = continut11[ind];
+                                    cont.innerText = '';
+                                    cont.appendChild(pre);
                                     th.classList.remove('viz2');
                                 }
 
@@ -607,10 +731,10 @@ $(document).ready(function () {
                 var div = document.createElement('div');
                 div.classList = 'col-12 text-center row-plag';
                 div.innerText = `${nume1} [${element.student1[0]}-${element.student1[1]}] | ${nume2} [${element.student2[0]}-${element.student2[1]}] ${element.procent}%`;
-                div.setAttribute('f1', element.student1[0]);
-                div.setAttribute('f2', element.student1[1]);
-                div.setAttribute('l1', element.student2[0]);
-                div.setAttribute('l2', element.student2[1]);
+                div.setAttribute('f1', parseInt(element.student1[0]) + 1);
+                div.setAttribute('f2', parseInt(element.student1[1]) + 2);
+                div.setAttribute('l1', parseInt(element.student2[0]) + 1);
+                div.setAttribute('l2', parseInt(element.student1[1]) + 2);
 
                 mainRow.appendChild(div);
             });

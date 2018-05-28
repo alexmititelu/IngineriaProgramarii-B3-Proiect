@@ -20,6 +20,8 @@ $(document).ready(function () {
     var rowStart1, rowEnd1;
     var rowStart2, rowEnd2;
 
+    var okViz = false;
+
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
@@ -178,7 +180,11 @@ $(document).ready(function () {
                                             th.setAttribute('endr', rowEnd);
 
                                             var td = document.createElement('td');
-                                            td.innerText = element.lineValue;
+
+                                            var pre = document.createElement('pre');
+                                            pre.innerText = element.lineValue;
+
+                                            td.appendChild(pre);
 
                                             continut1.push(element.lineValue);
                                             continut2.push(curComment);
@@ -192,14 +198,31 @@ $(document).ready(function () {
 
                                             th.onclick = () => {
                                                 var index = parseInt(th.innerText);
-                                                var cont = th.parentElement.parentElement.childNodes[ind].childNodes[1];
+                                                var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value) - 1].childNodes[1];
 
-                                                if (!th.classList.contains('viz')) {
-                                                    cont.innerText += `\n${continut2[ind]}\n`;
-                                                    th.classList.add('viz');
+                                                var div = document.createElement('div');
+                                                div.classList = 'commentSol';
+
+                                                var p = document.createElement('p');
+                                                p.innerText = continut2[ind];
+
+                                                div.appendChild(p);
+
+                                                var pre = document.createElement('pre');
+                                                pre.innerHTML = `${continut1[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                                                if (!okViz) {
+                                                    cont.innerHTML = '';
+                                                    cont.appendChild(pre);
+
+                                                    cont.appendChild(div);
+                                                    okViz = true;
                                                 } else {
-                                                    cont.innerText = continut1[ind];
-                                                    th.classList.remove('viz');
+                                                    cont.innerText = '';
+
+                                                    cont.appendChild(pre);
+
+                                                    okViz = false;
                                                 }
                                             }
                                         } else {
@@ -232,7 +255,11 @@ $(document).ready(function () {
                                                 th.setAttribute('endr', rowEnd);
 
                                                 var td = document.createElement('td');
-                                                td.innerText = element.lineValue;
+
+                                                var pre = document.createElement('pre');
+                                                pre.innerText = element.lineValue;
+
+                                                td.appendChild(pre);
 
                                                 continut1.push(element.lineValue);
                                                 continut2.push(curComment);
@@ -246,14 +273,31 @@ $(document).ready(function () {
 
                                                 th.onclick = () => {
                                                     var index = parseInt(th.innerText);
-                                                    var cont = th.parentElement.parentElement.childNodes[ind].childNodes[1];
+                                                    var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value) - 1].childNodes[1];
 
-                                                    if (!th.classList.contains('viz')) {
-                                                        cont.innerText += `\n${continut2[ind]}\n`;
-                                                        th.classList.add('viz');
+                                                    var div = document.createElement('div');
+                                                    div.classList = 'commentSol';
+
+                                                    var p = document.createElement('p');
+                                                    p.innerText = continut2[ind];
+
+                                                    div.appendChild(p);
+
+                                                    var pre = document.createElement('pre');
+                                                    pre.innerHTML = `${continut1[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                                                    if (!okViz) {
+                                                        cont.innerHTML = '';
+                                                        cont.appendChild(pre);
+
+                                                        cont.appendChild(div);
+                                                        okViz = true;
                                                     } else {
-                                                        cont.innerText = continut1[ind];
-                                                        th.classList.remove('viz');
+                                                        cont.innerText = '';
+
+                                                        cont.appendChild(pre);
+
+                                                        okViz = false;
                                                     }
                                                 }
                                             } else {
@@ -266,7 +310,11 @@ $(document).ready(function () {
                                                 th.style = 'width: 50px;cursor: pointer;';
 
                                                 var td = document.createElement('td');
-                                                td.innerText = element.lineValue;
+
+                                                var pre = document.createElement('pre');
+                                                pre.innerText = element.lineValue;
+
+                                                td.appendChild(pre);
 
                                                 continut1.push(element.lineValue);
                                                 continut2.push('');

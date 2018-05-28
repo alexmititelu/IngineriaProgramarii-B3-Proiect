@@ -49,6 +49,10 @@ $(document).ready(function () {
 
     var totalLines = 0;
 
+    var rowStart, rowEnd;
+
+    var okViz = false;
+
     $.ajax({
         type: 'GET',
         url: `${window.location.href}/profesor_info`,
@@ -136,7 +140,7 @@ $(document).ready(function () {
 
                                                 var th = document.createElement('th');
                                                 th.innerText = line;
-                                                th.style = `width: 50px; background: ${curColor};cursor: pointer;`;
+                                                th.style = `width: 30px; background: ${curColor};cursor: pointer;`;
                                                 th.classList = 'rowSol';
                                                 th.setAttribute('role', 'button');
                                                 th.setAttribute('data-toggle', 'popover');
@@ -144,8 +148,15 @@ $(document).ready(function () {
                                                 th.setAttribute('title', 'Comeptariu');
                                                 th.setAttribute('data-content', curComment);
 
+                                                th.setAttribute('startr', rowStart);
+                                                th.setAttribute('endr', rowEnd);
+
                                                 var td = document.createElement('td');
-                                                td.innerText = element.lineValue;
+
+                                                var pre = document.createElement('pre');
+                                                pre.innerText = element.lineValue;
+
+                                                td.appendChild(pre);
 
                                                 continut1.push(element.lineValue);
                                                 continut2.push(curComment);
@@ -159,19 +170,77 @@ $(document).ready(function () {
 
                                                 th.onclick = () => {
                                                     var index = parseInt(th.innerText);
-                                                    var cont = th.parentElement.parentElement.childNodes[ind].childNodes[1];
+                                                    var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value) - 1].childNodes[1];
 
-                                                    if (!th.classList.contains('viz')) {
-                                                        cont.innerText += `\n${continut2[ind]}`;
-                                                        th.classList.add('viz');
+                                                    var btn = document.createElement('button');
+                                                    btn.innerText = 'Sterge comentariu';
+                                                    btn.classList = 'btn btn-danger';
+
+                                                    var err = document.createElement('p');
+
+                                                    btn.setAttribute('startr', parseInt(th.attributes.startr.value));
+                                                    btn.setAttribute('endr', parseInt(th.attributes.endr.value));
+
+                                                    var div = document.createElement('div');
+                                                    div.classList = 'commentSol';
+
+                                                    var p = document.createElement('p');
+                                                    p.innerText = continut2[ind];
+
+                                                    div.appendChild(p);
+                                                    div.appendChild(btn);
+                                                    div.appendChild(err);
+
+                                                    var pre = document.createElement('pre');
+                                                    pre.innerHTML = `${continut1[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                                                    if (!okViz) {
+                                                        cont.innerHTML = '';
+                                                        cont.appendChild(pre);
+
+                                                        cont.appendChild(div);
+                                                        okViz = true;
                                                     } else {
-                                                        cont.innerText = continut1[ind];
-                                                        th.classList.remove('viz');
+                                                        cont.innerText = '';
+
+                                                        cont.appendChild(pre);
+
+                                                        okViz = false;
+                                                    }
+
+                                                    btn.onclick = () => {
+                                                        var loc = window.location.href.split('/compara')[0];
+
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: `${loc}/stergeComentariu`,
+                                                            data: {
+                                                                username: username,
+                                                                nrExercitiu: nrExercitiu,
+                                                                startRow: parseInt(btn.attributes.startr.value),
+                                                                endRow: parseInt(btn.attributes.endr.value)
+                                                            },
+                                                            success: data => {
+                                                                if (data === 'valid') {
+                                                                    err.style.color = 'green';
+                                                                    err.innerText = 'Comentariu sters cu succes!';
+                                                                    setTimeout(() => {
+                                                                        window.location.href = window.location.href
+                                                                    }, 1000);
+                                                                } else {
+                                                                    err.style.color = 'red';
+                                                                    err.innerText = data;
+                                                                }
+                                                            }
+                                                        });
                                                     }
                                                 }
                                             } else {
                                                 if (element.comment) {
                                                     nr = parseInt(element.commentedLines);
+
+                                                    rowStart = ind + 1;
+                                                    rowEnd = rowStart + element.commentedLines - 1;
 
                                                     var color = getRandomColor();
                                                     curColor = color;
@@ -184,7 +253,7 @@ $(document).ready(function () {
 
                                                     var th = document.createElement('th');
                                                     th.innerText = line;
-                                                    th.style = `width: 50px; background: ${curColor};cursor: pointer;`;
+                                                    th.style = `width: 30px; background: ${curColor};cursor: pointer;`;
                                                     th.classList = 'rowSol';
                                                     th.setAttribute('role', 'button');
                                                     th.setAttribute('data-toggle', 'popover');
@@ -192,8 +261,15 @@ $(document).ready(function () {
                                                     th.setAttribute('title', 'Comeptariu');
                                                     th.setAttribute('data-content', curComment);
 
+                                                    th.setAttribute('startr', rowStart);
+                                                    th.setAttribute('endr', rowEnd);
+
                                                     var td = document.createElement('td');
-                                                    td.innerText = element.lineValue;
+
+                                                    var pre = document.createElement('pre');
+                                                    pre.innerText = element.lineValue;
+
+                                                    td.appendChild(pre);
 
                                                     continut1.push(element.lineValue);
                                                     continut2.push(curComment);
@@ -207,14 +283,69 @@ $(document).ready(function () {
 
                                                     th.onclick = () => {
                                                         var index = parseInt(th.innerText);
-                                                        var cont = th.parentElement.parentElement.childNodes[ind].childNodes[1];
+                                                        var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value) - 1].childNodes[1];
 
-                                                        if (!th.classList.contains('viz')) {
-                                                            cont.innerText += `\n${continut2[ind]}`;
-                                                            th.classList.add('viz');
+                                                        var btn = document.createElement('button');
+                                                        btn.innerText = 'Sterge comentariu';
+                                                        btn.classList = 'btn btn-danger';
+
+                                                        var err = document.createElement('p');
+
+                                                        btn.setAttribute('startr', parseInt(th.attributes.startr.value));
+                                                        btn.setAttribute('endr', parseInt(th.attributes.endr.value));
+
+                                                        var div = document.createElement('div');
+                                                        div.classList = 'commentSol';
+
+                                                        var p = document.createElement('p');
+                                                        p.innerText = continut2[ind];
+
+                                                        div.appendChild(p);
+                                                        div.appendChild(btn);
+                                                        div.appendChild(err);
+
+                                                        var pre = document.createElement('pre');
+                                                        pre.innerHTML = `${continut1[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                                                        if (!okViz) {
+                                                            cont.innerHTML = '';
+                                                            cont.appendChild(pre);
+
+                                                            cont.appendChild(div);
+                                                            okViz = true;
                                                         } else {
-                                                            cont.innerText = continut1[ind];
-                                                            th.classList.remove('viz');
+                                                            cont.innerText = '';
+
+                                                            cont.appendChild(pre);
+
+                                                            okViz = false;
+                                                        }
+
+                                                        btn.onclick = () => {
+                                                            var loc = window.location.href.split('/compara')[0];
+
+                                                            $.ajax({
+                                                                type: 'POST',
+                                                                url: `${loc}/stergeComentariu`,
+                                                                data: {
+                                                                    username: username,
+                                                                    nrExercitiu: nrExercitiu,
+                                                                    startRow: parseInt(btn.attributes.startr.value),
+                                                                    endRow: parseInt(btn.attributes.endr.value)
+                                                                },
+                                                                success: data => {
+                                                                    if (data === 'valid') {
+                                                                        err.style.color = 'green';
+                                                                        err.innerText = 'Comentariu sters cu succes!';
+                                                                        setTimeout(() => {
+                                                                            window.location.href = window.location.href
+                                                                        }, 1000);
+                                                                    } else {
+                                                                        err.style.color = 'red';
+                                                                        err.innerText = data;
+                                                                    }
+                                                                }
+                                                            });
                                                         }
                                                     }
                                                 } else {
@@ -223,11 +354,16 @@ $(document).ready(function () {
                                                     var tr = document.createElement('tr');
 
                                                     var th = document.createElement('th');
-                                                    th.innerText = line;
-                                                    th.style = 'width: 50px;cursor: pointer;';
+                                                    th.classList = 'th-hover';
+                                                    th.innerHTML = line + '<i class="far fa-plus-square" style="margin-left: 5px;"></i>';
+                                                    th.style = 'width: 60px;cursor: pointer;';
 
                                                     var td = document.createElement('td');
-                                                    td.innerText = element.lineValue;
+
+                                                    var pre = document.createElement('pre');
+                                                    pre.innerText = element.lineValue;
+
+                                                    td.appendChild(pre);
 
                                                     continut1.push(element.lineValue);
                                                     continut2.push('');
@@ -250,22 +386,41 @@ $(document).ready(function () {
 
                                                         var input = document.createElement('textarea');
                                                         input.style.width = '100%';
+                                                        
                                                         var button = document.createElement('button');
                                                         button.id = `bt${ind}`;
                                                         button.innerText = 'Adauga comentariu';
+                                                        button.classList = 'btn btn-primary';
 
                                                         var err = document.createElement('p');
 
+                                                        var div = document.createElement('div');
+                                                        div.classList = 'commentSol';
+
+                                                        var p = document.createElement('p');
+                                                        p.innerText = continut2[ind];
+
+                                                        var div = document.createElement('div');
+                                                        div.classList = 'commentSol';
+
+                                                        div.appendChild(inp1);
+                                                        div.appendChild(inp2);
+                                                        div.appendChild(input);
+                                                        div.appendChild(button);
+                                                        div.appendChild(err);
+
+                                                        var pre = document.createElement('pre');
+                                                        pre.innerHTML = `${continut1[ind]}\n`;
+
                                                         if (!th.classList.contains('viz2')) {
-                                                            cont.innerText += "\n";
-                                                            cont.appendChild(inp1);
-                                                            cont.appendChild(inp2);
-                                                            cont.appendChild(input);
-                                                            cont.appendChild(button);
-                                                            cont.appendChild(err);
+                                                            cont.innerText = "";
+                                                            cont.appendChild(pre);
+
+                                                            cont.appendChild(div);
                                                             th.classList.add('viz2');
                                                         } else {
-                                                            cont.innerText = continut1[ind];
+                                                            cont.innerText = '';
+                                                            cont.appendChild(pre);
                                                             th.classList.remove('viz2');
                                                         }
 
