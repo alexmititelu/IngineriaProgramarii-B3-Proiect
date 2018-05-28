@@ -1,4 +1,4 @@
-package ro.uaic.info.ip.proiect.b3.controllers.notifications;
+package ro.uaic.info.ip.proiect.b3.controllers.dashboard;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -7,19 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
-import ro.uaic.info.ip.proiect.b3.database.objects.notificare.Notificare;
+import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Controller
-public class NotificationsController {
-    private static final Logger logger = Logger.getLogger(NotificationsController.class);
+public class SubscribedSubjectsController {
+    private final static Logger logger = Logger.getLogger(SubscribedSubjectsController.class);
 
-    @RequestMapping(value = "/notifications", method = RequestMethod.GET)
+    @RequestMapping(value = "/subscribed-subjects", method = RequestMethod.GET)
     public @ResponseBody
-    ArrayList<Notificare> getNotifications(
+    ArrayList<Materie> getSubscribedSubjects(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken) {
         try {
             if (PermissionManager.isLoggedUserStudent(loginToken)) {
@@ -30,7 +30,7 @@ public class NotificationsController {
                     return null;
                 }
 
-                return Notificare.getNotificationsForUser(cont.getId());
+                return Materie.getAllSubscribedByUser(cont.getId());
             } else {
                 return null;
             }

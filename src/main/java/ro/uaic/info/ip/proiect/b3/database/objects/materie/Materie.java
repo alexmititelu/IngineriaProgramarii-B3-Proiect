@@ -132,6 +132,30 @@ public class Materie implements Serializable {
         return materii;
     }
 
+    public static ArrayList<Materie> getAllSubscribedByUser(long idCont) throws SQLException {
+        ArrayList<Materie> materii = new ArrayList<>();
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT m.id, titlu, an, semestru, descriere FROM materii m JOIN inscrieri i on m.id = i.id_materie WHERE i.id_cont = ? ORDER BY an ASC, semestru ASC;"
+        );
+        preparedStatement.setLong(1, idCont);
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        while (resultSet.next()) {
+            materii.add(new Materie(
+                    resultSet.getLong(1),
+                    resultSet.getString(2),
+                    resultSet.getInt(3),
+                    resultSet.getInt(4),
+                    resultSet.getString(5))
+            );
+        }
+
+        connection.close();
+        return materii;
+    }
+
     private void validateTitlu(String titlu) throws SQLException, MaterieException {
         Materie materie = Materie.getByTitlu(titlu);
 
