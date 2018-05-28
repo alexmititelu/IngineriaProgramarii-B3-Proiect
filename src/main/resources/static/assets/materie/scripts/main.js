@@ -89,7 +89,7 @@ $(document).ready(function () {
                     type: 'POST',
                     url: `${window.location.href}/unsubscribe`,
                     success: data => {
-                        if(data === 'valid') {
+                        if (data === 'valid') {
                             var subscribeStatus = 'Te-ai dezabonat cu succes!';
 
                             var p = document.getElementById('subscribe-status');
@@ -122,7 +122,7 @@ $(document).ready(function () {
                     type: 'POST',
                     url: `${window.location.href}/subscribe`,
                     success: data => {
-                        if(data === 'valid') {
+                        if (data === 'valid') {
                             var subscribeStatus = 'Te-ai abonat cu succes!';
 
                             var p = document.getElementById('subscribe-status');
@@ -211,11 +211,16 @@ $(document).ready(function () {
         option5.value = 'py';
         option5.innerText = 'Python';
 
+        var option6 = document.createElement('option');
+        option5.value = 'sql';
+        option5.innerText = 'SQL';
+
         select.appendChild(option1);
         select.appendChild(option2);
         select.appendChild(option3);
         select.appendChild(option4);
         select.appendChild(option5);
+        select.appendChild(option6);
 
         grp.appendChild(lbExt);
         grp.appendChild(select);
