@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title> Register </title>
+    <title> Înregistrare </title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
@@ -21,13 +21,13 @@
                 <img src="/assets/home-no-logged/images/logo.svg" width="50px;" alt="home" style="display: inline-block;"> | GestiON
             </a>
             <div class="responsive-menu">
-                <a class="nav-link responsive" href="#">Acasa</a>
+                <a class="nav-link responsive" href="#">Acasă</a>
                 <a class="nav-link responsive" href="#">Despre</a>
                 <a class="nav-link responsive" href="#">Echipa</a>
                 <a class="nav-link responsive" href="#">Contact</a>
                 <a class="nav-link responsive nav-button" href="#" role="button" data-toggle="modal" data-target="#exampleModalCenter">
                     <span class="nav-button-item">
-                        Log In
+                        Logare
                     </span>
                 </a>
             </div>
@@ -40,7 +40,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="titleForm">Login</h5>
+                    <h5 class="modal-title" id="titleForm">Logare</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -48,25 +48,25 @@
                 <div class="modal-body">
                     <form id="formLogin">
                         <div class="form-group">
-                            <label for="username">Email address</label>
-                            <input type="text" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="Enter username">
-                            <small id="usernameHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                            <label for="username">Adresă de email</label>
+                            <input type="text" class="form-control" id="username" aria-describedby="usernameHelp" placeholder="Nume utilizator">
+                            <small id="usernameHelp" class="form-text text-muted">Nu vă va vedea nimeni email-ul.</small>
                         </div>
                         <div class="form-group" id="dis">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Password">
+                            <label for="password">Parolă</label>
+                            <input type="password" class="form-control" id="password" placeholder="Parolă">
                         </div>
                         <h6 class="error" id="errLogin">&nbsp;</h6>
-                        <button id="btn-log" type="submit" class="btn btn-primary">Log In</button>
+                        <button id="btn-log" type="submit" class="btn btn-primary">Logare</button>
                     </form>
 
                     <form id="formRegister" class="none">
                         <div class="form-group">
-                            <label for="nr_matricol">Numar matricol</label>
-                            <input type="text" class="form-control" id="nr_matricol" aria-describedby="usernameHelp" placeholder="Numar matricol">
+                            <label for="nr_matricol">Număr matricol</label>
+                            <input type="text" class="form-control" id="nr_matricol" aria-describedby="usernameHelp" placeholder="Număr matricol">
                         </div>
                         <h6 class="error" id="errRegister">&nbsp;</h6>
-                        <button id="btn-reg" type="submit" class="btn btn-primary">Register</button>
+                        <button id="btn-reg" type="submit" class="btn btn-primary">Înregistrare</button>
                     </form>
                 </div>
                 <div class="modal-footer" id="foot">
@@ -78,12 +78,12 @@
                         </div>
                         <div class="row log-row">
                             <div class="col-sm-12">
-                                <a href="" id="register-btn">Nu ai un cont? Apasa aici.</a>
+                                <a href="" id="register-btn">Nu ai un cont? Apasă aici.</a>
                             </div>
                         </div>
                         <div class="row none" id="reg-row">
                             <div class="col-sm-12">
-                                <a href="" id="login-btn">Ai deja un cont? Apasa aici.</a>
+                                <a href="" id="login-btn">Ai deja un cont? Apasă aici.</a>
                             </div>
                         </div>
                     </div>
@@ -102,23 +102,23 @@
                             <input type="email" th:value="${email}" class="form-control" id="emailForm" placeholder="Email" disabled>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputPassword4">Username</label>
-                            <input type="text" class="form-control" name="username" id="usernameForm" placeholder="Username">
+                            <label for="inputPassword4">Nume de utilizator</label>
+                            <input type="text" class="form-control" name="username" id="usernameForm" placeholder="Nume utilizator">
                         </div>
                     </div>
 
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <label for="email">Password</label>
-                            <input type="password" class="form-control" id="passwordForm" placeholder="Enter password">
+                            <label for="email">Parolă</label>
+                            <input type="password" class="form-control" id="passwordForm" placeholder="Scrieți o parolă">
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="inputPassword4">Enter password again</label>
-                            <input type="password" class="form-control" name="password2" id="password2Form" placeholder="Enter password again">
+                            <label for="inputPassword4">Repetați parola</label>
+                            <input type="password" class="form-control" name="password2" id="password2Form" placeholder="Repetați parola">
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" id="btn">Create cont</button>
+                    <button type="submit" class="btn btn-primary" id="btn">Creare cont</button>
 
                     <p id="err" class="error">
                         &nbsp;
@@ -135,18 +135,18 @@
         <div class="container container-footer">
             <div class="col-sm-12 text-center header-container">
                 <h1 class="header-section">
-                    Salveaza timp pentru invatat
+                    Salvează timp pentru învățat
                 </h1>
             </div>
             <div class="col-12 text-center sub-header">
                 <h1>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Apăsați o opțiune
                 </h1>
             </div>
 
             <div class="container buttons-home text-center">
                 <div class="button-primary">
-                    Descopera mai mult
+                    Descoperă mai mult
                 </div>
                 <div class="button-secondary">
                     GitHub
@@ -157,7 +157,7 @@
                 <div class="col-sm-4">
                     <h1>Proiect</h1>
                     <a href="">
-                        Acasa
+                        Acasă
                     </a>
                     <a href="">
                         Despre
@@ -175,7 +175,7 @@
                         Logare
                     </a>
                     <a href="">
-                        Inregistrare
+                        Înregistrare
                     </a>
                     <a href="">
                         Regulament

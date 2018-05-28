@@ -27,7 +27,7 @@ $(document).ready(function () {
         password.setAttribute('disabled', 'disabled');
         password2.setAttribute('disabled', 'disabled');
         btn.setAttribute('disabled', 'disabled');
-        btn.innerText = 'Se valideaza..';
+        btn.innerText = 'Se validează..';
 
         $.ajax({
             type: 'POST',
@@ -36,7 +36,7 @@ $(document).ready(function () {
             success: data => {
                 if (data === 'valid') {
                     err.classList.add('success');
-                    err.innerHTML = 'Contul a fost creat cu succes, vei fi redirectionat catre pagina principala!';
+                    err.innerHTML = 'Contul a fost creat cu succes, vei fi redirecționat către pagina principală!';
 
                     setTimeout(() => {
                         window.location.href = '/';
