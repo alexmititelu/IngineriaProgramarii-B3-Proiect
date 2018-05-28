@@ -59,6 +59,7 @@ public class Tema {
                     temeToBeUpdatedForPlagiat.getString(6)));
         }
 
+        connection.close();
         return teme;
     }
 

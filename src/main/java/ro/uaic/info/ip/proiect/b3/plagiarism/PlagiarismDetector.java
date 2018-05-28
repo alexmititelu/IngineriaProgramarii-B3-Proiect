@@ -8,6 +8,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.hotzone.HotZone;
 import ro.uaic.info.ip.proiect.b3.database.objects.plagiat.Plagiat;
@@ -62,6 +63,8 @@ public class PlagiarismDetector {
                 FileUtils.deleteDirectory(new File("./compare/"));
                 logger.info("Stergerea fisierelor ramase din formatul MOSS");
             }
+
+            Database.getInstance().updateOperation("UPDATE teme SET verificata_plagiat = 1 WHERE id = ?", Long.toString(tema.getId()));
         }
     }
 

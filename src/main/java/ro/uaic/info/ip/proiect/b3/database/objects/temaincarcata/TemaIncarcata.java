@@ -141,6 +141,7 @@ public class TemaIncarcata {
             ));
         }
 
+        connection.close();
         return temeIncarcate;
     }
 
