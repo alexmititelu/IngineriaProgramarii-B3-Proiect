@@ -34,6 +34,59 @@ $(document).ready(function () {
         return color;
     }
 
+    var sub = document.getElementById('subscribe');
+    sub.style.display = 'none';
+
+    var sub2 = document.getElementById('no-subscribe');
+    sub2.style.display = 'none';
+
+    var loc = window.location.href.split('/');
+
+    var location = `${loc[0]}//${loc[2]}/${loc[3]}/${loc[4]}`;
+
+    $.ajax({
+        type: 'GET',
+        url: `${location}/is-subscribed`,
+        success: data => {
+            if (data === 'YES') {
+                sub.style.display = 'unset';
+            } else {
+                sub2.style.display = 'unset';
+            }
+
+            var sub11 = document.getElementById('sub');
+            var subb11 = document.getElementById('subb');
+
+            sub11.onclick = event => {
+                event.preventDefault();
+
+                sub.style.display = 'none';
+                sub2.style.display = 'unset';
+
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: `${location}/unsubscribe`,
+                    data: null
+                });
+            }
+
+            subb11.onclick = event => {
+                event.preventDefault();
+
+                sub2.style.display = 'none';
+                sub.style.display = 'unset';
+
+                $.ajax({
+                    type: 'POST',
+                    url: `${location}/subscribe`,
+                    data: null
+                });
+            }
+        }
+    });
+
     $.ajax({
         type: 'GET',
         url: `${window.location.href}/student_info_json`,

@@ -59,7 +59,23 @@ $(document).ready(function () {
         type: 'GET',
         url: '/notifications',
         success: data => {
-            console.log(data);
+            var notificari = document.getElementById('notificari');
+            data.forEach(element => {
+                var content = document.createElement('div');
+                content.classList = 'list-group-item list-group-item-action flex-column align-items-start';
+
+                var p = document.createElement('p');
+                p.classList = 'mb-1';
+                p.innerText = element.continut;
+
+                var small = document.createElement('small');
+                small.innerText = `Data: ${new Date(element.creationTime).toLocaleDateString()}`;
+
+                content.appendChild(p);
+                content.appendChild(small);
+
+                notificari.appendChild(content);
+            });
         }
     });
 });
