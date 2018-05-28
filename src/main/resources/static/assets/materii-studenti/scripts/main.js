@@ -10,7 +10,7 @@ $(document).ready(function () {
             if (data) {
                 var group = document.getElementById('group');
 
-                
+
                 data.forEach(element => {
                     var a = document.createElement('a');
                     a.href = `/materii/${element.titlu}`;
@@ -46,6 +46,62 @@ $(document).ready(function () {
 
                     group.appendChild(a);
                 });
+
+                var filter = document.getElementById('filter');
+                filter.onclick = () => {
+                    var groupItems = document.getElementById('group').childNodes;
+
+                    var an = document.getElementById('selectAn').value;
+                    var semestru = document.getElementById('selectSemestru').value;
+
+                    for (let index = 1; index < groupItems.length; index++) {
+                        const element = groupItems[index];
+
+                        var anItemBrut = element.childNodes[2].innerText;
+                        var anItem = anItemBrut.split(' ')[1];
+
+                        var semestruItemBrut = element.childNodes[3].innerText;
+                        var semestruItem = semestruItemBrut.split(': ')[1];
+
+                        element.style.display = 'unset';
+
+                        if (an === '1') {
+                            if (anItem !== '1') {
+                                element.style.display = 'none';
+                            }
+                        } else if (an === '2') {
+                            if (anItem !== '2') {
+                                element.style.display = 'none';
+                            }
+                        } else if (an === '3') {
+                            if (anItem !== '3') {
+                                element.style.display = 'none';
+                            }
+                        }
+
+                        if (semestru === '1') {
+                            if (semestruItem !== '1') {
+                                element.style.display = 'none';
+                            }
+                        } else if (semestru === '2') {
+                            if (semestruItem !== '2') {
+                                element.style.display = 'none';
+                            }
+                        }
+
+                        // if (semestru === '0' || semestru === '4') {
+                        //     element.style.display = 'unset';
+                        // } else if (semestru === '1') {
+                        //     if (semestruItem !== '1') {
+                        //         element.style.display = 'none';
+                        //     }
+                        // } else if (semestru === '2') {
+                        //     if (semestruItem !== '2') {
+                        //         element.style.display = 'none';
+                        //     }
+                        // }
+                    }
+                }
             }
         }
     });

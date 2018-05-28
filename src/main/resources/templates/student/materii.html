@@ -33,11 +33,30 @@
     </div>
 
     <div class="container dashboard-container">
+        <div class="form-group">
+            <label for="an">Filtreaza rezultate</label>
+            <br>
+            <select name="selectAn" id="selectAn">
+                <option value="0" selected disabled>An</option>
+                <option value="4">Toti anii</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <select name="selectSemestru" id="selectSemestru">
+                <option value="0" selected disabled>Semestru</option>
+                <option value="4">Toate semestrele</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+            </select>
+            <button type="button" id="filter" class="btn btn-secondary btn-sm" style="display: block; margin-top: 5px;">Filtreaza</button>
+        </div>
+
         <div class="list-group" id="group">
         </div>
     </div>
 
-   <!-- Footer -->
+    <!-- Footer -->
     <div class="container-fluid footer">
         <div class="overlay-echipa"></div>
         <div class="container container-footer">
