@@ -64,13 +64,17 @@
 
     <div class="container dashboard-container">
         <div class="list-group" id="group">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+            <div class="list-group-item list-group-item-action flex-column align-items-start active">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 id="numeMaterie" class="mb-1">[[${numeTema}]]</h5>
+                    <h5 id="numeMaterie" class="mb-1"><a href="" class="list-group-item active" style="padding-left: 0;">[[${numeTema}]]</a></h5>
+                    <!-- <span><a href="#">spanac</a></span> -->
+                    <small>
+                        <a id="download-csv" class="btn btn-success" download>Descarcă raport CSV</a>
+                    </small>
                 </div>
                 <p class="mb-1">[[${enuntTema}]]</p>
                 <p class="mb-1">Deadline: [[${deadlineTema}]]</p>
-            </a>
+            </div>
         </div>
 
         <p id="err" style="color: red">&nbsp;</p>
@@ -79,33 +83,6 @@
             <div class="row justify-content-between">
                 <div class="col-md-6 students-container" style="margin-top: 5px;">
                     <h4>Teme încărcate</h4>
-                    <!-- <input type="text" placeholder="Cautati dupa nume" class="search search--grade"> -->
-                    <!-- <ul class="grade-nav nav nav-pills">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-6 text-left" style="padding: 0">
-                                    <li class="active">
-                                        <a href="#tab1" data-toggle="pill">Notati</a>
-                                    </li>
-                                </div>
-                                <div class="col-6 text-right" style="padding: 0">
-                                    <li>
-                                        <a href="#tab2" data-toggle="pill">Nenotati</a>
-                                    </li>
-                                </div>
-                            </div>
-                        </div>
-                    </ul>
-                    <div class="tab-content">
-                        <div id="tab1" class="tab-pane fade in">
-                            <ul id="graded" class="student-list">
-                            </ul>
-                        </div>
-                        <div id="tab2" class="tab-pane fade">
-                            <ul id="ungraded" class="student-list">
-                            </ul>
-                        </div>
-                    </div> -->
 
 
                     <div id="accordion">

@@ -59,11 +59,11 @@ $(document).ready(function () {
         success: data => {
             if (data) {
                 var group = document.getElementById('group');
-
+                
                 data.forEach((element, exercitiu) => {
                     ex++;
                     var a = document.createElement('a');
-                    // a.href = `/materii/${element.titlu}`;
+                    // a.href = `#collapsable-${ex}`;
                     a.className = 'list-group-item list-group-item-action flex-column align-items-start';
 
                     var div = document.createElement('div');
@@ -89,11 +89,11 @@ $(document).ready(function () {
                     a.appendChild(div);
                     a.appendChild(p);
                     a.appendChild(small2);
+                    
                     group.appendChild(a);
 
                     //append graded students
                     var graded = element.studentiNotati;
-                    // console.log(graded);
                     graded.forEach(element => {
                         nrNotati++;
 
@@ -472,7 +472,6 @@ $(document).ready(function () {
 
                     //append ungraded students
                     var ungraded = element.studentiNenotati;
-
                     ungraded.forEach((element, index) => {
                         nrNenotati++;
 
@@ -540,7 +539,6 @@ $(document).ready(function () {
                     }).reverse();
 
                     var tablePlagiat = document.getElementById('plag-table');
-
                     element.temePlagiate.forEach(plagiat => {
                         var row = document.createElement('tr');
                         row.classList = 'rowPlagiat';
@@ -566,7 +564,6 @@ $(document).ready(function () {
                     });
 
                     var rowsPlagiat = document.getElementsByClassName('rowPlagiat');
-
                     for (let index = 0; index < rowsPlagiat.length; index++) {
                         const element = rowsPlagiat[index];
 
@@ -667,4 +664,8 @@ $(document).ready(function () {
             }
         })
     };
+
+    var downloadLink = document.getElementById('download-csv');
+    downloadLink.setAttribute('href', `${window.location.href}/raport.csv`);
+
 });
