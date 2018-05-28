@@ -212,8 +212,8 @@ $(document).ready(function () {
         option5.innerText = 'Python';
 
         var option6 = document.createElement('option');
-        option5.value = 'sql';
-        option5.innerText = 'SQL';
+        option6.value = 'sql';
+        option6.innerText = 'SQL';
 
         select.appendChild(option1);
         select.appendChild(option2);

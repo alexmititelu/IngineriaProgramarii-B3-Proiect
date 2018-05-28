@@ -124,11 +124,16 @@ $(document).ready(function () {
         option5.value = 'py';
         option5.innerText = 'Python';
 
+        var option6 = document.createElement('option');
+        option6.value = 'sql';
+        option6.innerText = 'SQL';
+
         select.appendChild(option1);
         select.appendChild(option2);
         select.appendChild(option3);
         select.appendChild(option4);
         select.appendChild(option5);
+        select.appendChild(option6);
 
         grp.appendChild(lbExt);
         grp.appendChild(select);
