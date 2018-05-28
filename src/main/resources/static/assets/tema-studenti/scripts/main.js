@@ -140,7 +140,7 @@ $(document).ready(function () {
                     var flex = document.createElement('div');
                     flex.className = 'd-flex w-100 justify-content-between';
 
-                    var h5 = document.createElement('h5');
+                    var h5 = document.createElement('p');
                     h5.className = 'mb-1';
                     h5.innerText = `${exercitii}. ${element.enunt}`;
 
