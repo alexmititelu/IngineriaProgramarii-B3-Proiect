@@ -23,6 +23,10 @@ import java.sql.SQLException;
 import static ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages.INTERNAL_ERROR_MESSAGE;
 
 /**
+ * DEPRECATED!!!!!
+ */
+
+/**
  * Aceasta clasa reprezinta un controller pentru metoda POST a paginii de upload a unui fisier.
  */
 @Controller
@@ -36,7 +40,6 @@ public class UploadController {
         this.storageService = storageService;
     }
 
-    @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public @ResponseBody
     String upload(@RequestParam("file") MultipartFile file,
                   @RequestParam("titluMaterie") String titluMaterie,
@@ -70,7 +73,6 @@ public class UploadController {
                     String uploadedFilename = StringUtils.cleanPath(file.getOriginalFilename());
 
                     Database.getInstance().updateOperation("INSERT INTO teme_incarcate (username_student,id_tema,nume_fisier) VALUES (?,?,?)", username, idTema, uploadedFilename);
-
 
                 } catch (StorageException | SQLException | FileFormatException | IOException e) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

@@ -1,6 +1,5 @@
 package ro.uaic.info.ip.proiect.b3.controllers.export;
 
-
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +16,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 
 @Controller
 public class CommaSeparatedValuesController {
@@ -42,9 +40,9 @@ public class CommaSeparatedValuesController {
                 }
 
                 StringBuilder csvReport = new StringBuilder();
+                csvReport.append("Nume,Prenume,Nota tema\n");
 
                 Connection connection = Database.getInstance().getConnection();
-
 
                 PreparedStatement statementStudentiInscrisi = connection.prepareStatement(
                         "SELECT conturi.id,studenti.nume,studenti.prenume FROM " +
@@ -58,7 +56,7 @@ public class CommaSeparatedValuesController {
                 while (studentiInscrisi.next()) {
                     Long idStudent = studentiInscrisi.getLong(1);
                     String numeStudent = studentiInscrisi.getString(2);
-                    String prenumeStudent = studentiInscrisi.getString(2);
+                    String prenumeStudent = studentiInscrisi.getString(3);
 
                     PreparedStatement sumNoteStudent = connection.prepareStatement("SELECT SUM(nota) FROM teme_incarcate WHERE id_cont = ? AND id_tema = ?");
                     sumNoteStudent.setLong(1,idStudent);
@@ -73,7 +71,6 @@ public class CommaSeparatedValuesController {
                 }
 
                 connection.close();
-
 
                 return csvReport.toString();
             } else {
