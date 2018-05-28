@@ -68,7 +68,27 @@ $(document).ready(function () {
                 $.ajax({
                     type: 'POST',
                     url: `${location}/unsubscribe`,
-                    data: null
+                    success: data => {
+                        if(data === 'valid') {
+                            var subscribeStatus = 'Te-ai dezabonat cu succes!';
+
+                            var p = document.getElementById('subscribe-status');
+                            p.innerText = subscribeStatus;
+                            setTimeout(() => {
+                                p.innerText = '';
+                            }, 2000);
+
+                        } else {
+                            var subscribeStatus = 'Dezabonarea a eșuat. Reîncearcă.';
+                            var p = document.getElementById('subscribe-status');
+                            p.innerText = subscribeStatus;
+                            setTimeout(() => {
+                                p.innerText = '';
+                            }, 2000);
+                            sub2.style.display = 'none';
+                            sub.style.display = 'unset';
+                        }
+                    }
                 });
             }
 
@@ -81,7 +101,27 @@ $(document).ready(function () {
                 $.ajax({
                     type: 'POST',
                     url: `${location}/subscribe`,
-                    data: null
+                    success: data => {
+                        if(data === 'valid') {
+                            var subscribeStatus = 'Te-ai abonat cu succes!';
+
+                            var p = document.getElementById('subscribe-status');
+                            p.innerText = subscribeStatus;
+                            setTimeout(() => {
+                                p.innerText = '';
+                            }, 2000);
+
+                        } else {
+                            var subscribeStatus = 'Abonarea a eșuat. Reîncearcă.';
+                            var p = document.getElementById('subscribe-status');
+                            p.innerText = subscribeStatus;
+                            setTimeout(() => {
+                                p.innerText = '';
+                            }, 2000);
+                            sub2.style.display = 'unset';
+                            sub.style.display = 'none';
+                        }
+                    }
                 });
             }
         }

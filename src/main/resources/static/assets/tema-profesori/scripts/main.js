@@ -62,12 +62,12 @@ $(document).ready(function () {
                 
                 data.forEach((element, exercitiu) => {
                     ex++;
-                    var a = document.createElement('a');
+                    var card = document.createElement('div');
                     // a.href = `#collapsable-${ex}`;
-                    a.className = 'list-group-item list-group-item-action flex-column align-items-start';
+                    card.className = 'list-group-item list-group-item-action flex-column align-items-start card';
 
-                    var div = document.createElement('div');
-                    div.className = 'd-flex w-100 justify-content-between';
+                    var cardHeader = document.createElement('div');
+                    cardHeader.className = 'd-flex w-100 justify-content-between card-header';
 
                     var h5 = document.createElement('h5');
                     h5.className = 'mb-1';
@@ -76,8 +76,12 @@ $(document).ready(function () {
                     var small1 = document.createElement('small');
                     small1.innerText = '3 days ago';
 
-                    div.appendChild(h5);
-                    div.appendChild(small1);
+                    var btnToggleCollapse = document.createElement('button');
+                    btnToggleCollapse.className = 'btn btn-link';
+                    btnToggleCollapse.setAttribute('data-toggle', 'collapse');
+
+                    cardHeader.appendChild(h5);
+                    cardHeader.appendChild(small1);
 
                     var p = document.createElement('p');
                     p.className = 'mb-1';
@@ -86,9 +90,9 @@ $(document).ready(function () {
                     var small2 = document.createElement('small');
                     small2.innerText = `Extensie: .${element.extensie}`;
 
-                    a.appendChild(div);
-                    a.appendChild(p);
-                    a.appendChild(small2);
+                    card.appendChild(div);
+                    card.appendChild(p);
+                    card.appendChild(small2);
                     
                     group.appendChild(a);
 
