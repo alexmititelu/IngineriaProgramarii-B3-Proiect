@@ -52,6 +52,19 @@ $(document).ready(function () {
 
                 materii.appendChild(a);
             });
+
+            if (data.length === 0) {
+                var empty = document.createElement('p');
+                empty.innerText = 'Nu esti abonat la niciun curs';
+
+                var paginaMaterii = document.createElement('a');
+                paginaMaterii.innerText = 'Vezi pagina de materii';
+                paginaMaterii.href = `/materii`;
+
+                materii.appendChild(empty);
+                materii.appendChild(paginaMaterii);
+            }
+
         }
     });
 
@@ -76,6 +89,13 @@ $(document).ready(function () {
 
                 notificari.appendChild(content);
             });
+
+            if (data.length === 0) {
+                var empty = document.createElement('p');
+                empty.innerText = 'Nici o notificare noua';
+
+                materii.appendChild(empty);
+            }
         }
     });
 });
