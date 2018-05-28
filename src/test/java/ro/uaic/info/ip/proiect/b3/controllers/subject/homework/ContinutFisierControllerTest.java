@@ -2,7 +2,7 @@ package ro.uaic.info.ip.proiect.b3.controllers.subject.homework;
 
 import org.junit.Before;
 import org.junit.Test;
-import ro.uaic.info.ip.proiect.b3.controllers.subject.homework.objects.LinieContinutFisier;
+import ro.uaic.info.ip.proiect.b3.clientinfo.LinieContinutFisier;
 
 import java.util.ArrayList;
 

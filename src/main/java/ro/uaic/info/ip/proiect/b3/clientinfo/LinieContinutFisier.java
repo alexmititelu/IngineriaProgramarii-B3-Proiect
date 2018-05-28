@@ -1,4 +1,4 @@
-package ro.uaic.info.ip.proiect.b3.controllers.subject.homework.objects;
+package ro.uaic.info.ip.proiect.b3.clientinfo;
 
 public class LinieContinutFisier {
     private String lineValue = null;
