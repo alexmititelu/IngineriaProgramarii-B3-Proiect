@@ -102,6 +102,20 @@ public class ContConectat {
         return contConectat;
     }
 
+    public static void delete(String loginToken) throws SQLException {
+        ContConectat contConectat;
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "DELETE FROM conturi_conectate WHERE token like ?");
+
+        preparedStatement.setString(1, loginToken);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
+    }
+
     private void validateUsername(String username) throws SQLException, ContConectatException {
         Cont cont = Cont.getByUsername(username);
 

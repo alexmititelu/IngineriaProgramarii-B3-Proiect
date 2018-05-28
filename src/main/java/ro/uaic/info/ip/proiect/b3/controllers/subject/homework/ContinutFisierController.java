@@ -3,7 +3,7 @@ package ro.uaic.info.ip.proiect.b3.controllers.subject.homework;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ro.uaic.info.ip.proiect.b3.controllers.subject.homework.objects.LinieContinutFisier;
+import ro.uaic.info.ip.proiect.b3.clientinfo.LinieContinutFisier;
 import ro.uaic.info.ip.proiect.b3.database.objects.comentariuprofesor.ComentariuProfesor;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;

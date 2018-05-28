@@ -7,6 +7,8 @@ import ro.uaic.info.ip.proiect.b3.database.objects.comentariuprofesor.Comentariu
 import ro.uaic.info.ip.proiect.b3.database.objects.comentariuprofesor.exceptions.ComentariuProfesorException;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
+import ro.uaic.info.ip.proiect.b3.database.objects.notificare.Notificare;
+import ro.uaic.info.ip.proiect.b3.database.objects.notificare.exceptions.NotificareException;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
 import ro.uaic.info.ip.proiect.b3.database.objects.temaincarcata.TemaIncarcata;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
@@ -58,8 +60,17 @@ public class ComentariuController {
                 }
 
                 ComentariuProfesor comentariuProfesor = new ComentariuProfesor(temaIncarcata.getId(), nrExercitiu, startRow, endRow, comentariu);
-
                 comentariuProfesor.insert();
+
+                try {
+                    Notificare notificare = new Notificare(
+                            String.format("[%s] Ti-a fost adaugat un comentariu la exercitiul %d din cadrul temei \"%s\"!", materie.getTitlu(), nrExercitiu, tema.getNumeTema()),
+                            temaIncarcata.getIdCont(),
+                            0);
+                    notificare.insert();
+                } catch (SQLException | NotificareException e) {
+                    logger.error(e.getMessage(), e);
+                }
 
                 return "valid";
             } else {
@@ -112,6 +123,16 @@ public class ComentariuController {
 
 
                 ComentariuProfesor.delete(temaIncarcata.getId(), nrExercitiu, startRow, endRow);
+
+                try {
+                    Notificare notificare = new Notificare(
+                            String.format("[%s] A fost sters un comentariu la exercitiul %d din cadrul temei \"%s\"!", materie.getTitlu(), nrExercitiu, tema.getNumeTema()),
+                            temaIncarcata.getIdCont(),
+                            0);
+                    notificare.insert();
+                } catch (SQLException | NotificareException e) {
+                    logger.error(e.getMessage(), e);
+                }
 
                 return "valid";
             } else {

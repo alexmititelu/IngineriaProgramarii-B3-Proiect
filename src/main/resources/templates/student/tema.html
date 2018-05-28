@@ -13,6 +13,34 @@
     />
 
     <link rel="stylesheet" href="/assets/tema-studenti/css/main.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+        crossorigin="anonymous">
+
+    <style>
+        .commentSol {
+            margin: 10px;
+            padding: 10px;
+            display: block;
+            background: #ececec;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            max-width: 800px;
+        }
+
+        pre {
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin-bottom: 0;
+        }
+
+        td,
+        th {
+            padding: 5px !important;
+        }
+
+        .th-hover:hover i {
+            transform: scale(1.3);
+        }
+    </style>
 </head>
 
 <body>
@@ -42,6 +70,16 @@
             <a href="" class="list-group-item list-group-item-action flex-column align-items-start active">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 id="numeMaterie" class="mb-1">[[${numeTema}]]</h5>
+                    <small id="subscribe">
+                        <div id="sub" class="btn btn-danger">
+                            Dezaboneaza-te
+                        </div>
+                    </small>
+                    <small id="no-subscribe">
+                        <div id="subb" class="btn btn-success">
+                            Aboneaza-te
+                        </div>
+                    </small>
                 </div>
                 <p class="mb-1">[[${enuntTema}]]</p>
                 <p class="mb-1">Deadline: [[${deadlineTema}]]</p>

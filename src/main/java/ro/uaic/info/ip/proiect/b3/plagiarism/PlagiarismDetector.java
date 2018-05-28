@@ -3,6 +3,7 @@ package ro.uaic.info.ip.proiect.b3.plagiarism;
 import it.zielke.moji.MossException;
 import it.zielke.moji.SocketClient;
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -25,23 +26,41 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class PlagiarismDetector {
+    private static final Logger logger = Logger.getLogger(PlagiarismDetector.class);
+
     public static void update() throws SQLException, IOException, MossException {
+        logger.info("Se incearca update-ul temelor plagiate ...");
+
         ArrayList<Tema> temeToBeUpdated = Tema.getAllSubjectsReadyToUpdatePlagiarism();
+        logger.info("S-au gasit un numar de " + temeToBeUpdated.size() + " teme pentru care trebuie verificat plagiarismul");
 
         for (Tema tema : temeToBeUpdated) {
+            logger.info("Se incepe verificarea temei " + tema.getNumeTema());
+
             ArrayList<TemaExercitiuExtensie> exercitii = TemaExercitiuExtensie.getAllExercises(tema.getId());
+            logger.info("S-au gasit un numar de " + exercitii.size() + " exercitii pentru aceasta tema");
 
             for (TemaExercitiuExtensie exercitiu : exercitii) {
+                logger.info("Se incepe verificarea exercitiului " + exercitiu.getEnunt());
+
                 ArrayList<TemaIncarcata> temeIncarcate = TemaIncarcata.getAllTemeIncarcate(exercitiu);
+                logger.info("S-au gasit un numar de " + temeIncarcate.size() + " teme incarcate pentru acest exercitiu");
+
                 copyFilesInMossFormat(temeIncarcate);
+                logger.info("S-au pregatit fisierele pentru uploadul in MOSS");
 
                 if (temeIncarcate.size() != 0) {
-                    // URL mossURL = getMossURL(exercitiu.getExtensieAcceptata());
-                    URL mossURL = new URL("http://moss.stanford.edu/results/361418887");
+                    logger.info("Se incearca uploadarea fisierelul in MOSS");
+                    URL mossURL = getMossURL(exercitiu.getExtensieAcceptata());
+                    logger.info("S-au uploadat fisierele in MOSS - " + mossURL.toString());
+
+                    logger.info("Se incearca parsarea URL-ului MOSS");
                     parseMossUrl(mossURL, exercitiu.getNrExercitiu(), exercitiu.getIdTema());
+                    logger.info("Parsarea s-a terminat cu succes!");
                 }
 
                 FileUtils.deleteDirectory(new File("./compare/"));
+                logger.info("Stergerea fisierelor ramase din formatul MOSS");
             }
         }
     }
@@ -62,13 +81,23 @@ public class PlagiarismDetector {
         }
     }
 
+    private static String translateExtension(String currentExtension) {
+        if (currentExtension.equals("cpp")) return "cc";
+        if (currentExtension.equals("c")) return "c";
+        if (currentExtension.equals("java")) return "java";
+        if (currentExtension.equals("py")) return "python";
+        if (currentExtension.equals("sql")) return "plsql";
+
+        return "invalid";
+    }
+
     private static URL getMossURL(String extension) throws MossException, IOException {
         Collection<File> files = FileUtils.listFiles(new File("./compare"), null, true);
 
         SocketClient socketClient = new SocketClient();
         socketClient.setUserID("520190020");
 
-        if (extension.equals("cpp")) extension = "cc";
+        extension = translateExtension(extension);
 
         socketClient.setLanguage(extension);
         socketClient.run();

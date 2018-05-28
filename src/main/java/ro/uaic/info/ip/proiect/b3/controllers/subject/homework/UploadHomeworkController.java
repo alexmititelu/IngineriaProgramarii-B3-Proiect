@@ -7,8 +7,11 @@ import org.springframework.web.multipart.MultipartFile;
 import ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
+import ro.uaic.info.ip.proiect.b3.database.objects.inscriere.Inscriere;
+import ro.uaic.info.ip.proiect.b3.database.objects.inscriere.exceptions.InscriereException;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
+import ro.uaic.info.ip.proiect.b3.database.objects.temaexercitiuextensie.TemaExercitiuExtensie;
 import ro.uaic.info.ip.proiect.b3.database.objects.temaincarcata.TemaIncarcata;
 import ro.uaic.info.ip.proiect.b3.generators.FileNameGenerator;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
@@ -33,10 +36,22 @@ public class UploadHomeworkController {
 
         try {
             if (PermissionManager.isLoggedUserStudent(loginToken)) {
+                Cont cont = Cont.getByLoginToken(loginToken);
+                if (cont == null) {
+                    logger.error("Cont get by login token returned null after PermissionManager.isLoggedUserStudent returned true");
+                    return ServerErrorMessages.INTERNAL_ERROR_MESSAGE;
+                }
 
                 Materie materie = Materie.getByTitlu(numeMaterie);
                 if (materie == null) {
                     return "Materie invalida!";
+                }
+
+                try {
+                    Inscriere inscriere = Inscriere.get(cont.getId(), materie.getId());
+                    if (inscriere == null) return "Trebuie sa fii inscris la aceasta materie pentru a incarca teme!";
+                } catch (InscriereException e) {
+                    return e.getMessage();
                 }
 
                 Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
@@ -44,11 +59,10 @@ public class UploadHomeworkController {
                     return "Tema invalida!";
                 }
 
-                TemaIncarcata temaIncarcata = TemaIncarcata.get(Cont.getByLoginToken(loginToken).getId(), tema.getId(), nrExercitiu);
+                TemaIncarcata temaIncarcata = TemaIncarcata.get(cont.getId(), tema.getId(), nrExercitiu);
                 if (temaIncarcata != null) {
                     return "Solutie deja uploadata!";
                 }
-
 
                 Date deadline = tema.getDeadline();
                 if (new Date().after(deadline)) {

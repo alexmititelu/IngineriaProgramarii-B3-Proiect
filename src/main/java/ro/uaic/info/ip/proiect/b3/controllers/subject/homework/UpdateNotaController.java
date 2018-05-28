@@ -7,6 +7,8 @@ import ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
+import ro.uaic.info.ip.proiect.b3.database.objects.notificare.Notificare;
+import ro.uaic.info.ip.proiect.b3.database.objects.notificare.exceptions.NotificareException;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
 
@@ -42,6 +44,16 @@ public class UpdateNotaController {
                         Integer.toString(nota), Long.toString(cont.getId()), Integer.toString(nrExercitiu), Long.toString(tema.getId()));
 
                 if (updatedRows == 0) return "Numarul exercitiului nu este valid!";
+
+                try {
+                    Notificare notificare = new Notificare(
+                            String.format("[%s] Ti-a fost adaugata o noua nota pentru exercitiul %d din cadul temei \"%s!\"", materie.getTitlu(), nrExercitiu, tema.getNumeTema()),
+                            cont.getId(),
+                            0);
+                    notificare.insert();
+                } catch (SQLException | NotificareException e) {
+                    logger.error(e.getMessage(), e);
+                }
 
                 return "valid";
             } else {

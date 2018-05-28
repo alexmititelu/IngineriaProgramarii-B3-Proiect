@@ -5,6 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
+import ro.uaic.info.ip.proiect.b3.database.objects.notificare.Notificare;
+import ro.uaic.info.ip.proiect.b3.database.objects.notificare.exceptions.NotificareException;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.exceptions.TemaException;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
@@ -68,6 +70,16 @@ public class HomeworkController {
                     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                     Tema tema = new Tema(materie.getId(), new Date(formatter.parse(deadline).getTime()), enunt, nrExercitii, numeTema, extensiiFisiere, cerinte);
                     tema.insert();
+
+                    try {
+                        Notificare notificare = new Notificare(
+                                String.format("[%s] A fost adaugata o noua tema!", materie.getTitlu()),
+                                0,
+                                materie.getId());
+                        notificare.insert();
+                    } catch (SQLException | NotificareException e) {
+                        logger.error(e.getMessage(), e);
+                    }
 
                     return "valid";
                 } else {

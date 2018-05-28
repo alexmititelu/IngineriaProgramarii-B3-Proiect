@@ -17,6 +17,21 @@ $(document).ready(function () {
         });
     });
 
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+
+        color += '40';
+
+        return color;
+    }
+
+    var continut1 = [];
+    var continut2 = [];
+
     var usernameCurrent;
     var nrExercitiu;
 
@@ -31,6 +46,12 @@ $(document).ready(function () {
 
     var nrNenotati = 0;
     var nrNotati = 0;
+
+    var totalLines = 0;
+
+    var rowStart, rowEnd;
+
+    var okViz = false;
 
     $.ajax({
         type: 'GET',
@@ -102,23 +123,335 @@ $(document).ready(function () {
                                     nrExercitiu: parseInt(a.attributes.ex.value)
                                 },
                                 success: data => {
+                                    var nr = 0;
+
+                                    var curColor;
+                                    var curComment;
+
+                                    totalLines = 0;
+
                                     if (data.length > 0) {
-                                        data.forEach(element => {
-                                            line++;
+                                        data.forEach((element, ind) => {
+                                            totalLines++;
+                                            if (nr > 0) {
+                                                line++;
 
-                                            var tr = document.createElement('tr');
+                                                var tr = document.createElement('tr');
 
-                                            var th = document.createElement('th');
-                                            th.innerText = line;
-                                            th.style = 'width: 50px;'
+                                                var th = document.createElement('th');
+                                                th.innerText = line;
+                                                th.style = `width: 30px; background: ${curColor};cursor: pointer;`;
+                                                th.classList = 'rowSol';
+                                                th.setAttribute('role', 'button');
+                                                th.setAttribute('data-toggle', 'popover');
+                                                th.setAttribute('data-trigger', 'focus');
+                                                th.setAttribute('title', 'Comeptariu');
+                                                th.setAttribute('data-content', curComment);
 
-                                            var td = document.createElement('td');
-                                            td.innerText = element;
+                                                th.setAttribute('startr', rowStart);
+                                                th.setAttribute('endr', rowEnd);
 
-                                            tr.appendChild(th);
-                                            tr.appendChild(td);
+                                                var td = document.createElement('td');
 
-                                            table.appendChild(tr);
+                                                var pre = document.createElement('pre');
+                                                pre.innerText = element.lineValue;
+
+                                                td.appendChild(pre);
+
+                                                continut1.push(element.lineValue);
+                                                continut2.push(curComment);
+
+                                                tr.appendChild(th);
+                                                tr.appendChild(td);
+
+                                                table.appendChild(tr);
+
+                                                nr--;
+
+                                                th.onclick = () => {
+                                                    var index = parseInt(th.innerText);
+                                                    var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value) - 1].childNodes[1];
+
+                                                    var btn = document.createElement('button');
+                                                    btn.innerText = 'Sterge comentariu';
+                                                    btn.classList = 'btn btn-danger';
+
+                                                    var err = document.createElement('p');
+
+                                                    btn.setAttribute('startr', parseInt(th.attributes.startr.value));
+                                                    btn.setAttribute('endr', parseInt(th.attributes.endr.value));
+
+                                                    var div = document.createElement('div');
+                                                    div.classList = 'commentSol';
+
+                                                    var p = document.createElement('p');
+                                                    p.innerText = continut2[ind];
+
+                                                    div.appendChild(p);
+                                                    div.appendChild(btn);
+                                                    div.appendChild(err);
+
+                                                    var pre = document.createElement('pre');
+                                                    pre.innerHTML = `${continut1[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                                                    if (!okViz) {
+                                                        cont.innerHTML = '';
+                                                        cont.appendChild(pre);
+
+                                                        cont.appendChild(div);
+                                                        okViz = true;
+                                                    } else {
+                                                        cont.innerText = '';
+
+                                                        cont.appendChild(pre);
+
+                                                        okViz = false;
+                                                    }
+
+                                                    btn.onclick = () => {
+                                                        var loc = window.location.href.split('/compara')[0];
+
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: `${loc}/stergeComentariu`,
+                                                            data: {
+                                                                username: username,
+                                                                nrExercitiu: nrExercitiu,
+                                                                startRow: parseInt(btn.attributes.startr.value),
+                                                                endRow: parseInt(btn.attributes.endr.value)
+                                                            },
+                                                            success: data => {
+                                                                if (data === 'valid') {
+                                                                    err.style.color = 'green';
+                                                                    err.innerText = 'Comentariu sters cu succes!';
+                                                                    setTimeout(() => {
+                                                                        window.location.href = window.location.href
+                                                                    }, 1000);
+                                                                } else {
+                                                                    err.style.color = 'red';
+                                                                    err.innerText = data;
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                }
+                                            } else {
+                                                if (element.comment) {
+                                                    nr = parseInt(element.commentedLines);
+
+                                                    rowStart = ind + 1;
+                                                    rowEnd = rowStart + element.commentedLines - 1;
+
+                                                    var color = getRandomColor();
+                                                    curColor = color;
+
+                                                    curComment = element.comment;
+
+                                                    line++;
+
+                                                    var tr = document.createElement('tr');
+
+                                                    var th = document.createElement('th');
+                                                    th.innerText = line;
+                                                    th.style = `width: 30px; background: ${curColor};cursor: pointer;`;
+                                                    th.classList = 'rowSol';
+                                                    th.setAttribute('role', 'button');
+                                                    th.setAttribute('data-toggle', 'popover');
+                                                    th.setAttribute('data-trigger', 'focus');
+                                                    th.setAttribute('title', 'Comeptariu');
+                                                    th.setAttribute('data-content', curComment);
+
+                                                    th.setAttribute('startr', rowStart);
+                                                    th.setAttribute('endr', rowEnd);
+
+                                                    var td = document.createElement('td');
+
+                                                    var pre = document.createElement('pre');
+                                                    pre.innerText = element.lineValue;
+
+                                                    td.appendChild(pre);
+
+                                                    continut1.push(element.lineValue);
+                                                    continut2.push(curComment);
+
+                                                    tr.appendChild(th);
+                                                    tr.appendChild(td);
+
+                                                    table.appendChild(tr);
+
+                                                    nr--;
+
+                                                    th.onclick = () => {
+                                                        var index = parseInt(th.innerText);
+                                                        var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value) - 1].childNodes[1];
+
+                                                        var btn = document.createElement('button');
+                                                        btn.innerText = 'Sterge comentariu';
+                                                        btn.classList = 'btn btn-danger';
+
+                                                        var err = document.createElement('p');
+
+                                                        btn.setAttribute('startr', parseInt(th.attributes.startr.value));
+                                                        btn.setAttribute('endr', parseInt(th.attributes.endr.value));
+
+                                                        var div = document.createElement('div');
+                                                        div.classList = 'commentSol';
+
+                                                        var p = document.createElement('p');
+                                                        p.innerText = continut2[ind];
+
+                                                        div.appendChild(p);
+                                                        div.appendChild(btn);
+                                                        div.appendChild(err);
+
+                                                        var pre = document.createElement('pre');
+                                                        pre.innerHTML = `${continut1[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                                                        if (!okViz) {
+                                                            cont.innerHTML = '';
+                                                            cont.appendChild(pre);
+
+                                                            cont.appendChild(div);
+                                                            okViz = true;
+                                                        } else {
+                                                            cont.innerText = '';
+
+                                                            cont.appendChild(pre);
+
+                                                            okViz = false;
+                                                        }
+
+                                                        btn.onclick = () => {
+                                                            var loc = window.location.href.split('/compara')[0];
+
+                                                            $.ajax({
+                                                                type: 'POST',
+                                                                url: `${loc}/stergeComentariu`,
+                                                                data: {
+                                                                    username: username,
+                                                                    nrExercitiu: nrExercitiu,
+                                                                    startRow: parseInt(btn.attributes.startr.value),
+                                                                    endRow: parseInt(btn.attributes.endr.value)
+                                                                },
+                                                                success: data => {
+                                                                    if (data === 'valid') {
+                                                                        err.style.color = 'green';
+                                                                        err.innerText = 'Comentariu sters cu succes!';
+                                                                        setTimeout(() => {
+                                                                            window.location.href = window.location.href
+                                                                        }, 1000);
+                                                                    } else {
+                                                                        err.style.color = 'red';
+                                                                        err.innerText = data;
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                } else {
+                                                    line++;
+
+                                                    var tr = document.createElement('tr');
+
+                                                    var th = document.createElement('th');
+                                                    th.classList = 'th-hover';
+                                                    th.innerHTML = line + '<i class="far fa-plus-square" style="margin-left: 5px;"></i>';
+                                                    th.style = 'width: 60px;cursor: pointer;';
+
+                                                    var td = document.createElement('td');
+
+                                                    var pre = document.createElement('pre');
+                                                    pre.innerText = element.lineValue;
+
+                                                    td.appendChild(pre);
+
+                                                    continut1.push(element.lineValue);
+                                                    continut2.push('');
+
+                                                    tr.appendChild(th);
+                                                    tr.appendChild(td);
+
+                                                    table.appendChild(tr);
+
+                                                    th.onclick = () => {
+                                                        var index = parseInt(th.innerText);
+                                                        var cont = th.parentElement.parentElement.childNodes[ind].childNodes[1];
+
+                                                        var inp1 = document.createElement('input');
+                                                        inp1.value = index;
+                                                        inp1.setAttribute('disabled', 'disabled');
+
+                                                        var inp2 = document.createElement('input');
+                                                        inp2.placeholder = 'Rand terminal';
+
+                                                        var input = document.createElement('textarea');
+                                                        input.style.width = '100%';
+                                                        
+                                                        var button = document.createElement('button');
+                                                        button.id = `bt${ind}`;
+                                                        button.innerText = 'Adauga comentariu';
+                                                        button.classList = 'btn btn-primary';
+
+                                                        var err = document.createElement('p');
+
+                                                        var div = document.createElement('div');
+                                                        div.classList = 'commentSol';
+
+                                                        var p = document.createElement('p');
+                                                        p.innerText = continut2[ind];
+
+                                                        var div = document.createElement('div');
+                                                        div.classList = 'commentSol';
+
+                                                        div.appendChild(inp1);
+                                                        div.appendChild(inp2);
+                                                        div.appendChild(input);
+                                                        div.appendChild(button);
+                                                        div.appendChild(err);
+
+                                                        var pre = document.createElement('pre');
+                                                        pre.innerHTML = `${continut1[ind]}\n`;
+
+                                                        if (!th.classList.contains('viz2')) {
+                                                            cont.innerText = "";
+                                                            cont.appendChild(pre);
+
+                                                            cont.appendChild(div);
+                                                            th.classList.add('viz2');
+                                                        } else {
+                                                            cont.innerText = '';
+                                                            cont.appendChild(pre);
+                                                            th.classList.remove('viz2');
+                                                        }
+
+                                                        button.onclick = () => {
+                                                            $.ajax({
+                                                                type: 'POST',
+                                                                url: `${window.location.href}/adaugaComentariu`,
+                                                                data: {
+                                                                    nrExercitiu: nrExercitiu,
+                                                                    username: usernameCurrent,
+                                                                    startRow: parseInt(inp1.value),
+                                                                    endRow: parseInt(inp2.value),
+                                                                    comentariu: input.value
+                                                                },
+                                                                success: data => {
+                                                                    if (data === 'valid') {
+                                                                        err.style.color = 'green';
+                                                                        err.innerText = 'Comentariu adaugat cu succes!';
+                                                                        setTimeout(() => {
+                                                                            window.location.href = window.location.href
+                                                                        }, 1000);
+                                                                    } else {
+                                                                        err.style.color = 'red';
+                                                                        err.innerText = data;
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         });
                                     }
                                 }
@@ -135,6 +468,7 @@ $(document).ready(function () {
                         var list = document.getElementById("collapseOne");
                         list.appendChild(a);
                     });
+
 
                     //append ungraded students
                     var ungraded = element.studentiNenotati;
@@ -178,7 +512,7 @@ $(document).ready(function () {
                                             th.style = 'width: 50px;'
 
                                             var td = document.createElement('td');
-                                            td.innerText = element;
+                                            td.innerText = element.lineValue;
 
                                             tr.appendChild(th);
                                             tr.appendChild(td);
@@ -235,7 +569,7 @@ $(document).ready(function () {
 
                     for (let index = 0; index < rowsPlagiat.length; index++) {
                         const element = rowsPlagiat[index];
-                        
+
                         element.onclick = () => {
                             window.location.href = `${window.location.href}/compara?username1=${element.attributes.username1.value}&username2=${element.attributes.username2.value}&nrExercitiu=${element.attributes.exercitiu.value}`;
                         }
@@ -320,4 +654,17 @@ $(document).ready(function () {
             }
         }
     }
+
+    var btn = document.getElementById("logOutBtn");
+    btn.onclick = () => {
+        $.ajax({
+            type: "POST",
+            url: "/sign-out",
+            success: data => {
+                if (data === "valid") {
+                    window.location.href = "/";
+                }
+            }
+        })
+    };
 });

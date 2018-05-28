@@ -7,6 +7,86 @@ $(document).ready(function () {
 
     var exercitii = 0;
 
+    var totalLines;
+
+    var continut1 = [];
+    var continut2 = [];
+
+    var totalLines2;
+
+    var continut11 = [];
+    var continut22 = [];
+
+    var rowStart1, rowEnd1;
+    var rowStart2, rowEnd2;
+
+    var okViz = false;
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+
+        color += '40';
+
+        return color;
+    }
+
+    var sub = document.getElementById('subscribe');
+    sub.style.display = 'none';
+
+    var sub2 = document.getElementById('no-subscribe');
+    sub2.style.display = 'none';
+
+    var loc = window.location.href.split('/');
+
+    var location = `${loc[0]}//${loc[2]}/${loc[3]}/${loc[4]}`;
+
+    $.ajax({
+        type: 'GET',
+        url: `${location}/is-subscribed`,
+        success: data => {
+            if (data === 'YES') {
+                sub.style.display = 'unset';
+            } else {
+                sub2.style.display = 'unset';
+            }
+
+            var sub11 = document.getElementById('sub');
+            var subb11 = document.getElementById('subb');
+
+            sub11.onclick = event => {
+                event.preventDefault();
+
+                sub.style.display = 'none';
+                sub2.style.display = 'unset';
+
+
+
+                $.ajax({
+                    type: 'POST',
+                    url: `${location}/unsubscribe`,
+                    data: null
+                });
+            }
+
+            subb11.onclick = event => {
+                event.preventDefault();
+
+                sub2.style.display = 'none';
+                sub.style.display = 'unset';
+
+                $.ajax({
+                    type: 'POST',
+                    url: `${location}/subscribe`,
+                    data: null
+                });
+            }
+        }
+    });
+
     $.ajax({
         type: 'GET',
         url: `${window.location.href}/student_info_json`,
@@ -105,16 +185,15 @@ $(document).ready(function () {
                 });
 
                 var solutie = document.getElementsByClassName('solutie');
-                console.log(solutie);
                 var table = document.getElementById('tableModel');
 
                 for (let index = 0; index < solutie.length; index++) {
                     const element = solutie[index];
 
                     element.onclick = () => {
-                        var line = 0;
+                        var line1 = 0;
 
-                        while(table.firstChild) {
+                        while (table.firstChild) {
                             table.removeChild(table.firstChild);
                         }
 
@@ -126,22 +205,179 @@ $(document).ready(function () {
                                 nrExercitiu: parseInt(element.attributes.name.value)
                             },
                             success: data => {
+                                var nr = 0;
+
+                                var curColor;
+                                var curComment;
+
+                                totalLines = 0;
                                 if (data.length > 0) {
-                                    data.forEach(element => {
-                                        line++;
+                                    data.forEach((element, ind) => {
+                                        totalLines++;
+                                        if (nr > 0) {
+                                            line1++;
 
-                                        var tr = document.createElement('tr');
+                                            var tr = document.createElement('tr');
 
-                                        var th = document.createElement('th');
-                                        th.innerText = line;
+                                            var th = document.createElement('th');
+                                            th.innerText = line1;
+                                            th.style = `width: 50px; background: ${curColor};cursor: pointer;`;
+                                            th.classList = 'rowSol';
+                                            th.setAttribute('role', 'button');
+                                            th.setAttribute('data-toggle', 'popover');
+                                            th.setAttribute('data-trigger', 'focus');
+                                            th.setAttribute('title', 'Comeptariu');
+                                            th.setAttribute('data-content', curComment);
 
-                                        var td = document.createElement('td');
-                                        td.innerText = element;
+                                            th.setAttribute('startr', rowStart);
+                                            th.setAttribute('endr', rowEnd);
 
-                                        tr.appendChild(th);
-                                        tr.appendChild(td);
+                                            var td = document.createElement('td');
 
-                                        table.appendChild(tr);
+                                            var pre = document.createElement('pre');
+                                            pre.innerText = element.lineValue;
+
+                                            td.appendChild(pre);
+
+                                            continut1.push(element.lineValue);
+                                            continut2.push(curComment);
+
+                                            tr.appendChild(th);
+                                            tr.appendChild(td);
+
+                                            table.appendChild(tr);
+
+                                            nr--;
+
+                                            th.onclick = () => {
+                                                var index = parseInt(th.innerText);
+                                                var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value) - 1].childNodes[1];
+
+                                                var div = document.createElement('div');
+                                                div.classList = 'commentSol';
+
+                                                var p = document.createElement('p');
+                                                p.innerText = continut2[ind];
+
+                                                div.appendChild(p);
+
+                                                var pre = document.createElement('pre');
+                                                pre.innerHTML = `${continut1[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                                                if (!okViz) {
+                                                    cont.innerHTML = '';
+                                                    cont.appendChild(pre);
+
+                                                    cont.appendChild(div);
+                                                    okViz = true;
+                                                } else {
+                                                    cont.innerText = '';
+
+                                                    cont.appendChild(pre);
+
+                                                    okViz = false;
+                                                }
+                                            }
+                                        } else {
+                                            if (element.comment) {
+                                                nr = parseInt(element.commentedLines);
+
+                                                rowStart = ind + 1;
+                                                rowEnd = rowStart + element.commentedLines - 1;
+
+                                                var color = getRandomColor();
+                                                curColor = color;
+
+                                                curComment = element.comment;
+
+                                                line1++;
+
+                                                var tr = document.createElement('tr');
+
+                                                var th = document.createElement('th');
+                                                th.innerText = line1;
+                                                th.style = `width: 50px; background: ${curColor};cursor: pointer;`;
+                                                th.classList = 'rowSol';
+                                                th.setAttribute('role', 'button');
+                                                th.setAttribute('data-toggle', 'popover');
+                                                th.setAttribute('data-trigger', 'focus');
+                                                th.setAttribute('title', 'Comeptariu');
+                                                th.setAttribute('data-content', curComment);
+
+                                                th.setAttribute('startr', rowStart);
+                                                th.setAttribute('endr', rowEnd);
+
+                                                var td = document.createElement('td');
+
+                                                var pre = document.createElement('pre');
+                                                pre.innerText = element.lineValue;
+
+                                                td.appendChild(pre);
+
+                                                continut1.push(element.lineValue);
+                                                continut2.push(curComment);
+
+                                                tr.appendChild(th);
+                                                tr.appendChild(td);
+
+                                                table.appendChild(tr);
+
+                                                nr--;
+
+                                                th.onclick = () => {
+                                                    var index = parseInt(th.innerText);
+                                                    var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value) - 1].childNodes[1];
+
+                                                    var div = document.createElement('div');
+                                                    div.classList = 'commentSol';
+
+                                                    var p = document.createElement('p');
+                                                    p.innerText = continut2[ind];
+
+                                                    div.appendChild(p);
+
+                                                    var pre = document.createElement('pre');
+                                                    pre.innerHTML = `${continut1[parseInt(th.attributes.endr.value) - 1]}\n`;
+
+                                                    if (!okViz) {
+                                                        cont.innerHTML = '';
+                                                        cont.appendChild(pre);
+
+                                                        cont.appendChild(div);
+                                                        okViz = true;
+                                                    } else {
+                                                        cont.innerText = '';
+
+                                                        cont.appendChild(pre);
+
+                                                        okViz = false;
+                                                    }
+                                                }
+                                            } else {
+                                                line1++;
+
+                                                var tr = document.createElement('tr');
+
+                                                var th = document.createElement('th');
+                                                th.innerText = line1;
+                                                th.style = 'width: 50px;cursor: pointer;';
+
+                                                var td = document.createElement('td');
+
+                                                var pre = document.createElement('pre');
+                                                pre.innerText = element.lineValue;
+
+                                                td.appendChild(pre);
+
+                                                continut1.push(element.lineValue);
+                                                continut2.push('');
+
+                                                tr.appendChild(th);
+                                                tr.appendChild(td);
+
+                                                table.appendChild(tr);
+                                            }
+                                        }
                                     });
                                 }
                             }
@@ -211,14 +447,14 @@ $(document).ready(function () {
         }
     });
 
-    var btn=document.getElementById("logOutBtn");
-    btn.onclick=()=>{
+    var btn = document.getElementById("logOutBtn");
+    btn.onclick = () => {
         $.ajax({
-            type:"GET",
+            type: "POST",
             url: "/sign-out",
             success: data => {
-                if(data==="valid"){
-                    window.location.href="/";
+                if (data === "valid") {
+                    window.location.href = "/";
                 }
             }
         })
