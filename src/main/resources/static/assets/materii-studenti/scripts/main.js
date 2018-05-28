@@ -10,6 +10,7 @@ $(document).ready(function () {
             if (data) {
                 var group = document.getElementById('group');
 
+                
                 data.forEach(element => {
                     var a = document.createElement('a');
                     a.href = `/materii/${element.titlu}`;
