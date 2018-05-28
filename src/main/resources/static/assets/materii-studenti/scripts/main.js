@@ -88,18 +88,6 @@ $(document).ready(function () {
                                 element.style.display = 'none';
                             }
                         }
-
-                        // if (semestru === '0' || semestru === '4') {
-                        //     element.style.display = 'unset';
-                        // } else if (semestru === '1') {
-                        //     if (semestruItem !== '1') {
-                        //         element.style.display = 'none';
-                        //     }
-                        // } else if (semestru === '2') {
-                        //     if (semestruItem !== '2') {
-                        //         element.style.display = 'none';
-                        //     }
-                        // }
                     }
                 }
             }
