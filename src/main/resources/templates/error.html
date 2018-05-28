@@ -1,12 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title> Error </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link href="https://fonts.googleapis.com/css?family=Caveat+Brush" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GestiON</title>
+    <link rel="stylesheet" href="/assets/404/css/main.css">
 </head>
+
 <body>
-    <p th:text="${errorMessag}"></p>
+    <div class="container-fluid buttons-home">
+        <img class="img-responsive" src="/assets/404/images/404.svg" alt="404"></img>
+        <div class="container position">
+            <p style="font-size:5vw;" id="serverMsg" th:text="${errorMessage} ? ${errorMessage} : 'Ai accesat o pagina neexistenta!'"></p>
+        </div>
+        <a href="/">
+            <button type="submit" id="button" class="button-primary">Inapoi</button>
+        </a>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
