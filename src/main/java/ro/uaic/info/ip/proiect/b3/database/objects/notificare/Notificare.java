@@ -39,7 +39,7 @@ public class Notificare {
 
         this.continut = continut;
         this.idCont = idCont;
-
+        this.idMaterie = idMaterie;
     }
 
     private Notificare(long id, String continut, long id_cont, Date creationTime, long idMaterie) {
@@ -62,6 +62,7 @@ public class Notificare {
                         "(id_materie in (SELECT id_materie FROM inscrieri WHERE id_cont = ?)) " +
                         "ORDER BY creation_time desc LIMIT 10");
         preparedStatement.setLong(1, idCont);
+        preparedStatement.setLong(2, idCont);
 
         ResultSet rs = preparedStatement.executeQuery();
 
@@ -92,5 +93,25 @@ public class Notificare {
         preparedStatement.executeUpdate();
 
         connection.close();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getContinut() {
+        return continut;
+    }
+
+    public long getIdCont() {
+        return idCont;
+    }
+
+    public Date getCreationTime() {
+        return creationTime;
+    }
+
+    public long getIdMaterie() {
+        return idMaterie;
     }
 }

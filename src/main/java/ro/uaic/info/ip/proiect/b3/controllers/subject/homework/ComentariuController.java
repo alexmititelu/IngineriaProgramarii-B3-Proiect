@@ -64,7 +64,7 @@ public class ComentariuController {
 
                 try {
                     Notificare notificare = new Notificare(
-                            String.format("[%s] A fost adaugat un comentariu la exercitiul %d din cadrul temei \"%s\"!", materie.getTitlu(), nrExercitiu, tema.getNumeTema()),
+                            String.format("[%s] Ti-a fost adaugat un comentariu la exercitiul %d din cadrul temei \"%s\"!", materie.getTitlu(), nrExercitiu, tema.getNumeTema()),
                             temaIncarcata.getIdCont(),
                             0);
                     notificare.insert();
