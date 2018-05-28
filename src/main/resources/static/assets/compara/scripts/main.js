@@ -151,7 +151,7 @@ $(document).ready(function () {
                                     success: data => {
                                         if (data === 'valid') {
                                             err.style.color = 'green';
-                                            err.innerText = 'Comentariu sters cu succes!';
+                                            err.innerText = 'Comentariu șters cu succes!';
                                             setTimeout(() => {
                                                 window.location.href = window.location.href
                                             }, 1000);
@@ -214,7 +214,7 @@ $(document).ready(function () {
 
                                 var btn = document.createElement('button');
                                 btn.classList = 'btn btn-danger';
-                                btn.innerText = 'Sterge comentariu';
+                                btn.innerText = 'șterge comentariu';
 
                                 var err = document.createElement('p');
 
@@ -265,7 +265,7 @@ $(document).ready(function () {
                                         success: data => {
                                             if (data === 'valid') {
                                                 err.style.color = 'green';
-                                                err.innerText = 'Comentariu sters cu succes!';
+                                                err.innerText = 'Comentariu șters cu succes!';
                                                 setTimeout(() => {
                                                     window.location.href = window.location.href
                                                 }, 1000);
@@ -317,7 +317,7 @@ $(document).ready(function () {
                                 input.style.width = '100%';
                                 var button = document.createElement('button');
                                 button.id = `bt${ind}`;
-                                button.innerText = 'Adauga comentariu';
+                                button.innerText = 'Adaugă comentariu';
                                 button.classList = 'btn btn-primary';
 
                                 var err = document.createElement('p');
@@ -362,7 +362,7 @@ $(document).ready(function () {
                                         success: data => {
                                             if (data === 'valid') {
                                                 err.style.color = 'green';
-                                                err.innerText = 'Comentariu adaugat cu succes!';
+                                                err.innerText = 'Comentariu adăugat cu succes!';
                                                 setTimeout(() => {
                                                     window.location.href = window.location.href
                                                 }, 1000);
@@ -438,7 +438,7 @@ $(document).ready(function () {
                             var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value)].childNodes[1];
 
                             var btn = document.createElement('button');
-                            btn.innerText = 'Sterge comentariu';
+                            btn.innerText = 'Șterge comentariu';
                             btn.classList = 'btn btn-danger';
                             btn.setAttribute('startr', parseInt(th.attributes.startr.value));
                             btn.setAttribute('endr', parseInt(th.attributes.endr.value));
@@ -486,7 +486,7 @@ $(document).ready(function () {
                                     success: data => {
                                         if (data === 'valid') {
                                             err.style.color = 'green';
-                                            err.innerText = 'Comentariu sters cu succes!';
+                                            err.innerText = 'Comentariu șters cu succes!';
                                             setTimeout(() => {
                                                 window.location.href = window.location.href
                                             }, 1000);
@@ -550,7 +550,7 @@ $(document).ready(function () {
 
                                 var btn = document.createElement('button');
                                 btn.classList = 'btn btn-danger';
-                                btn.innerText = 'Sterge comentariu';
+                                btn.innerText = 'Șterge comentariu';
 
                                 var err = document.createElement('p');
 
@@ -598,7 +598,7 @@ $(document).ready(function () {
                                         success: data => {
                                             if (data === 'valid') {
                                                 err.style.color = 'green';
-                                                err.innerText = 'Comentariu sters cu succes!';
+                                                err.innerText = 'Comentariu șters cu succes!';
                                                 setTimeout(() => {
                                                     window.location.href = window.location.href
                                                 }, 1000);
@@ -695,7 +695,7 @@ $(document).ready(function () {
                                         success: data => {
                                             if (data === 'valid') {
                                                 err.style.color = 'green';
-                                                err.innerText = 'Comentariu adaugat cu succes!';
+                                                err.innerText = 'Comentariu adăugat cu succes!';
                                                 setTimeout(() => {
                                                     window.location.href = window.location.href
                                                 }, 1000);
