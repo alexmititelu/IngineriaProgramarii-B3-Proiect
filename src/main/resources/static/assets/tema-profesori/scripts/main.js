@@ -51,9 +51,23 @@ $(document).ready(function () {
                     nrNotati = 0;
                     ex++;
 
+                    //accordion > card > card-header(id) > a
+                    //                 > collapse > card-body > accordion--level2 > (innerCard > innerCard-header(id) > a) + collapse > innerCard-body
+
+                    var accordion = document.createElement('div');
+                    accordion.setAttribute('id', `accordion-${ex}`);
+
+                    var card = document.createElement('div');
+                    card.className = 'card';
+
+                    var cardHeader = document.createElement('div');
+                    cardHeader.setAttribute('id', `heading-${ex}`);
+
                     var a = document.createElement('a');
                     a.setAttribute('data-toggle', 'collapse');
                     a.setAttribute('data-target', `#collapsable-${ex}`);
+                    a.setAttribute('aria-expanded', 'false');
+                    a.setAttribute('aria-controls', `collapsable-${ex}`);
                     a.className = 'list-group-item list-group-item-action flex-column align-items-start focus-ex';
 
                     var div = document.createElement('div');
@@ -76,64 +90,82 @@ $(document).ready(function () {
                     a.appendChild(p);
                     a.appendChild(small2);
 
+                    cardHeader.appendChild(a);
+                    card.appendChild(cardHeader);
+
                     var collapse = document.createElement('div');
-                    collapse.className = 'collapse';
+                    collapse.classList = 'collapse';
                     collapse.setAttribute('id', `collapsable-${ex}`);
+                    collapse.setAttribute('aria-labelledby', `#heading-${ex}`);
+                    collapse.setAttribute('data-parent', `#accordion-${ex}`);
+                    collapse.style = 'margin-top: 15px ; margin-bottom: 15px; padding-left: 10px; padding-right: 10px;';
 
-                    var card = document.createElement('div');
-                    card.className = 'card card-body';
+                    var cardBody = document.createElement('div');
+                    cardBody.classList = 'card-body';
+                    cardBody.style = 'padding: 0;';
 
-                    //building container and tables for graded/ungraded
-                    //& plagiarism
-                    var container = document.createElement('div');
-                    container.className = 'container';
+                   //accordion for the graded/ungraded students
+                   var accordionLevel1 = document.createElement('div');
+                   accordionLevel1.setAttribute('id', `accordion-level1--${ex}`);
 
-                    var row = document.createElement('div');
-                    row.className = 'row justify-content-between';
-
-                    var col = document.createElement('div');
-                    col.className = 'col-md-6 students-container';
-                    col.style = 'margin-top: 5px;';
-
-                    var title = document.createElement('h5');
-                    title.innerText = 'Teme încărcate';
-
-                    col.appendChild(title);
-
-                    //accordion for the graded/ungraded students
-                    var accordionLevel1 = document.createElement('div');
-                    accordionLevel1.setAttribute('id', `accordion-level1--${ex}`);
-
-                    var innerCard = document.createElement('div');
+                   var innerCard = document.createElement('div');
                     innerCard.className = 'card';
 
-                    var gradedTrigger = document.createElement('div');
+                    var innerCardHeader = document.createElement('div');
+                    innerCardHeader.setAttribute('id', `heading-graded-${ex}`);
+
+                    var gradedTrigger = document.createElement('a');
                     gradedTrigger.setAttribute('id', `heading-graded-${ex}`);
                     gradedTrigger.className = 'list-group-item d-flex justify-content-between align-items-center';
                     gradedTrigger.setAttribute('data-toggle', 'collapse');
-                    gradedTrigger.setAttribute('data-target', '#collapse-graded');
-                    gradedTrigger.setAttribute('aria-expanded', 'true');
-                    gradedTrigger.setAttribute('aria-controls', 'collapse-graded');
+                    gradedTrigger.setAttribute('data-target', `#collapse-graded${ex}`);
+                    gradedTrigger.setAttribute('aria-expanded', 'false');
+                    gradedTrigger.setAttribute('aria-controls', `collapse-graded${ex}`);
                     gradedTrigger.setAttribute('style', 'cursor: pointer; border: none;');
                     gradedTrigger.innerText = 'Studenti notați';
+
+                    var innerCollapse = document.createElement('div');
+                    innerCollapse.setAttribute('id', `collapse-graded${ex}`);
+                    innerCollapse.classList = 'collapse';
+                    innerCollapse.setAttribute('aria-labelledby', `heading-graded-${ex}`);
+                    innerCollapse.setAttribute('data-parent', `#accordion-level1--${ex}`);
+
+                    var innerCardBody = document.createElement('div');
+                    innerCardBody.classList = 'list-group-item justify-content-between align-items-center card-body';
+
+                    var accordionLevel12 = document.createElement('div');
+                   accordionLevel12.setAttribute('id', `accordion-level12--${ex}`);
+
+                   var innerCard2 = document.createElement('div');
+                    innerCard2.className = 'card';
+
+                    var innerCardHeader2 = document.createElement('div');
+                    innerCardHeader2.setAttribute('id', `heading-ungraded-${ex}`);
+
+                    var ungradedTrigger = document.createElement('a');
+                    ungradedTrigger.setAttribute('id', `heading-ungraded-${ex}`);
+                    ungradedTrigger.className = 'list-group-item d-flex justify-content-between align-items-center';
+                    ungradedTrigger.setAttribute('data-toggle', 'collapse');
+                    ungradedTrigger.setAttribute('data-target', `#collapse-ungraded-${ex}`);
+                    ungradedTrigger.setAttribute('aria-expanded', 'false');
+                    ungradedTrigger.setAttribute('aria-controls', `collapse-ungraded-${ex}`);
+                    ungradedTrigger.setAttribute('style', 'cursor: pointer; border: none;');
+                    ungradedTrigger.innerText = 'Studenti nenotați';
+
+                    var innerCollapse2 = document.createElement('div');
+                    innerCollapse2.setAttribute('id', `collapse-ungraded-${ex}`);
+                    innerCollapse2.classList = 'collapse';
+                    innerCollapse2.setAttribute('aria-labelledby', `heading-ungraded-${ex}`);
+                    innerCollapse2.setAttribute('data-parent', `#accordion-level12--${ex}`);
+
+                    var innerCardBody2 = document.createElement('div');
+                    innerCardBody2.classList = 'list-group-item justify-content-between align-items-center card-body';
 
                     var nPill = document.createElement('span');
                     nPill.setAttribute('id', 'notati-pill');
                     nPill.className = 'badge badge-primary badge-pill';
-                    // nPill.innerText = 'sconcs';
 
                     gradedTrigger.appendChild(nPill);
-                    innerCard.appendChild(gradedTrigger);
-
-                    var collapseLevel1 = document.createElement('div');
-                    collapseLevel1.setAttribute('id', 'collapse-graded');
-                    collapseLevel1.className = 'collapse';
-                    collapseLevel1.setAttribute('aria-labelledby', `heading-graded-${ex}`);
-                    collapseLevel1.setAttribute('data-parent', `accordion-level1--${ex}`);
-
-
-                    var col2 = document.createElement('div');
-                    col2.className = 'col-12';
 
                     var searchGraded = document.createElement('input');
                     searchGraded.setAttribute('id', 'srch1');
@@ -142,22 +174,53 @@ $(document).ready(function () {
                     searchGraded.placeholder = 'Căutați după nume';
                     searchGraded.style = 'margin-top: 5px;';
 
-                    col2.appendChild(searchGraded);
-                    collapseLevel1.appendChild(col2);
+                    innerCardBody.appendChild(searchGraded);
 
-                    innerCard.appendChild(collapseLevel1);
+                    var unPill = document.createElement('span');
+                    unPill.setAttribute('id', 'nenotati-pill');
+                    unPill.className = 'badge badge-primary badge-pill';
 
+                    ungradedTrigger.appendChild(unPill);
+
+                    var searchUngraded = document.createElement('input');
+                    searchUngraded.setAttribute('id', 'srch2');
+                    searchUngraded.className = 'search search--grade';
+                    searchUngraded.type = 'text';
+                    searchUngraded.placeholder = 'Căutați după nume';
+                    searchUngraded.style = 'margin-top: 5px;';
+
+                    innerCardBody2.appendChild(searchUngraded);
+
+                    innerCollapse2.appendChild(innerCardBody2);
+                    innerCardHeader2.appendChild(ungradedTrigger);
+                    innerCard2.appendChild(innerCardHeader2);
+                    innerCard2.appendChild(innerCollapse2);
+                    accordionLevel12.appendChild(innerCard2);
+
+                    innerCollapse.appendChild(innerCardBody);
+                    innerCardHeader.appendChild(gradedTrigger);
+                    innerCard.appendChild(innerCardHeader);
+                    innerCard.appendChild(innerCollapse);
                     accordionLevel1.appendChild(innerCard);
-                    col.appendChild(accordionLevel1);
+                    cardBody.appendChild(accordionLevel1);
+                    cardBody.appendChild(accordionLevel12);
+
+                    var col = document.createElement('div');
+                    col.className = 'col-md-6 students-container';
+                    col.style = 'margin-top: 5px;';
+                    col.innerHTML = '<h5>Teme încărcate</h5>';
+
+                    var row = document.createElement('div');
+                    row.classList = 'row';
+                    row.style = 'justify-content: space-around;';
 
                     row.appendChild(col);
-                    container.appendChild(row);
-                    card.appendChild(container);
-                    
-                    collapse.appendChild(card);
-                    
-                    group.appendChild(a);
-                    group.appendChild(collapse);
+                    col.appendChild(cardBody);
+                    collapse.appendChild(row);
+                    card.appendChild(collapse);
+                    accordion.appendChild(card);
+                  
+                    group.appendChild(accordion);
 
                     //append graded students
                     var graded = element.studentiNotati;
@@ -532,56 +595,10 @@ $(document).ready(function () {
                         a.setAttribute('username', element.username);
                         a.appendChild(li);
 
-                        collapseLevel1.appendChild(a);
+                        innerCardBody.appendChild(a);
                     });
 
                     nPill.innerText = nrNotati;
-
-                    //building collapsable element for the
-                    //ungraded students
-                    var innerCard2 = document.createElement('div');
-                    innerCard2.className = 'card';
-
-                    var ungradedTrigger = document.createElement('div');
-                    ungradedTrigger.setAttribute('id', `heading-ungraded-${ex}`);
-                    ungradedTrigger.className = 'list-group-item d-flex justify-content-between align-items-center';
-                    ungradedTrigger.setAttribute('data-toggle', 'collapse');
-                    ungradedTrigger.setAttribute('data-target', '#collapse-ungraded');
-                    ungradedTrigger.setAttribute('aria-expanded', 'true');
-                    ungradedTrigger.setAttribute('aria-controls', 'collapse-ungraded');
-                    ungradedTrigger.setAttribute('style', 'cursor: pointer; border: none;');
-                    ungradedTrigger.innerText = 'Studenti nenotați';
-
-                    var unPill = document.createElement('span');
-                    unPill.setAttribute('id', 'nenotati-pill');
-                    unPill.className = 'badge badge-primary badge-pill';
-
-                    ungradedTrigger.appendChild(unPill);
-                    innerCard2.appendChild(ungradedTrigger);
-
-                    var collapseLevel12 = document.createElement('div');
-                    collapseLevel12.setAttribute('id', 'collapse-ungraded');
-                    collapseLevel12.className = 'collapse';
-                    collapseLevel12.setAttribute('aria-labelledby', `heading-ungraded-${ex}`);
-                    collapseLevel12.setAttribute('data-parent', `accordion-level1--${ex}`);
-
-
-                    var col3 = document.createElement('div');
-                    col3.className = 'col-12';
-
-                    var searchUngraded = document.createElement('input');
-                    searchUngraded.setAttribute('id', 'srch2');
-                    searchUngraded.className = 'search search--grade';
-                    searchUngraded.type = 'text';
-                    searchUngraded.placeholder = 'Căutați după nume';
-                    searchUngraded.style = 'margin-top: 5px;';
-
-                    col3.appendChild(searchUngraded);
-                    collapseLevel12.appendChild(col3);
-
-                    innerCard2.appendChild(collapseLevel12);
-
-                    accordionLevel1.appendChild(innerCard2);
 
                     //append ungraded students
                     var ungraded = element.studentiNenotati;
@@ -642,7 +659,7 @@ $(document).ready(function () {
                         a.setAttribute('username', element.username);
                         a.appendChild(li);
 
-                        collapseLevel12.appendChild(a);
+                        innerCardBody2.appendChild(a);
                     });
                     unPill.innerText = nrNenotati;
 
@@ -707,11 +724,11 @@ $(document).ready(function () {
                         }
                     }
 
-                    searchGraded.onkeyup = () => {
+                    searchGraded.onkeyup = function() {
                         // Declare variables
                         var filter, ul, li, a, i;
                         filter = searchGraded.value.toUpperCase();
-                        ul = document.getElementById("collapseOne");
+                        ul = this.parentElement;
                         a = ul.getElementsByTagName('a');
                 
                         // Loop through all list items, and hide those who don't match the search query
@@ -725,11 +742,11 @@ $(document).ready(function () {
                         }
                     }
                 
-                    searchUngraded.onkeyup = () => {
+                    searchUngraded.onkeyup = function() {
                         // Declare variables
                         var filter, ul, li, a, i;
                         filter = searchUngraded.value.toUpperCase();
-                        ul = document.getElementById("collapseThree");
+                        ul = this.parentElement;
                         a = ul.getElementsByTagName('a');
                 
                         // Loop through all list items, and hide those who don't match the search query
@@ -743,32 +760,15 @@ $(document).ready(function () {
                         }
                     }
 
-                    searchPlag.onkeyup = () => {
+                    searchPlag.onkeyup = function() {
+
                         var value = $(this).val().toLowerCase();
+
                         $("#plag-table tr").filter(function () {
                             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                         });
                     };
                 });
-
-                // var exEvt = document.getElementsByClassName('focus-ex');
-                // for (let index = 0; index < exEvt.length; index++) {
-                //     const element = exEvt[index];
-
-                //     element.onclick = () => {
-                //         var showElem = element.parentNode.childNodes[4];
-                //         var show = document.getElementsByClassName('show');
-
-                //         for (let index2 = 0; index2 < show.length; index2++) {
-                //             const element2 = show[index2];
-
-                //             element2.classList = 'collapse';
-                //         }
-
-                //         showElem.classList.add('show');
-                //     }
-                    
-                // }
             }
         }
     });
