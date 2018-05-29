@@ -47,7 +47,7 @@ public class UpdateNotaController {
 
                 try {
                     Notificare notificare = new Notificare(
-                            String.format("[%s] Ti-a fost adaugata o noua nota pentru exercitiul %d din cadul temei \"%s!\"", materie.getTitlu(), nrExercitiu, tema.getNumeTema()),
+                            String.format("[%s] Ti-a fost adaugata o noua nota pentru exercitiul %d din cadul temei \"%s\"!", materie.getTitlu(), nrExercitiu, tema.getNumeTema()),
                             cont.getId(),
                             0);
                     notificare.insert();

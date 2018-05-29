@@ -70,7 +70,7 @@ public class NotiteTemaController {
 
                 try {
                     Notificare notificare = new Notificare(
-                            String.format("[%s] A fost adaugata o noua notita pentru tema \"%s!\"", materie.getTitlu(), tema.getNumeTema()),
+                            String.format("[%s] A fost adaugata o noua notita pentru tema \"%s\"!", materie.getTitlu(), tema.getNumeTema()),
                             0,
                             materie.getId());
                     notificare.insert();
