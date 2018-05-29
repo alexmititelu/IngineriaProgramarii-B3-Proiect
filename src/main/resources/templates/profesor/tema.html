@@ -46,13 +46,13 @@
 <body>
     <div class="container-fluid">
         <nav class="nav">
-            <a class="logo" href="#" style="display: inline-block; text-decoration: none">
+            <a class="logo" href="/" style="display: inline-block; text-decoration: none">
                 <img src="/assets/tema-profesori/images/logo.svg" width="27px;" alt="home" style="display: inline-block;">&nbsp;&nbsp;&nbsp;GestiON
             </a>
             <div class="responsive-menu">
                 <a class="nav-link responsive" href="/">Dashboard</a>
                 <a class="nav-link responsive" href="/materii">Materii</a>
-                <a class="nav-link responsive nav-button" href="#" role="button">
+                <a class="nav-link responsive nav-button" role="button">
                     <span class="nav-button-item" id="logOutBtn">
                         Deconectare
                     </span>
@@ -77,48 +77,6 @@
         </div>
 
         <p id="err" style="color: red">&nbsp;</p>
-
-        <div class="container">
-            <div class="row justify-content-between">
-                <div class="col-md-6 students-container" style="margin-top: 5px;">
-                    <h4>Teme încărcate</h4>
-
-
-                    <div id="accordion">
-                        <div class="card">
-                            <div class="list-group-item d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#collapseOne"
-                                aria-expanded="true" aria-controls="collapseOne" id="headingOne" style="cursor: pointer; border: none;">
-                                Studenti notati
-                                <span id="notati-pill" class="badge badge-primary badge-pill"></span>
-                            </div>
-
-                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                                <div class="col-12">
-                                    <input id="srch1" type="text" placeholder="Cautati dupa nume" class="search search--grade" style="margin-top: 5px;">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="list-group-item d-flex justify-content-between align-items-center" data-toggle="collapse" data-target="#collapseThree"
-                                aria-expanded="true" aria-controls="collapseThree" id="headingOne" style="cursor: pointer; border: none;">
-                                Studenti nenotati
-                                <span id="nenotati-pill" class="badge badge-primary badge-pill"></span>
-                            </div>
-                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                                <div class="col-12">
-                                    <input id="srch2" type="text" placeholder="Cautati dupa nume" class="search search--grade" style="margin-top: 5px;">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-5 plagiarism-container" style="margin-top: 5px;">
-                    <h3>Plagiat</h3>
-                    <input type="text" placeholder="Cautati dupa nume" class="search search--plag">
-                    <table id="plag-table" class="table"></table>
-                </div>
-            </div>
-        </div>
     </div>
 
     <!-- MODAL -->

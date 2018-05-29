@@ -94,7 +94,7 @@ $(document).ready(function () {
                 var empty = document.createElement('p');
                 empty.innerText = 'Nici o notificare noua';
 
-                materii.appendChild(empty);
+                notificari.appendChild(empty);
             }
         }
     });
