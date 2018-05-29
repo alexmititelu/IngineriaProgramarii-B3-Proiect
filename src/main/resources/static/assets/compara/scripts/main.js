@@ -750,10 +750,10 @@ $(document).ready(function () {
                     var l1 = parseInt(element.attributes.l1.value);
                     var l2 = parseInt(element.attributes.l2.value);
 
-                    for (let remove1 = 0; remove1 < table1.childNodes.length; remove1++) {
-                        const element = table1.childNodes[remove1];
+                    for (let remove1 = 0; remove1 < table1.childNodes.length - 1; remove1++) {
+                        const element = table1.childNodes[remove1 + 1];
 
-                        if (element.classList === 'light') {
+                        if (element.classList.contains('light')) {
                             element.classList = '';
                         }
                     }
@@ -764,10 +764,10 @@ $(document).ready(function () {
                         element.classList.add('light');
                     }
 
-                    for (let remove1 = 0; remove1 < table1.childNodes.length; remove1++) {
-                        const element = table2.childNodes[remove1];
+                    for (let remove2 = 0; remove2 < table2.childNodes.length - 1; remove2++) {
+                        const element = table2.childNodes[remove2 + 1];
 
-                        if (element.classList === 'light') {
+                        if (element.classList.contains('light')) {
                             element.classList = '';
                         }
                     }
