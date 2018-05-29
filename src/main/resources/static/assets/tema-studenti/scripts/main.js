@@ -127,6 +127,46 @@ $(document).ready(function () {
         }
     });
 
+    var adauga = document.getElementById('adaugaNota');
+
+    adauga.onclick = () => {
+        var text = document.getElementById('notita').value;
+        var status = document.getElementById('status');
+
+        status.innerText = '';
+
+        adauga.setAttribute('disabled', 'disabled');
+
+        data = {
+            continut: text
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: `${window.location.href}/adaugaNotita`,
+            data: data,
+            success: data => {
+                if (data === 'valid') {
+                    adauga.innerText = 'Succes';
+                    status.innerText = 'Notita a fost adaugata cu succes';
+                    adauga.classList = 'btn btn-success';
+
+                    setTimeout(() => {
+                        window.location.href = window.location.href;
+                    }, 500);
+                } else {
+                    adauga.innerText = 'Eroare';
+                    status.innerText = data;
+                    adauga.classList = 'btn btn-danger';
+
+                    setTimeout(() => {
+                        adauga.removeAttribute('disabled');
+                    }, 400);
+                }
+            }
+        });
+    }
+
     $.ajax({
         type: 'GET',
         url: `${window.location.href}/student_info_json`,

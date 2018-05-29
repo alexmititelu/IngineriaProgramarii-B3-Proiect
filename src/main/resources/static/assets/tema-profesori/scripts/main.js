@@ -39,13 +39,53 @@ $(document).ready(function () {
 
     var okViz = false;
 
+    var adauga = document.getElementById('adaugaNota');
+
+    adauga.onclick = () => {
+        var text = document.getElementById('notita').value;
+        var status = document.getElementById('status');
+
+        status.innerText = '';
+
+        adauga.setAttribute('disabled', 'disabled');
+
+        data = {
+            continut: text
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: `${window.location.href}/adaugaNotita`,
+            data: data,
+            success: data => {
+                if (data === 'valid') {
+                    adauga.innerText = 'Succes';
+                    status.innerText = 'Notita a fost adaugata cu succes';
+                    adauga.classList = 'btn btn-success';
+
+                    setTimeout(() => {
+                        window.location.href = window.location.href;
+                    }, 500);
+                } else {
+                    adauga.innerText = 'Eroare';
+                    status.innerText = data;
+                    adauga.classList = 'btn btn-danger';
+
+                    setTimeout(() => {
+                        adauga.removeAttribute('disabled');
+                    }, 400);
+                }
+            }
+        });
+    }
+
     $.ajax({
         type: 'GET',
         url: `${window.location.href}/profesor_info`,
         success: data => {
             if (data) {
                 var group = document.getElementById('group');
-                
+
                 data.forEach((element, exercitiu) => {
                     nrNenotati = 0;
                     nrNotati = 0;
@@ -104,11 +144,11 @@ $(document).ready(function () {
                     cardBody.classList = 'card-body';
                     cardBody.style = 'padding: 0;';
 
-                   //accordion for the graded/ungraded students
-                   var accordionLevel1 = document.createElement('div');
-                   accordionLevel1.setAttribute('id', `accordion-level1--${ex}`);
+                    //accordion for the graded/ungraded students
+                    var accordionLevel1 = document.createElement('div');
+                    accordionLevel1.setAttribute('id', `accordion-level1--${ex}`);
 
-                   var innerCard = document.createElement('div');
+                    var innerCard = document.createElement('div');
                     innerCard.className = 'card';
 
                     var innerCardHeader = document.createElement('div');
@@ -134,9 +174,9 @@ $(document).ready(function () {
                     innerCardBody.classList = 'list-group-item justify-content-between align-items-center card-body';
 
                     var accordionLevel12 = document.createElement('div');
-                   accordionLevel12.setAttribute('id', `accordion-level12--${ex}`);
+                    accordionLevel12.setAttribute('id', `accordion-level12--${ex}`);
 
-                   var innerCard2 = document.createElement('div');
+                    var innerCard2 = document.createElement('div');
                     innerCard2.className = 'card';
 
                     var innerCardHeader2 = document.createElement('div');
@@ -219,7 +259,7 @@ $(document).ready(function () {
                     collapse.appendChild(row);
                     card.appendChild(collapse);
                     accordion.appendChild(card);
-                  
+
                     group.appendChild(accordion);
 
                     //append graded students
@@ -516,7 +556,7 @@ $(document).ready(function () {
 
                                                         var input = document.createElement('textarea');
                                                         input.style.width = '100%';
-                                                        
+
                                                         var button = document.createElement('button');
                                                         button.id = `bt${ind}`;
                                                         button.innerText = 'Adaugă comentariu';
@@ -724,31 +764,13 @@ $(document).ready(function () {
                         }
                     }
 
-                    searchGraded.onkeyup = function() {
+                    searchGraded.onkeyup = function () {
                         // Declare variables
                         var filter, ul, li, a, i;
                         filter = searchGraded.value.toUpperCase();
                         ul = this.parentElement;
                         a = ul.getElementsByTagName('a');
-                
-                        // Loop through all list items, and hide those who don't match the search query
-                        for (i = 0; i < a.length; i++) {
-                            li = a[i].getElementsByTagName("li")[0];
-                            if (li.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                                a[i].style.display = "";
-                            } else {
-                                a[i].style.display = "none";
-                            }
-                        }
-                    }
-                
-                    searchUngraded.onkeyup = function() {
-                        // Declare variables
-                        var filter, ul, li, a, i;
-                        filter = searchUngraded.value.toUpperCase();
-                        ul = this.parentElement;
-                        a = ul.getElementsByTagName('a');
-                
+
                         // Loop through all list items, and hide those who don't match the search query
                         for (i = 0; i < a.length; i++) {
                             li = a[i].getElementsByTagName("li")[0];
@@ -760,7 +782,25 @@ $(document).ready(function () {
                         }
                     }
 
-                    searchPlag.onkeyup = function() {
+                    searchUngraded.onkeyup = function () {
+                        // Declare variables
+                        var filter, ul, li, a, i;
+                        filter = searchUngraded.value.toUpperCase();
+                        ul = this.parentElement;
+                        a = ul.getElementsByTagName('a');
+
+                        // Loop through all list items, and hide those who don't match the search query
+                        for (i = 0; i < a.length; i++) {
+                            li = a[i].getElementsByTagName("li")[0];
+                            if (li.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                a[i].style.display = "";
+                            } else {
+                                a[i].style.display = "none";
+                            }
+                        }
+                    }
+
+                    searchPlag.onkeyup = function () {
 
                         var value = $(this).val().toLowerCase();
 
