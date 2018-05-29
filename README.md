@@ -1,6 +1,6 @@
 # Proiect Ingineria Programarii - B3 - Platforma pentru colectare/corectare teme
 
-**Videoclip prezentare**: https://www.youtube.com/watch?v=24c7iQzuyyA&feature=youtu.be
+**Videoclip prezentare**: https://youtu.be/24c7iQzuyyA
 
 **Manual de utilizare pentru studenti**: https://github.com/alexmititelu/IngineriaProgramarii-B3-Proiect/blob/2c2eae25ff4a3e765f7c4af5bb49723c3801265b/src/test/java/ro/uaic/info/ip/proiect/b3/usability/Manual-de-utilizare-student_Ploae-Teodor.pdf
 
