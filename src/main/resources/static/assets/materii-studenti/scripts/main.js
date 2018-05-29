@@ -24,7 +24,7 @@ $(document).ready(function () {
                     h5.innerText = element.titlu;
 
                     var small1 = document.createElement('small');
-                    small1.innerText = '3 days ago';
+
 
                     div.appendChild(h5);
                     div.appendChild(small1);

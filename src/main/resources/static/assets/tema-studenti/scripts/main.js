@@ -140,7 +140,7 @@ $(document).ready(function () {
                     var flex = document.createElement('div');
                     flex.className = 'd-flex w-100 justify-content-between';
 
-                    var h5 = document.createElement('h5');
+                    var h5 = document.createElement('p');
                     h5.className = 'mb-1';
                     h5.innerText = `${exercitii}. ${element.enunt}`;
 
@@ -148,7 +148,7 @@ $(document).ready(function () {
                     a.appendChild(flex);
 
                     var small = document.createElement('small');
-                    small.innerText = `Extensie acceptata: .${element.extensie}`;
+                    small.innerText = `Extensie acceptată: .${element.extensie}`;
 
                     var hr = document.createElement('hr');
 
@@ -199,7 +199,7 @@ $(document).ready(function () {
                         var btnUpload = document.createElement('button');
                         btnUpload.className = 'btn btn-primary upload';
                         btnUpload.style = 'margin: 5px 0';
-                        btnUpload.innerText = 'Incarca';
+                        btnUpload.innerText = 'Incarcă';
                         btnUpload.setAttribute('exercitiu', exercitii);
                         btnUpload.setAttribute('extensie', element.extensie);
 
@@ -213,7 +213,7 @@ $(document).ready(function () {
 
                     var col2 = document.createElement('div');
                     col2.className = 'col-sm-6 text-right';
-                    col2.innerHTML = `Nota: ${element.nota}`;
+                    col2.innerHTML = `Notă: ${element.nota}`;
 
                     row.appendChild(col2);
 
@@ -448,7 +448,7 @@ $(document).ready(function () {
                             var realExtension = extension[extension.length - 1];
 
                             if (element.attributes.extensie.value !== realExtension) {
-                                err.innerText = 'Ai incarcat un fisier cu o extensie gresita.';
+                                err.innerText = 'Ai incărcat un fișier cu o extensie greșită.';
                             } else {
                                 var data = new FormData(form);
 
@@ -473,13 +473,13 @@ $(document).ready(function () {
                                             element.classList.remove('btn-primary');
                                             element.classList.add('btn-danger');
 
-                                            element.innerText = 'Incearca din nou';
+                                            element.innerText = 'Incearcă din nou';
                                         }
                                     }
                                 });
                             }
                         } else {
-                            err.innerText = 'Nu ai selectat niciun fisier pentru upload.';
+                            err.innerText = 'Nu ai selectat niciun fișier pentru upload.';
                         }
                     }
                 }

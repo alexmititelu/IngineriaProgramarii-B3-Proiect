@@ -40,7 +40,7 @@ $(document).ready(function () {
 
                     var small1 = document.createElement('small');
                     var deadline = element.deadline;
-                    small1.innerText = `Deadline: ${deadline}`;
+                    small1.innerText = `Termen limită: ${deadline}`;
 
                     div.appendChild(h5);
                     div.appendChild(small1);
@@ -50,7 +50,7 @@ $(document).ready(function () {
                     p.innerText = element.enunt;
 
                     var small2 = document.createElement('small');
-                    small2.innerText = `Numar exercitii: ${element.nrExercitii}`;
+                    small2.innerText = `Număr exerciții: ${element.nrExercitii}`;
 
                     // var small3 = document.createElement('small');
                     // small3.innerText = `Extensie fisier: .${element.extensieFisier}`;
@@ -89,7 +89,7 @@ $(document).ready(function () {
                     type: 'POST',
                     url: `${window.location.href}/unsubscribe`,
                     success: data => {
-                        if(data === 'valid') {
+                        if (data === 'valid') {
                             var subscribeStatus = 'Te-ai dezabonat cu succes!';
 
                             var p = document.getElementById('subscribe-status');
@@ -122,7 +122,7 @@ $(document).ready(function () {
                     type: 'POST',
                     url: `${window.location.href}/subscribe`,
                     success: data => {
-                        if(data === 'valid') {
+                        if (data === 'valid') {
                             var subscribeStatus = 'Te-ai abonat cu succes!';
 
                             var p = document.getElementById('subscribe-status');
@@ -159,13 +159,13 @@ $(document).ready(function () {
 
         var nameEx = document.createElement('div');
         nameEx.classList.add('col-md-12');
-        nameEx.innerText = `Exercitiul ${exercitii}`;
+        nameEx.innerText = `Exercițiul ${exercitii}`;
 
         var enunt = document.createElement('div');
         enunt.classList.add('col-md-12');
 
         var lbEnunt = document.createElement('label');
-        lbEnunt.innerText = 'Enunt';
+        lbEnunt.innerText = 'Enunț';
 
         var textarea = document.createElement('textarea');
         textarea.classList.add('form-control');
@@ -183,7 +183,7 @@ $(document).ready(function () {
         grp.classList.add('form-group');
 
         var lbExt = document.createElement('label');
-        lbExt.innerText = 'Extensie fisier acceptat';
+        lbExt.innerText = 'Extensie fișier acceptat';
 
         var select = document.createElement('select');
         select.classList.add('form-control');
@@ -211,11 +211,16 @@ $(document).ready(function () {
         option5.value = 'py';
         option5.innerText = 'Python';
 
+        var option6 = document.createElement('option');
+        option6.value = 'sql';
+        option6.innerText = 'SQL';
+
         select.appendChild(option1);
         select.appendChild(option2);
         select.appendChild(option3);
         select.appendChild(option4);
         select.appendChild(option5);
+        select.appendChild(option6);
 
         grp.appendChild(lbExt);
         grp.appendChild(select);
@@ -299,7 +304,7 @@ $(document).ready(function () {
             success: data => {
                 if (data === 'valid') {
                     err.classList.add('success');
-                    err.innerHTML = 'Tema a fost adaugata cu succes!';
+                    err.innerHTML = 'Tema a fost adaugată cu succes!';
 
                     setTimeout(() => {
                         window.location.href = window.location.href;

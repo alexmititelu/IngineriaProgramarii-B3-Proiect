@@ -1,0 +1,164 @@
+CREATE OR REPLACE PROCEDURE majoreaza_student_bursa(id_student IN studenti.id%TYPE)
+IS
+
+    v_bursa_curenta studenti.bursa%TYPE;
+    v_valoare_majorare_bursa studenti.bursa%TYPE;
+    v_bursa_majorata studenti.bursa%TYPE;
+    v_nr_burse_anterioare integer;
+    
+    v_exception_to_be_raised integer;
+    
+    v_istoric_burse istoric_burse;
+    
+    overflow_bursa EXCEPTION;
+    PRAGMA EXCEPTION_INIT(overflow_bursa,-20998);
+
+BEGIN
+
+    v_exception_to_be_raised := 0;
+    SELECT nvl(bursa,0) into v_bursa_curenta FROM studenti where id=id_student;
+    
+    v_valoare_majorare_bursa := 3001;
+    
+    v_bursa_majorata := v_bursa_curenta + v_valoare_majorare_bursa;
+    
+    
+    IF(v_bursa_majorata>3000) 
+    THEN
+        v_bursa_majorata := 3000;
+        v_exception_to_be_raised := 1;
+    END IF;
+    
+        UPDATE studenti
+        SET bursa = v_bursa_majorata
+        WHERE id = id_student;
+        
+        select burse_anterioare into v_istoric_burse from studenti where id=id_student;
+        
+        v_nr_burse_anterioare := 0;
+        
+        IF(v_istoric_burse IS NOT NULL)
+        THEN
+            v_nr_burse_anterioare := v_istoric_burse.count;
+        END IF;
+        
+        IF(v_istoric_burse is NULL)
+        THEN
+            v_istoric_burse := istoric_burse();
+        END IF;
+                      --DBMS_OUTPUT.PUT_LINE('Nr burse anterioare: ' || v_istoric_burse.count);
+                        v_istoric_burse.extend(1);
+                        v_istoric_burse(v_nr_burse_anterioare+1):=v_bursa_curenta;
+                         UPDATE studenti
+                        SET burse_anterioare = v_istoric_burse
+                        WHERE id = id_student;
+    IF (v_exception_to_be_raised =1 )
+    THEN
+    
+        RAISE overflow_bursa;
+                        
+    END IF;
+    
+EXCEPTION
+    WHEN overflow_bursa THEN
+    raise_application_error (-20998,'Studentul cu ID-ul ' || id_student || ' are bursa prea mare');
+
+END majoreaza_student_bursa;
+
+
+set serveroutput on;
+DECLARE
+    overflow_bursa EXCEPTION;
+    PRAGMA EXCEPTION_INIT(overflow_bursa,-20998);
+BEGIN
+
+    FOR i IN 600..700 LOOP
+        majoreaza_student_bursa(i);
+    END LOOP;
+    
+EXCEPTION
+    WHEN overflow_bursa
+    THEN
+    dbms_output.put_line('Overflow bursa pentru unul sau mai multi studenti'); 
+END;
+
+/* un simplu test */
+
+select ID from studenti where bursa=3000;
+select bursa from studenti where id between 600 and 700;
+
+/* de facut diferenta intre bursa si last item din istoric burse, daca e egal cu nr hardcodat -> a fost modificata bursa -> afisam */
+select * from (select bursa from studenti where bursa is not null order by bursa desc) where rownum<=10; 
+
+
+
+set serveroutput on;
+DECLARE
+
+    v_linie studenti%ROWTYPE;
+    v_bursa_curenta studenti.bursa%TYPE;
+    v_bursa_anterioara studenti.bursa%TYPE;
+    v_istoric_burse istoric_burse;
+    v_index integer;
+    v_majorare integer;
+    
+BEGIN
+
+    FOR v_linie IN (select * from (select * from studenti where bursa is not null order by bursa desc) where rownum<=10)
+    LOOP
+    
+        dbms_output.put_line('------------------------ STUDENT ------------------------');
+        dbms_output.put_line('ID: '||v_linie.id);
+        dbms_output.put_line('Student: '||v_linie.nume||' '||v_linie.prenume);
+        dbms_output.put_line('Bursa actuala: '||v_linie.bursa);
+        
+        IF(v_linie.burse_anterioare IS NOT NULL)
+        THEN
+            
+            v_index := v_linie.burse_anterioare.count();
+            v_istoric_burse := v_linie.burse_anterioare;
+            v_bursa_anterioara := v_istoric_burse(1);
+            v_majorare := v_linie.bursa-v_bursa_anterioara;
+            dbms_output.put_line('Majorare bursa: '||v_majorare);
+            
+        END IF;
+        dbms_output.put_line('---------------------------------------------------------');
+    END LOOP;
+END;
+
+
+FUNCTION afiseaza_studentii_cu_bursa_modificata
+    RETURN INTEGER AS
+    v_lista_exemplu package_modificari_burse.list_of_bursieri_noi;
+    --v_marire_exemplu package_modificari_burse.student_bursier_nou;
+    --x  istoric_burse;
+    v_nr_burse_anterioare integer;
+    v_burse_anterioare studenti.burse_anterioare%TYPE;
+    v_linie_student studenti%ROWTYPE;
+    v_number_of_students integer;
+    
+    BEGIN
+    v_nr_burse_anterioare :=0;
+    v_number_of_students :=0;
+    FOR v_linie_student IN (SELECT * FROM STUDENTI where burse_anterioare is not null)
+    LOOP
+        v_number_of_students:=v_number_of_students+1;
+        DBMS_OUTPUT.PUT_LINE(v_linie_student.nume||' '||v_linie_student.prenume);
+        v_nr_burse_anterioare := v_linie_student.burse_anterioare.count();
+        IF(v_nr_burse_anterioare>0)
+        THEN
+            FOR i IN 1..(v_nr_burse_anterioare-1)
+            LOOP
+             DBMS_OUTPUT.PUT(v_linie_student.burse_anterioare(i)||' -> ');
+            END LOOP;
+             DBMS_OUTPUT.PUT_LINE(v_linie_student.bursa);
+           -- DBMS_OUTPUT.PUT_LINE(nvl(v_linie_student.burse_anterioare.count(),0)||',');
+        END IF;
+    END LOOP;
+    
+    RETURN v_number_of_students;
+    
+END afiseaza_studentii_cu_bursa_modificata;
+    
+
+
