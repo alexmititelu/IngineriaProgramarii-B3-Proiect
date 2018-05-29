@@ -165,8 +165,8 @@ public class PlagiarismDetector {
             String[] tokens2 = cols.get(2).text().split("-");
 
             new HotZone(idPlagiat,
-                    new int[]{Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1])},
-                    new int[]{Integer.parseInt(tokens2[0]), Integer.parseInt(tokens2[1])},
+                    new int[]{Integer.parseInt(tokens[0]) - 1, Integer.parseInt(tokens[1]) - 1},
+                    new int[]{Integer.parseInt(tokens2[0]) - 1, Integer.parseInt(tokens2[1]) - 1},
                     100).insert();
         }
     }

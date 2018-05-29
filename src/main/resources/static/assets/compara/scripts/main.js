@@ -730,7 +730,7 @@ $(document).ready(function () {
             data.forEach(element => {
                 var div = document.createElement('div');
                 div.classList = 'col-12 text-center row-plag';
-                div.innerText = `${nume1} [${element.student1[0]}-${element.student1[1]}] | ${nume2} [${element.student2[0]}-${element.student2[1]}] ${element.procent}%`;
+                div.innerText = `${nume1} [${element.student1[0]}-${element.student1[1]}] | ${nume2} [${element.student2[0]}-${element.student2[1]}]`;
                 div.setAttribute('f1', parseInt(element.student1[0]) + 1);
                 div.setAttribute('f2', parseInt(element.student1[1]) + 2);
                 div.setAttribute('l1', parseInt(element.student2[0]) + 1);
