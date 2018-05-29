@@ -1,0 +1,62 @@
+/* crearea tabelei */
+
+CREATE TABLE STUDENTI_ERASMUS(NR_MATRICOL VARCHAR2(6 BYTE), NUME VARCHAR2(15 BYTE), PRENUME VARCHAR2(30 BYTE), INDICE_TARA INTEGER);
+
+
+/* creare index */
+
+CREATE UNIQUE INDEX INDEX_ERASMUS_NR_MATRICOL ON STUDENTI_ERASMUS(NR_MATRICOL);
+
+
+/* REZOLVARE IN SINE */
+
+CREATE OR REPLACE FUNCTION add_erasmus_student(v_id IN integer) RETURN VARCHAR2
+AS
+    v_message varchar2(500);
+    v_student_nr_matricol studenti.nr_matricol%TYPE;
+    v_student_nume studenti.nume%TYPE;
+    v_student_prenume studenti.prenume%TYPE;
+    v_student_country integer;
+    student_deja_existent EXCEPTION;
+    PRAGMA EXCEPTION_INIT(student_deja_existent,-20999);
+    v_check_if_exists integer;
+BEGIN
+
+     SELECT nr_matricol,nume,prenume into v_student_nr_matricol, v_student_nume,v_student_prenume FROM studenti where id=v_id and ROWNUM=1;
+     
+     SELECT COUNT(*) INTO v_check_if_exists FROM studenti_erasmus WHERE nr_matricol = v_student_nr_matricol;
+      IF (v_check_if_exists != 0) 
+      THEN
+        raise student_deja_existent;
+      END IF;
+    
+    v_student_country := FLOOR(DBMS_RANDOM.VALUE(1,10));
+    
+     INSERT INTO STUDENTI_ERASMUS values (v_student_nr_matricol,v_student_nume,v_student_prenume,v_student_country);
+     v_message := 'New student added: '||v_student_nr_matricol||'  '||v_student_nume ||'  '||v_student_prenume||'  '||v_student_country;
+     RETURN v_message;
+EXCEPTION
+WHEN student_deja_existent THEN
+    v_message := 'Studentul cu numarul matricol ' || v_student_nr_matricol || ' exista deja in aceasta tabela';
+    --raise_application_error (-20001,'Studentul cu matricolul ' || pi_matricol || ' nu exista in baza de date.');
+    RETURN v_message;
+END add_erasmus_student;
+
+
+set serveroutput on;
+DECLARE
+    v_student_id studenti.id%TYPE;
+    v_resulted_message varchar2(500);
+
+BEGIN
+FOR i IN 1..100 LOOP
+    v_student_id := MOD(i,80)+500;
+    v_resulted_message := add_erasmus_student(v_student_id);
+    DBMS_OUTPUT.PUT_LINE(v_resulted_message);
+    
+END LOOP;
+END;
+
+
+select count(*) from studenti_erasmus;
+delete from studenti_erasmus where INDICE_TARA>0;
