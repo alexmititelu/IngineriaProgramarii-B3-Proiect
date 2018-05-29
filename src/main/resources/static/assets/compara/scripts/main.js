@@ -734,7 +734,7 @@ $(document).ready(function () {
                 div.setAttribute('f1', parseInt(element.student1[0]) + 1);
                 div.setAttribute('f2', parseInt(element.student1[1]) + 2);
                 div.setAttribute('l1', parseInt(element.student2[0]) + 1);
-                div.setAttribute('l2', parseInt(element.student1[1]) + 2);
+                div.setAttribute('l2', parseInt(element.student2[1]) + 2);
 
                 mainRow.appendChild(div);
             });
