@@ -39,6 +39,41 @@ $(document).ready(function () {
 
     var okViz = false;
 
+    var listG = document.getElementById('listG');
+    var addNota = document.getElementById('addNota');
+
+    $.ajax({
+        type: 'GET',
+        url: `${window.location.href}/getNotite`,
+        success: data => {
+            if (data.length > 0) {
+                data.forEach(element => {
+                    var a = document.createElement('a');
+                    a.classList = 'list-group-item list-group-item-action flex-column align-items-start';
+
+                    var div = document.createElement('div');
+                    div.classList = 'd-flex w-100 justify-content-between';
+
+                    var h5 = document.createElement('h5');
+                    h5.classList = 'mb-1';
+                    h5.innerText = `${element.nume}`;
+
+                    div.appendChild(h5);
+
+                    a.appendChild(div);
+
+                    var p = document.createElement('p');
+                    p.classList = 'mb-1';
+                    p.innerText = `${element.continut}`;
+
+                    a.appendChild(p);
+
+                    listG.insertBefore(addNota);
+                });
+            }
+        }
+    });
+
     var adauga = document.getElementById('adaugaNota');
 
     adauga.onclick = () => {
