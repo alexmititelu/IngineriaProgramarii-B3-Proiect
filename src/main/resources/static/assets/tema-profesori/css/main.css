@@ -15,7 +15,7 @@
     --text-main-light: #aaefeb;
     --text-link: #5fcac3;
     --header-section: #E6D084;
-    --background: #29324B;
+    --background: #f5f9fc;
     --footer-link: #E28B42;
 }
 
@@ -642,4 +642,8 @@ li.active a.active.show {
 }
 .rowPlagiat:hover {
     background: white;
+}
+
+div.container-fluid.footer > div.overlay-echipa {
+    background: #29324b;
 }
