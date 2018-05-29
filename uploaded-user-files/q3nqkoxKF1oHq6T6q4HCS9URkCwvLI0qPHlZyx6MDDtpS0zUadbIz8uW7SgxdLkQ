@@ -1,0 +1,62 @@
+drop table angajati;
+drop table angajati_cu_sef;
+CREATE OR REPLACE TYPE angajat AS OBJECT
+(nume varchar2(10),
+ prenume varchar2(10),
+ departament varchar2(10),
+ email varchar2(20), 
+ salariu integer,
+ hire_date date,
+ hiring_period integer, --months, null = perioada nedeterminata 
+ member procedure afiseaza_detalii_angajat,
+ member procedure afiseaza_salariu,
+ member procedure modifica_salariu(modificare integer),
+ CONSTRUCTOR FUNCTION angajat(nume varchar2, prenume varchar2) 
+  RETURN SELF AS RESULT
+-- ORDER MEMBER FUNCTION match (aux Angajat) RETURN INTEGER
+);
+/ 
+
+CREATE OR REPLACE TYPE BODY angajat AS
+   MEMBER PROCEDURE afiseaza_detalii_angajat IS
+   BEGIN
+       DBMS_OUTPUT.PUT_LINE('Nume: ' || self.nume);
+       DBMS_OUTPUT.PUT_LINE('Prenume: ' || self.prenume);
+       DBMS_OUTPUT.PUT_LINE('Departament: ' || self.departament);
+       DBMS_OUTPUT.PUT_LINE('Email: '|| self.email);
+   END afiseaza_detalii_angajat;
+   
+    MEMBER PROCEDURE afiseaza_salariu IS
+   BEGIN
+       DBMS_OUTPUT.PUT_LINE('Salariu: ' || self.salariu);
+   END afiseaza_salariu;
+   
+    MEMBER PROCEDURE modifica_salariu (modificare integer) IS
+   BEGIN
+      self.salariu := self.salariu + modificare;
+   END modifica_salariu;
+   
+   
+   
+   
+   CONSTRUCTOR FUNCTION angajat(nume varchar2, prenume varchar2)
+    RETURN SELF AS RESULT
+  AS
+  BEGIN
+    SELF.nume := nume;
+    SELF.prenume := prenume;
+    RETURN;
+  END;
+  
+END;
+/
+
+
+set SERVEROUTPUT on;
+DECLARE
+    a angajat;
+BEGIN
+    a:=angajat('alex','mititelu');
+    a.afiseaza_detalii_angajat();
+    dbms_output.put_line(a.nume);
+END;
