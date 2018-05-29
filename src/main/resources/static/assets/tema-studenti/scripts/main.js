@@ -156,7 +156,7 @@ $(document).ready(function () {
                     
                     a.appendChild(p);
 
-                    listG.insertBefore(addNota);
+                    listG.insertBefore(a, addNota);
                 });
             }
         }

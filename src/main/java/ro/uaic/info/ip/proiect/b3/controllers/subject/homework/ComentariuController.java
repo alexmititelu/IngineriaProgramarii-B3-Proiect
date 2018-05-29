@@ -92,8 +92,7 @@ public class ComentariuController {
                             @RequestParam("username") String username,
                             @RequestParam("startRow") int startRow,
                             @RequestParam("endRow") int endRow,
-                            @CookieValue(value = "user", defaultValue = "-1") String loginToken,
-                            HttpServletResponse response) {
+                            @CookieValue(value = "user", defaultValue = "-1") String loginToken) {
         try {
             if (PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
 
