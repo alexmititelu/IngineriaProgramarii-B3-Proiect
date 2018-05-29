@@ -183,7 +183,7 @@ $(document).ready(function () {
             success: data => {
                 if (data === 'valid') {
                     adauga.innerText = 'Succes';
-                    status.innerText = 'Notita a fost adaugata cu succes';
+                    status.innerText = 'Notița a fost adăugată cu succes';
                     adauga.classList = 'btn btn-success';
 
                     setTimeout(() => {
@@ -246,7 +246,7 @@ $(document).ready(function () {
                         var btnValid = document.createElement('button');
                         btnValid.className = 'btn btn-success solutie';
                         btnValid.style = 'margin: 5px 0';
-                        btnValid.innerText = 'Vezi solutie';
+                        btnValid.innerText = 'Vezi soluție';
                         btnValid.name = exercitii;
                         btnValid.setAttribute('role', 'button');
                         btnValid.setAttribute('data-toggle', 'modal');
@@ -561,7 +561,7 @@ $(document).ready(function () {
                                 });
                             }
                         } else {
-                            err.innerText = 'Nu ai selectat niciun fișier pentru upload.';
+                            err.innerText = 'Nu ai selectat niciun fișier pentru încărcare.';
                         }
                     }
                 }

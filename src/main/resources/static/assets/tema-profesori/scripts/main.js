@@ -95,7 +95,7 @@ $(document).ready(function () {
             success: data => {
                 if (data === 'valid') {
                     adauga.innerText = 'Succes';
-                    status.innerText = 'Notita a fost adaugata cu succes';
+                    status.innerText = 'Notița a fost adăugată cu succes';
                     adauga.classList = 'btn btn-success';
 
                     setTimeout(() => {
@@ -197,7 +197,7 @@ $(document).ready(function () {
                     gradedTrigger.setAttribute('aria-expanded', 'false');
                     gradedTrigger.setAttribute('aria-controls', `collapse-graded${ex}`);
                     gradedTrigger.setAttribute('style', 'cursor: pointer; border: none;');
-                    gradedTrigger.innerText = 'Studenți notăți';
+                    gradedTrigger.innerText = 'Studenți notați';
 
                     var innerCollapse = document.createElement('div');
                     innerCollapse.setAttribute('id', `collapse-graded${ex}`);
@@ -225,7 +225,7 @@ $(document).ready(function () {
                     ungradedTrigger.setAttribute('aria-expanded', 'false');
                     ungradedTrigger.setAttribute('aria-controls', `collapse-ungraded-${ex}`);
                     ungradedTrigger.setAttribute('style', 'cursor: pointer; border: none;');
-                    ungradedTrigger.innerText = 'Studenti nenotați';
+                    ungradedTrigger.innerText = 'Studenți nenotați';
 
                     var innerCollapse2 = document.createElement('div');
                     innerCollapse2.setAttribute('id', `collapse-ungraded-${ex}`);
@@ -587,7 +587,7 @@ $(document).ready(function () {
                                                         inp1.setAttribute('disabled', 'disabled');
 
                                                         var inp2 = document.createElement('input');
-                                                        inp2.placeholder = 'Rand terminal';
+                                                        inp2.placeholder = 'Rând terminal';
 
                                                         var input = document.createElement('textarea');
                                                         input.style.width = '100%';
@@ -867,7 +867,7 @@ $(document).ready(function () {
                 success: data => {
                     if (data === 'valid') {
                         notaBtn.classList = 'btn btn-success';
-                        notaBtn.innerText = 'Notă adaugată cu succes';
+                        notaBtn.innerText = 'Notă adăugată cu succes';
 
                         setTimeout(() => {
                             window.location.href = window.location.href;
