@@ -76,7 +76,7 @@ $(document).ready(function () {
         an.setAttribute('disabled', 'disabled');
         semestru.setAttribute('disabled', 'disabled');
         btn.setAttribute('disabled', 'disabled');
-        btn.innerText = 'Se valideaza..';
+        btn.innerText = 'Se validează..';
 
         $.ajax({
             type: 'POST',
@@ -85,7 +85,7 @@ $(document).ready(function () {
             success: data => {
                 if (data === 'valid') {
                     err.classList.add('success');
-                    err.innerHTML = 'Materia a fost adaugată cu succes!';
+                    err.innerHTML = 'Materia a fost adăugată cu succes!';
 
                     setTimeout(() => {
                         window.location.href = window.location.href;

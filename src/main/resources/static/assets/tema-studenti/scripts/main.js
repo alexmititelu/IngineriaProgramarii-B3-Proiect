@@ -127,6 +127,81 @@ $(document).ready(function () {
         }
     });
 
+    var listG = document.getElementById('listG');
+    var addNota = document.getElementById('addNota');
+
+    $.ajax({
+        type: 'GET',
+        url: `${window.location.href}/getNotite`,
+        success: data => {
+            if (data.length > 0) {
+                data.forEach(element => {
+                    var a = document.createElement('a');
+                    a.classList = 'list-group-item list-group-item-action flex-column align-items-start';
+
+                    var div = document.createElement('div');
+                    div.classList = 'd-flex w-100 justify-content-between';
+
+                    var h5 = document.createElement('h5');
+                    h5.classList = 'mb-1';
+                    h5.innerText = `${element.nume}`;
+
+                    div.appendChild(h5);
+
+                    a.appendChild(div);
+
+                    var p = document.createElement('p');
+                    p.classList = 'mb-1';
+                    p.innerText = `${element.continut}`;
+                    
+                    a.appendChild(p);
+
+                    listG.insertBefore(addNota);
+                });
+            }
+        }
+    });
+
+    var adauga = document.getElementById('adaugaNota');
+
+    adauga.onclick = () => {
+        var text = document.getElementById('notita').value;
+        var status = document.getElementById('status');
+
+        status.innerText = '';
+
+        adauga.setAttribute('disabled', 'disabled');
+
+        data = {
+            continut: text
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: `${window.location.href}/adaugaNotita`,
+            data: data,
+            success: data => {
+                if (data === 'valid') {
+                    adauga.innerText = 'Succes';
+                    status.innerText = 'Notita a fost adaugata cu succes';
+                    adauga.classList = 'btn btn-success';
+
+                    setTimeout(() => {
+                        window.location.href = window.location.href;
+                    }, 500);
+                } else {
+                    adauga.innerText = 'Eroare';
+                    status.innerText = data;
+                    adauga.classList = 'btn btn-danger';
+
+                    setTimeout(() => {
+                        adauga.removeAttribute('disabled');
+                    }, 400);
+                }
+            }
+        });
+    }
+
     $.ajax({
         type: 'GET',
         url: `${window.location.href}/student_info_json`,

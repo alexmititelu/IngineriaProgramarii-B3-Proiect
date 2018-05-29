@@ -34,7 +34,7 @@ $(document).ready(function () {
 
                     var small1 = document.createElement('small');
                     var deadline = element.deadline;
-                    small1.innerText = `Termen limita: ${deadline}`;
+                    small1.innerText = `Termen limită: ${deadline}`;
 
                     div.appendChild(h5);
                     div.appendChild(small1);
@@ -96,7 +96,7 @@ $(document).ready(function () {
         grp.classList.add('form-group');
 
         var lbExt = document.createElement('label');
-        lbExt.innerText = 'Extensie fisier acceptat';
+        lbExt.innerText = 'Extensie fișier acceptat';
 
         var select = document.createElement('select');
         select.classList.add('form-control');
@@ -198,7 +198,7 @@ $(document).ready(function () {
         deadline.setAttribute('disabled', 'disabled');
         add.setAttribute('disabled', 'disabled');
         btn.setAttribute('disabled', 'disabled');
-        btn.innerText = 'Se valideaza..';
+        btn.innerText = 'Se validează..';
 
         for (let index = 0; index < enunturi.length; index++) {
             const element = enunturi[index];
