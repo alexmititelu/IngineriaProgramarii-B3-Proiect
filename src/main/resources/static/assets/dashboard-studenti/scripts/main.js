@@ -55,7 +55,7 @@ $(document).ready(function () {
 
             if (data.length === 0) {
                 var empty = document.createElement('p');
-                empty.innerText = 'Nu esti abonat la niciun curs';
+                empty.innerText = 'Nu ești abonat la nicio materie';
 
                 var paginaMaterii = document.createElement('a');
                 paginaMaterii.innerText = 'Vezi pagina de materii';
