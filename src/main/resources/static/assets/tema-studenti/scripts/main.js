@@ -69,7 +69,7 @@ $(document).ready(function () {
                     type: 'POST',
                     url: `${location}/unsubscribe`,
                     success: data => {
-                        if(data === 'valid') {
+                        if (data === 'valid') {
                             var subscribeStatus = 'Te-ai dezabonat cu succes!';
 
                             var p = document.getElementById('subscribe-status');
@@ -102,7 +102,7 @@ $(document).ready(function () {
                     type: 'POST',
                     url: `${location}/subscribe`,
                     success: data => {
-                        if(data === 'valid') {
+                        if (data === 'valid') {
                             var subscribeStatus = 'Te-ai abonat cu succes!';
 
                             var p = document.getElementById('subscribe-status');
@@ -439,6 +439,8 @@ $(document).ready(function () {
                         err.innerText = '';
                         err.innerHTML = '&nbsp;';
 
+                        element.setAttribute('disabled', 'disabled');
+
                         if (input.files.length > 0) {
                             var file = input.files[0];
 
@@ -473,7 +475,12 @@ $(document).ready(function () {
                                             element.classList.remove('btn-primary');
                                             element.classList.add('btn-danger');
 
-                                            element.innerText = 'Incearcă din nou';
+                                            element.innerText = data;
+
+                                            setTimeout(() => {
+                                                element.innerText = 'Incearcă din nou';
+                                                element.removeAttribute('disabled');
+                                            }, 3000);
                                         }
                                     }
                                 });

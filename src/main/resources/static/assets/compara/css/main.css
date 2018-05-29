@@ -499,6 +499,7 @@ nav {
     padding: 20px;
     cursor: pointer;
     background: #f9f9f9;
+    border: 1px solid #ececec;
 }
 
 .row-plag:hover {
