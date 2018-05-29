@@ -122,7 +122,7 @@ $(document).ready(function () {
                     gradedTrigger.setAttribute('aria-expanded', 'false');
                     gradedTrigger.setAttribute('aria-controls', `collapse-graded${ex}`);
                     gradedTrigger.setAttribute('style', 'cursor: pointer; border: none;');
-                    gradedTrigger.innerText = 'Studenti notați';
+                    gradedTrigger.innerText = 'Studenți notăți';
 
                     var innerCollapse = document.createElement('div');
                     innerCollapse.setAttribute('id', `collapse-graded${ex}`);
@@ -353,7 +353,7 @@ $(document).ready(function () {
                                                             success: data => {
                                                                 if (data === 'valid') {
                                                                     err.style.color = 'green';
-                                                                    err.innerText = 'Comentariu sters cu succes!';
+                                                                    err.innerText = 'Comentariu șters cu succes!';
                                                                     setTimeout(() => {
                                                                         window.location.href = window.location.href
                                                                     }, 1000);
@@ -416,7 +416,7 @@ $(document).ready(function () {
                                                         var cont = th.parentElement.parentElement.childNodes[parseInt(th.attributes.endr.value) - 1].childNodes[1];
 
                                                         var btn = document.createElement('button');
-                                                        btn.innerText = 'Sterge comentariu';
+                                                        btn.innerText = 'Șterge comentariu';
                                                         btn.classList = 'btn btn-danger';
 
                                                         var err = document.createElement('p');
@@ -466,7 +466,7 @@ $(document).ready(function () {
                                                                 success: data => {
                                                                     if (data === 'valid') {
                                                                         err.style.color = 'green';
-                                                                        err.innerText = 'Comentariu sters cu succes!';
+                                                                        err.innerText = 'Comentariu șters cu succes!';
                                                                         setTimeout(() => {
                                                                             window.location.href = window.location.href
                                                                         }, 1000);
@@ -519,7 +519,7 @@ $(document).ready(function () {
                                                         
                                                         var button = document.createElement('button');
                                                         button.id = `bt${ind}`;
-                                                        button.innerText = 'Adauga comentariu';
+                                                        button.innerText = 'Adaugă comentariu';
                                                         button.classList = 'btn btn-primary';
 
                                                         var err = document.createElement('p');
@@ -568,7 +568,7 @@ $(document).ready(function () {
                                                                 success: data => {
                                                                     if (data === 'valid') {
                                                                         err.style.color = 'green';
-                                                                        err.innerText = 'Comentariu adaugat cu succes!';
+                                                                        err.innerText = 'Comentariu adăugat cu succes!';
                                                                         setTimeout(() => {
                                                                             window.location.href = window.location.href
                                                                         }, 1000);
@@ -779,7 +779,7 @@ $(document).ready(function () {
         err.innerText = '';
         var punctaj = notaValue.value;
         if (punctaj < 0 || punctaj > 10) {
-            err.innerText = 'Nota invalida';
+            err.innerText = 'Notă invalidă';
         } else {
             $.ajax({
                 type: 'POST',
@@ -792,7 +792,7 @@ $(document).ready(function () {
                 success: data => {
                     if (data === 'valid') {
                         notaBtn.classList = 'btn btn-success';
-                        notaBtn.innerText = 'Nota adaugata cu success';
+                        notaBtn.innerText = 'Notă adaugată cu succes';
 
                         setTimeout(() => {
                             window.location.href = window.location.href;

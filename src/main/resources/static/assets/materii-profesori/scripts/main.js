@@ -85,7 +85,7 @@ $(document).ready(function () {
             success: data => {
                 if (data === 'valid') {
                     err.classList.add('success');
-                    err.innerHTML = 'Materia a fost adaugata cu succes!';
+                    err.innerHTML = 'Materia a fost adaugată cu succes!';
 
                     setTimeout(() => {
                         window.location.href = window.location.href;
