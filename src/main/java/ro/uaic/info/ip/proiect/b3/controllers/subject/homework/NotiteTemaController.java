@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
+import ro.uaic.info.ip.proiect.b3.database.objects.notificare.Notificare;
+import ro.uaic.info.ip.proiect.b3.database.objects.notificare.exceptions.NotificareException;
 import ro.uaic.info.ip.proiect.b3.database.objects.notitatema.NotitaTema;
 import ro.uaic.info.ip.proiect.b3.database.objects.student.Student;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
@@ -65,6 +67,16 @@ public class NotiteTemaController {
 
                 NotitaTema notitaTema = new NotitaTema(tema.getId(), continut, true, "Profesor");
                 notitaTema.insert();
+
+                try {
+                    Notificare notificare = new Notificare(
+                            String.format("[%s] A fost adaugata o noua notita pentru tema \"%s!\"", materie.getTitlu(), tema.getNumeTema()),
+                            0,
+                            materie.getId());
+                    notificare.insert();
+                } catch (SQLException | NotificareException e) {
+                    logger.error(e.getMessage(), e);
+                }
 
                 return "valid";
             } else {
