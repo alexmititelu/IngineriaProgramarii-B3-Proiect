@@ -3,20 +3,6 @@ $(document).ready(function () {
         $('.responsive-menu').toggleClass('toggle');
     });
 
-    $(".search--grade").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        $(".student-list li").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-
-    $(".search--plag").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        $("#plag-table tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
         var color = '#';
@@ -720,6 +706,49 @@ $(document).ready(function () {
                             window.location.href = `${window.location.href}/compara?username1=${element.attributes.username1.value}&username2=${element.attributes.username2.value}&nrExercitiu=${element.attributes.exercitiu.value}`;
                         }
                     }
+
+                    searchGraded.onkeyup = () => {
+                        // Declare variables
+                        var filter, ul, li, a, i;
+                        filter = searchGraded.value.toUpperCase();
+                        ul = document.getElementById("collapseOne");
+                        a = ul.getElementsByTagName('a');
+                
+                        // Loop through all list items, and hide those who don't match the search query
+                        for (i = 0; i < a.length; i++) {
+                            li = a[i].getElementsByTagName("li")[0];
+                            if (li.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                a[i].style.display = "";
+                            } else {
+                                a[i].style.display = "none";
+                            }
+                        }
+                    }
+                
+                    searchUngraded.onkeyup = () => {
+                        // Declare variables
+                        var filter, ul, li, a, i;
+                        filter = searchUngraded.value.toUpperCase();
+                        ul = document.getElementById("collapseThree");
+                        a = ul.getElementsByTagName('a');
+                
+                        // Loop through all list items, and hide those who don't match the search query
+                        for (i = 0; i < a.length; i++) {
+                            li = a[i].getElementsByTagName("li")[0];
+                            if (li.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                a[i].style.display = "";
+                            } else {
+                                a[i].style.display = "none";
+                            }
+                        }
+                    }
+
+                    searchPlag.onkeyup = () => {
+                        var value = $(this).val().toLowerCase();
+                        $("#plag-table tr").filter(function () {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                        });
+                    };
                 });
 
                 // var exEvt = document.getElementsByClassName('focus-ex');
@@ -774,46 +803,6 @@ $(document).ready(function () {
                     }
                 }
             });
-        }
-    }
-
-    var search1 = document.getElementById('srch1');
-
-    search1.onkeyup = () => {
-        // Declare variables
-        var filter, ul, li, a, i;
-        filter = search1.value.toUpperCase();
-        ul = document.getElementById("collapseOne");
-        a = ul.getElementsByTagName('a');
-
-        // Loop through all list items, and hide those who don't match the search query
-        for (i = 0; i < a.length; i++) {
-            li = a[i].getElementsByTagName("li")[0];
-            if (li.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                a[i].style.display = "";
-            } else {
-                a[i].style.display = "none";
-            }
-        }
-    }
-
-    var search2 = document.getElementById('srch2');
-
-    search2.onkeyup = () => {
-        // Declare variables
-        var filter, ul, li, a, i;
-        filter = search2.value.toUpperCase();
-        ul = document.getElementById("collapseThree");
-        a = ul.getElementsByTagName('a');
-
-        // Loop through all list items, and hide those who don't match the search query
-        for (i = 0; i < a.length; i++) {
-            li = a[i].getElementsByTagName("li")[0];
-            if (li.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                a[i].style.display = "";
-            } else {
-                a[i].style.display = "none";
-            }
         }
     }
 
