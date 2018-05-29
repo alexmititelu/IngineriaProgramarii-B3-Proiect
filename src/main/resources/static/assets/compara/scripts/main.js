@@ -755,13 +755,17 @@ $(document).ready(function () {
 
                         if (element.classList.contains('light')) {
                             element.classList = '';
+                            element.style = ``;
                         }
                     }
+
+                    var colorCur = getRandomColor();
 
                     for (let index2 = f1; index2 < f2; index2++) {
                         const element = table1.childNodes[index2 - 1];
 
                         element.classList.add('light');
+                        element.style = `background: ${colorCur} !important`;
                     }
 
                     for (let remove2 = 0; remove2 < table2.childNodes.length - 1; remove2++) {
@@ -769,6 +773,7 @@ $(document).ready(function () {
 
                         if (element.classList.contains('light')) {
                             element.classList = '';
+                            element.style = ``;
                         }
                     }
 
@@ -776,6 +781,7 @@ $(document).ready(function () {
                         const element = table2.childNodes[index2 - 1];
 
                         element.classList.add('light');
+                        element.style = `background: ${colorCur} !important`;
                     }
 
                     var scroll1 = table1.childNodes[f1 - 1];
