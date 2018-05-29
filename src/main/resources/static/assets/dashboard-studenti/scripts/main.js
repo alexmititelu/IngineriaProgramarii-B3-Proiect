@@ -92,7 +92,7 @@ $(document).ready(function () {
 
             if (data.length === 0) {
                 var empty = document.createElement('p');
-                empty.innerText = 'Nici o notificare noua';
+                empty.innerText = 'Nici o notificare nouă';
 
                 notificari.appendChild(empty);
             }

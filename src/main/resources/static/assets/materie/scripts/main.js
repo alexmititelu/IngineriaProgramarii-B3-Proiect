@@ -285,7 +285,7 @@ $(document).ready(function () {
         deadline.setAttribute('disabled', 'disabled');
         add.setAttribute('disabled', 'disabled');
         btn.setAttribute('disabled', 'disabled');
-        btn.innerText = 'Se valideaza..';
+        btn.innerText = 'Se validează..';
 
         for (let index = 0; index < enunturi.length; index++) {
             const element = enunturi[index];
@@ -304,7 +304,7 @@ $(document).ready(function () {
             success: data => {
                 if (data === 'valid') {
                     err.classList.add('success');
-                    err.innerHTML = 'Tema a fost adaugată cu succes!';
+                    err.innerHTML = 'Tema a fost adăugată cu succes!';
 
                     setTimeout(() => {
                         window.location.href = window.location.href;
