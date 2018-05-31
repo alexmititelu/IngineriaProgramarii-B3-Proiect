@@ -898,7 +898,7 @@ $(document).ready(function () {
 
     $.ajax({
         type: 'GET',
-        url: '/public-solutions',
+        url: `${window.location.href}/public-solutions`,
         success: data => {
             if (data.length > 0) {
                 var containerMain = document.getElementById('solutiiContainer');
