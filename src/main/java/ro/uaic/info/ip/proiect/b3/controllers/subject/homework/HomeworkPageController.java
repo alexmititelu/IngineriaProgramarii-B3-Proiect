@@ -44,7 +44,7 @@ public class HomeworkPageController {
                 model.addAttribute("enuntTema", tema.getEnunt());
                 model.addAttribute("deadlineTema", tema.getDeadline());
 
-                if (PermissionManager.isLoggedUserProfesor(loginToken)) {
+                if (PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
                     return "./profesor/tema";
                 } else {
                     return "./student/tema";

@@ -7,6 +7,7 @@ import ro.uaic.info.ip.proiect.b3.clientinfo.LinieContinutFisier;
 import ro.uaic.info.ip.proiect.b3.database.objects.comentariuprofesor.ComentariuProfesor;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
+import ro.uaic.info.ip.proiect.b3.database.objects.solutiepublica.SolutiePublica;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
 import ro.uaic.info.ip.proiect.b3.database.objects.temaincarcata.TemaIncarcata;
 import ro.uaic.info.ip.proiect.b3.permissions.PermissionManager;
@@ -31,7 +32,8 @@ public class ContinutFisierController {
         try {
             Cont cont = null;
 
-            if (PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
+            if (PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken) ||
+                    (!username.equals("-") && PermissionManager.isSolutionPublic(numeMaterie, numeTema, nrExercitiu, username))) {
                 cont = Cont.getByUsername(username);
             } else if (PermissionManager.isLoggedUserStudent(loginToken)) {
                 cont = Cont.getByLoginToken(loginToken);
@@ -49,10 +51,7 @@ public class ContinutFisierController {
 
             TemaIncarcata temaIncarcata = TemaIncarcata.get(cont.getId(), tema.getId(), nrExercitiu);
 
-
             ArrayList<ComentariuProfesor> comentarii = ComentariuProfesor.getByIdTemaIncarcataAndNrExercitiu(temaIncarcata.getId(), nrExercitiu);
-
-
             ArrayList<LinieContinutFisier> liniiContinutFisier = new ArrayList<>();
 
 

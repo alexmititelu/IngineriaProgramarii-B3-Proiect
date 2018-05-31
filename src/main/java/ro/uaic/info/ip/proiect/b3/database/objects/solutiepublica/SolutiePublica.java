@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SolutiePublica {
     private long idTema;
@@ -55,6 +56,31 @@ public class SolutiePublica {
 
         connection.close();
         return solutiePublica;
+    }
+
+    public static ArrayList<SolutiePublica> getAllForHomeworkAndExercise(long idTema, int nrExercitiu) throws SQLException {
+        ArrayList<SolutiePublica> solutiiPublice = new ArrayList<>();
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT id_tema, nr_exercitiu, id_tema_incarcata FROM solutii_publice " +
+                        "WHERE id_tema = ? AND nr_exercitiu = ?"
+        );
+        preparedStatement.setLong(1, idTema);
+        preparedStatement.setInt(2, nrExercitiu);
+
+        ResultSet solutiiPubliceRs = preparedStatement.executeQuery();
+
+        while (solutiiPubliceRs.next()) {
+            solutiiPublice.add(new SolutiePublica(
+                    solutiiPubliceRs.getLong(1),
+                    solutiiPubliceRs.getInt(2),
+                    solutiiPubliceRs.getLong(3)
+            ));
+        }
+
+        connection.close();
+        return solutiiPublice;
     }
 
     public long getIdTema() {

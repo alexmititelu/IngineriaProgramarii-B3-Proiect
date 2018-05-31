@@ -55,7 +55,7 @@ public class TemaIncarcata {
     }
 
     public static TemaIncarcata get(long idCont, long idTema, int nrExercitiu) throws SQLException {
-        TemaIncarcata temaIncarcata;
+        TemaIncarcata temaIncarcata = null;
         Connection connection = Database.getInstance().getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(
@@ -79,8 +79,6 @@ public class TemaIncarcata {
                     resultSet.getString(6),
                     resultSet.getInt(7)
             );
-        } else {
-            temaIncarcata = null;
         }
 
         connection.close();

@@ -7,6 +7,9 @@ import ro.uaic.info.ip.proiect.b3.database.objects.didactic.exceptions.DidacticE
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.profesor.Profesor;
 import ro.uaic.info.ip.proiect.b3.database.objects.registerlink.RegisterLink;
+import ro.uaic.info.ip.proiect.b3.database.objects.solutiepublica.SolutiePublica;
+import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
+import ro.uaic.info.ip.proiect.b3.database.objects.temaincarcata.TemaIncarcata;
 
 import java.sql.SQLException;
 
@@ -91,5 +94,22 @@ public class PermissionManager {
         } catch (DidacticException e) {
             return false;
         }
+    }
+
+    public static boolean isSolutionPublic(String numeMaterie, String numeTema, int nrExercitiu, String username) throws SQLException {
+        Materie materie = Materie.getByTitlu(numeMaterie);
+        if (materie == null) return false;
+
+        Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
+        if (tema == null) return false;
+
+        Cont cont = Cont.getByUsername(username);
+        if (cont == null) return false;
+
+        TemaIncarcata temaIncarcata = TemaIncarcata.get(cont.getId(), tema.getId(), nrExercitiu);
+        if (temaIncarcata == null) return false;
+
+        SolutiePublica solutiePublica = SolutiePublica.get(tema.getId(), nrExercitiu, temaIncarcata.getId());
+        return solutiePublica != null;
     }
 }
