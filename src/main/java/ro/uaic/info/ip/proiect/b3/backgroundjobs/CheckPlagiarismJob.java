@@ -10,7 +10,6 @@ import java.sql.SQLException;
 public class CheckPlagiarismJob implements Runnable {
     private final static Logger logger = Logger.getLogger(CheckPlagiarismJob.class);
 
-
     public void run() {
         while (true) {
             try {
