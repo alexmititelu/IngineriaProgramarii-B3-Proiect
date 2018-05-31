@@ -896,6 +896,125 @@ $(document).ready(function () {
         });
     }
 
+    $.ajax({
+        type: 'GET',
+        url: '/public-solutions',
+        success: data => {
+            if (data.length > 0) {
+                var containerMain = document.getElementById('solutiiContainer');
+
+                var title = document.createElement('h4');
+                title.innerText = 'Solutii exercitii';
+
+                containerMain.appendChild(title);
+
+                var row = document.createElement('div');
+                row.classList = 'row';
+
+                containerMain.appendChild(row);
+
+                var exercitiu = 0;
+
+                data.forEach(element => {
+                    exercitiu++;
+
+                    if (element.length > 0) {
+                        var col = document.createElement('div');
+                        col.classList = 'col-sm-3';
+
+                        var h5 = document.createElement('h5');
+                        h5.innerText = `Exercitiul ${exercitiu}`;
+
+                        col.appendChild(h5);
+
+                        element.forEach(solutie => {
+                            var div = document.createElement('div');
+
+                            var a = document.createElement('a');
+                            a.href = '#exampleModalCenter2';
+                            a.setAttribute('data-toggle', 'modal');
+                            a.classList = 'public-btn';
+                            button.setAttribute('username', solutie.username);
+                            button.setAttribute('exercitiu', exercitiu);
+
+                            var button = document.createElement('button');
+                            button.classList = 'btn btn-success';
+                            button.innerText = `${solutie.numeStudent} ${solutie.prenumeStudent}`;
+
+                            a.appendChild(button);
+
+                            div.appendChild(a);
+
+                            var i = document.createElement('i');
+                            i.classList = 'fas fa-minus-square stergeSol';
+                            i.style = 'font-size: 32px; transform: translateY(25%); cursor: pointer; color: red;';
+                            i.setAttribute('username', solutie.username);
+                            i.setAttribute('exercitiu', exercitiu);
+
+                            div.appendChild(i);
+
+                            col.appendChild(div);
+                        });
+
+                        row.appendChild(col);
+                    }
+                });
+
+                var btns = document.getElementsByClassName('public-btn');
+                var table = document.getElementById('tableModel2');
+
+                for (let index = 0; index < btns.length; index++) {
+                    const element = btns[index];
+
+                    element.onclick = () => {
+                        var line = 0;
+
+                        while (table.firstChild) {
+                            table.removeChild(table.firstChild);
+                        }
+
+                        $.ajax({
+                            type: 'POST',
+                            url: `${window.location.href}/continut_fisier`,
+                            data: {
+                                username: element.attributes.username.value,
+                                nrExercitiu: parseInt(element.attributes.exercitiu.value)
+                            },
+                            success: data => {
+                                if (data.length > 0) {
+                                    data.forEach(element => {
+                                        line++;
+
+                                        var tr = document.createElement('tr');
+
+                                        var th = document.createElement('th');
+                                        th.innerText = line;
+                                        th.style = 'width: 50px;'
+
+                                        var td = document.createElement('td');
+                                        td.innerText = element.lineValue;
+
+                                        tr.appendChild(th);
+                                        tr.appendChild(td);
+
+                                        table.appendChild(tr);
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+
+                var del = document.getElementsByClassName('stergeSol');
+
+                for (let index = 0; index < del.length; index++) {
+                    const element = del[index];
+
+
+                }
+            }
+        }
+    });
     notaBtn.onclick = () => {
         err.innerText = '';
         var punctaj = notaValue.value;
