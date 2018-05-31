@@ -1,10 +1,12 @@
 package ro.uaic.info.ip.proiect.b3.controllers.subject.homework;
 
+import com.mysql.fabric.Server;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.clientinfo.SolutiePublicaInfo;
 import ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages;
+import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.solutiepublica.SolutiePublica;
@@ -99,6 +101,42 @@ public class PublicSolutionsController {
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
             return null;
+        }
+    }
+
+    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/delete-public-solution", method = RequestMethod.DELETE)
+    public @ResponseBody
+    String deletePublicSolution(
+            @CookieValue(value = "user", defaultValue = "-1") String loginToken,
+            @PathVariable("numeMaterie") String numeMaterie,
+            @PathVariable("numeTema") String numeTema,
+            @RequestParam("nrExercitiu") int nrExercitiu,
+            @RequestParam("username") String username) {
+        try {
+            if (PermissionManager.isUserAllowedToModifySubject(numeMaterie, loginToken)) {
+                Materie materie = Materie.getByTitlu(numeMaterie);
+                if (materie == null) return "Aceasta materie nu exista!";
+
+                Tema tema = Tema.getByMaterieIdAndNumeTema(materie.getId(), numeTema);
+                if (tema == null) return "Tema cu acest nume din cadrul materiei nu exista!" ;
+
+                Cont cont = Cont.getByUsername(username);
+                if (cont == null) return "Contul cu acest username nu exista!";
+
+                TemaIncarcata temaIncarcata = TemaIncarcata.get(cont.getId(), tema.getId(), nrExercitiu);
+                if (temaIncarcata == null) return "Nu exista aceasta tema incarcata!";
+
+                SolutiePublica solutiePublica = SolutiePublica.get(tema.getId(), nrExercitiu, temaIncarcata.getId());
+                if (solutiePublica == null) return "Aceasta solutie nu este publica!";
+
+                solutiePublica.delete();
+                return "valid";
+            } else {
+                return ServerErrorMessages.UNAUTHORIZED_ACCESS_MESSAGE;
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            return ServerErrorMessages.INTERNAL_ERROR_MESSAGE;
         }
     }
 }

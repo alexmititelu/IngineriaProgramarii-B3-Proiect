@@ -20,7 +20,6 @@ public class SolutiePublica {
     }
 
     public void insert() throws SQLException {
-        SolutiePublica solutiePublica = null;
         Connection connection = Database.getInstance().getConnection();
 
         PreparedStatement preparedStatement = connection.prepareStatement(
@@ -81,6 +80,21 @@ public class SolutiePublica {
 
         connection.close();
         return solutiiPublice;
+    }
+
+    public void delete() throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "DELETE FROM solutii_publice WHERE id_tema = ? AND nr_exercitiu = ? AND id_tema_incarcata = ?");
+
+        preparedStatement.setLong(1, idTema);
+        preparedStatement.setInt(2, nrExercitiu);
+        preparedStatement.setLong(3, idTemaIncarcata);
+
+        preparedStatement.executeUpdate();
+
+        connection.close();
     }
 
     public long getIdTema() {
