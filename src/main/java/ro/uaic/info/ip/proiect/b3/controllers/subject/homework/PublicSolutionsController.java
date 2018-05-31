@@ -45,10 +45,10 @@ public class PublicSolutionsController {
                 TemaIncarcata temaIncarcata = TemaIncarcata.get(cont.getId(), tema.getId(), nrExercitiu);
                 if (temaIncarcata == null) return "Acest utilizator nu a incarcat exercitiul pentru aceasta tema!";
 
-                if (SolutiePublica.get(tema.getId(), nrExercitiu, temaIncarcata.getIdCont()) != null)
+                if (SolutiePublica.get(tema.getId(), nrExercitiu, temaIncarcata.getId()) != null)
                     return "Aceasta tema este deja publica!";
 
-                SolutiePublica solutiePublica = new SolutiePublica(tema.getId(), nrExercitiu, temaIncarcata.getIdCont());
+                SolutiePublica solutiePublica = new SolutiePublica(tema.getId(), nrExercitiu, temaIncarcata.getId());
                 solutiePublica.insert();
 
                 return "valid";

@@ -904,7 +904,7 @@ $(document).ready(function () {
                 var containerMain = document.getElementById('solutiiContainer');
 
                 var title = document.createElement('h4');
-                title.innerText = 'Solutii exercitii';
+                title.innerText = 'Solutii publice exercitii';
 
                 containerMain.appendChild(title);
 
@@ -934,7 +934,7 @@ $(document).ready(function () {
                             a.href = '#exampleModalCenter2';
                             a.setAttribute('data-toggle', 'modal');
                             a.classList = 'public-btn';
-                            a.setAttribute('username', solutie.username);
+                            a.setAttribute('username', solutie.usernameStudent);
                             a.setAttribute('exercitiu', exercitiu);
 
                             var button = document.createElement('button');
@@ -947,7 +947,7 @@ $(document).ready(function () {
 
                             var i = document.createElement('i');
                             i.classList = 'fas fa-minus-square stergeSol';
-                            i.style = 'font-size: 32px; transform: translateY(25%); cursor: pointer; color: red;';
+                            i.style = 'font-size: 32px; transform: translate(25%, 25%); cursor: pointer; color: red;';
                             i.setAttribute('username', solutie.username);
                             i.setAttribute('exercitiu', exercitiu);
 
@@ -1010,7 +1010,9 @@ $(document).ready(function () {
                 for (let index = 0; index < del.length; index++) {
                     const element = del[index];
 
-
+                    $.ajax({
+                        
+                    });
                 }
             }
         }
