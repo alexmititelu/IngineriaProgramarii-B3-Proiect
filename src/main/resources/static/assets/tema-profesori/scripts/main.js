@@ -15,6 +15,9 @@ $(document).ready(function () {
         return color;
     }
 
+    // currect/post-public-solution
+    // nrExercitiu, username
+
     var continut1 = [];
     var continut2 = [];
 
@@ -658,6 +661,11 @@ $(document).ready(function () {
                                                 }
                                             }
                                         });
+
+                                        var addSolutie = document.getElementById('publicTema');
+
+                                        addSolutie.setAttribute('username', username);
+                                        addSolutie.setAttribute('exercitiu', nrExercitiu);
                                     }
                                 }
                             });
@@ -686,6 +694,7 @@ $(document).ready(function () {
 
                         var table = document.getElementById('tableModel');
                         var username = element.username;
+
                         a.onclick = () => {
                             var line = 0;
 
@@ -722,6 +731,11 @@ $(document).ready(function () {
 
                                             table.appendChild(tr);
                                         });
+
+                                        var addSolutie = document.getElementById('publicTema');
+
+                                        addSolutie.setAttribute('username', username);
+                                        addSolutie.setAttribute('exercitiu', nrExercitiu);
                                     }
                                 }
                             });
@@ -849,6 +863,38 @@ $(document).ready(function () {
     });
 
 
+    var addSolutie = document.getElementById('publicTema');
+
+    addSolutie.onclick = () => {
+        var username = addSolutie.attributes.username.value;
+        var nrExercitiu = addSolutie.attributes.exercitiu.value;
+
+        var err = document.getElementById('errNota');
+
+        err.innerText = '';
+
+        $.ajax({
+            type: 'POST',
+            url: `${window.location.href}/post-public-solution`,
+            data: {
+                username: username,
+                nrExercitiu: nrExercitiu
+            },
+            success: data => {
+                if (data === 'valid') {
+                    err.innerText = 'Solutia a fost adaugata cu succes!';
+                    err.style.color = 'green';
+
+                    setTimeout(() => {
+                        window.location.href = window.location.href;
+                    }, 500);
+                } else {
+                    err.innerText = data;
+                    err.style.color = 'red';
+                }
+            }
+        });
+    }
 
     notaBtn.onclick = () => {
         err.innerText = '';
