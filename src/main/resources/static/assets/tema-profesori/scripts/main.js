@@ -934,8 +934,8 @@ $(document).ready(function () {
                             a.href = '#exampleModalCenter2';
                             a.setAttribute('data-toggle', 'modal');
                             a.classList = 'public-btn';
-                            button.setAttribute('username', solutie.username);
-                            button.setAttribute('exercitiu', exercitiu);
+                            a.setAttribute('username', solutie.username);
+                            a.setAttribute('exercitiu', exercitiu);
 
                             var button = document.createElement('button');
                             button.classList = 'btn btn-success';
