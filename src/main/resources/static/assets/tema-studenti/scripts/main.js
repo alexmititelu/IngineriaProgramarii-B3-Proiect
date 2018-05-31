@@ -153,7 +153,7 @@ $(document).ready(function () {
                     var p = document.createElement('p');
                     p.classList = 'mb-1';
                     p.innerText = `${element.continut}`;
-                    
+
                     a.appendChild(p);
 
                     listG.insertBefore(a, addNota);
@@ -563,6 +563,133 @@ $(document).ready(function () {
                         } else {
                             err.innerText = 'Nu ai selectat niciun fișier pentru încărcare.';
                         }
+                    }
+                }
+            }
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: `${window.location.href}/public-solutions`,
+        success: data => {
+            if (data.length > 0) {
+                var containerMain = document.getElementById('solutiiContainer');
+
+                var exercitiu = 0;
+
+                var title = document.createElement('h4');
+                title.innerText = 'Solutii publice exercitii';
+
+                containerMain.appendChild(title);
+
+                var row = document.createElement('div');
+                row.classList = 'row';
+
+                containerMain.appendChild(row);
+
+                data.forEach(element => {
+                    exercitiu++;
+
+                    if (element.length > 0) {
+                        var col = document.createElement('div');
+                        col.classList = 'col-sm-4';
+
+                        var h5 = document.createElement('h5');
+                        h5.innerText = `Exercitiul ${exercitiu}`;
+
+                        col.appendChild(h5);
+
+                        element.forEach(solutie => {
+                            var div = document.createElement('div');
+
+                            var a = document.createElement('a');
+                            a.href = '#exampleModalCenter2';
+                            a.setAttribute('data-toggle', 'modal');
+                            a.classList = 'public-btn';
+                            a.setAttribute('username', solutie.usernameStudent);
+                            a.setAttribute('exercitiu', exercitiu);
+
+                            var button = document.createElement('button');
+                            button.classList = 'btn btn-success';
+                            button.style = 'margin: 5px 0;'
+                            button.innerText = `${solutie.numeStudent} ${solutie.prenumeStudent}`;
+
+                            a.appendChild(button);
+                            div.appendChild(a);
+                            col.appendChild(div);
+                        });
+
+                        row.appendChild(col);
+                    }
+                });
+
+                var btns = document.getElementsByClassName('public-btn');
+                var table = document.getElementById('tableModel2');
+
+                for (let index = 0; index < btns.length; index++) {
+                    const element = btns[index];
+
+                    element.onclick = () => {
+                        var line = 0;
+
+                        while (table.firstChild) {
+                            table.removeChild(table.firstChild);
+                        }
+
+                        $.ajax({
+                            type: 'POST',
+                            url: `${window.location.href}/continut_fisier`,
+                            data: {
+                                username: element.attributes.username.value,
+                                nrExercitiu: parseInt(element.attributes.exercitiu.value)
+                            },
+                            success: data => {
+                                if (data.length > 0) {
+                                    data.forEach(element => {
+                                        line++;
+
+                                        var tr = document.createElement('tr');
+
+                                        var th = document.createElement('th');
+                                        th.innerText = line;
+                                        th.style = 'width: 50px;'
+
+                                        var td = document.createElement('td');
+                                        td.innerText = element.lineValue;
+
+                                        tr.appendChild(th);
+                                        tr.appendChild(td);
+
+                                        table.appendChild(tr);
+                                    });
+                                }
+                            }
+                        });
+                    }
+                }
+
+                var del = document.getElementsByClassName('stergeSol');
+
+                for (let index = 0; index < del.length; index++) {
+                    const element = del[index];
+
+                    console.log(element.attributes.username.value, element.attributes.exercitiu.value, `${window.location.href}/delete-public-solution`);
+
+                    element.onclick = () => {
+                        $.ajax({
+                            type: 'POST',
+                            url: `${window.location.href}/delete-public-solution`,
+                            data: {
+                                username: element.attributes.username.value,
+                                nrExercitiu: parseInt(element.attributes.exercitiu.value)
+                            },
+                            success: data => {
+                                if (data === 'valid') {
+                                    element.parentElement.style.display = 'none';
+                                }
+                            }
+                        });
                     }
                 }
             }

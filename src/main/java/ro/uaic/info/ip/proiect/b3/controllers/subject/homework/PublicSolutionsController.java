@@ -104,7 +104,7 @@ public class PublicSolutionsController {
         }
     }
 
-    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/delete-public-solution", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/materii/{numeMaterie}/{numeTema}/delete-public-solution", method = RequestMethod.POST)
     public @ResponseBody
     String deletePublicSolution(
             @CookieValue(value = "user", defaultValue = "-1") String loginToken,

@@ -903,6 +903,8 @@ $(document).ready(function () {
             if (data.length > 0) {
                 var containerMain = document.getElementById('solutiiContainer');
 
+                var exercitiu = 0;
+
                 var title = document.createElement('h4');
                 title.innerText = 'Solutii publice exercitii';
 
@@ -913,14 +915,12 @@ $(document).ready(function () {
 
                 containerMain.appendChild(row);
 
-                var exercitiu = 0;
-
                 data.forEach(element => {
                     exercitiu++;
 
                     if (element.length > 0) {
                         var col = document.createElement('div');
-                        col.classList = 'col-sm-3';
+                        col.classList = 'col-sm-4';
 
                         var h5 = document.createElement('h5');
                         h5.innerText = `Exercitiul ${exercitiu}`;
@@ -939,6 +939,7 @@ $(document).ready(function () {
 
                             var button = document.createElement('button');
                             button.classList = 'btn btn-success';
+                            button.style = 'margin: 5px 0;'
                             button.innerText = `${solutie.numeStudent} ${solutie.prenumeStudent}`;
 
                             a.appendChild(button);
@@ -948,7 +949,7 @@ $(document).ready(function () {
                             var i = document.createElement('i');
                             i.classList = 'fas fa-minus-square stergeSol';
                             i.style = 'font-size: 32px; transform: translate(25%, 25%); cursor: pointer; color: red;';
-                            i.setAttribute('username', solutie.username);
+                            i.setAttribute('username', solutie.usernameStudent);
                             i.setAttribute('exercitiu', exercitiu);
 
                             div.appendChild(i);
@@ -1010,9 +1011,23 @@ $(document).ready(function () {
                 for (let index = 0; index < del.length; index++) {
                     const element = del[index];
 
-                    $.ajax({
-                        
-                    });
+                    console.log(element.attributes.username.value, element.attributes.exercitiu.value, `${window.location.href}/delete-public-solution`);
+
+                    element.onclick = () => {
+                        $.ajax({
+                            type: 'POST',
+                            url: `${window.location.href}/delete-public-solution`,
+                            data: {
+                                username: element.attributes.username.value,
+                                nrExercitiu: parseInt(element.attributes.exercitiu.value)
+                            },
+                            success: data => {
+                                if (data === 'valid') {
+                                    element.parentElement.style.display = 'none';
+                                }
+                            }
+                        });
+                    }
                 }
             }
         }
