@@ -24,10 +24,6 @@ public class StudentHomeworkInfoController {
                 return null;
             }
 
-            if (!PermissionManager.isLoggedUserStudent(loginToken)) {
-                return null;
-            }
-
             return InfoExercitiuStudent.getInfoExercitiiStudent(loginToken, numeMaterie, numeTema);
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);

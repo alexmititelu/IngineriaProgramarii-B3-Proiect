@@ -34,12 +34,7 @@ public class SubjectController {
     public String getMaterii(@CookieValue(value = "user", defaultValue = "-1") String loginToken, Model model) {
         try {
             if (PermissionManager.isUserLoggedIn(loginToken)) {
-                Cont cont = Cont.getByLoginToken(loginToken);
-                if (cont.getPermission() > Permissions.STUDENT) {
-                    return "./profesor/materii";
-                } else {
-                    return "./student/materii";
-                }
+                return "materii";
             }
 
             model.addAttribute("errorMessage", UNAUTHORIZED_ACCESS_MESSAGE);
@@ -57,18 +52,7 @@ public class SubjectController {
     List<Materie> listeazaMaterii(@CookieValue(value = "user", defaultValue = "-1") String loginToken) {
         try {
             if (PermissionManager.isUserLoggedIn(loginToken)) {
-                Cont cont = Cont.getByLoginToken(loginToken);
-
-                if (cont.getPermission() > Permissions.STUDENT) {
-                    Profesor profesor = Profesor.getByEmail(cont.getEmail());
-                    if (profesor != null) {
-                        return Materie.getAllByOwnership(profesor.getId());
-                    } else {
-                        return null;
-                    }
-                } else {
-                    return Materie.getAll();
-                }
+                return Materie.getAll();
             } else {
                 return null;
             }
