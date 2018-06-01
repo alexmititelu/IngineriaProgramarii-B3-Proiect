@@ -80,6 +80,22 @@ public class Inscriere {
         connection.close();
     }
 
+    public static int getNumberOfInscrieriForSubject(long idMaterie) throws SQLException {
+        Connection connection = Database.getInstance().getConnection();
+        int numberOfSubscribers = 0;
+
+        PreparedStatement preparedStatement = connection.prepareStatement(
+                "SELECT count(*) FROM inscrieri WHERE id_materie = ?");
+        preparedStatement.setLong(1, idMaterie);
+
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.next();
+        numberOfSubscribers = resultSet.getInt(1);
+
+        connection.close();
+        return numberOfSubscribers;
+    }
+
     public long getIdCont() {
         return idCont;
     }

@@ -8,6 +8,7 @@ import ro.uaic.info.ip.proiect.b3.configurations.Permissions;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.didactic.Didactic;
 import ro.uaic.info.ip.proiect.b3.database.objects.didactic.exceptions.DidacticException;
+import ro.uaic.info.ip.proiect.b3.database.objects.inscriere.Inscriere;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.exceptions.MaterieException;
 import ro.uaic.info.ip.proiect.b3.database.objects.profesor.Profesor;
@@ -78,6 +79,7 @@ public class SubjectController {
                     model.addAttribute("materieSemestru", materie.getSemestru());
                     model.addAttribute("materieNume", materie.getTitlu());
                     model.addAttribute("materieDescriere", materie.getDescriere());
+                    model.addAttribute("numarDeAbonati", Inscriere.getNumberOfInscrieriForSubject(materie.getId()));
 
                     if (PermissionManager.isLoggedUserProfesor(loginToken)) {
                         return "./profesor/materie";
