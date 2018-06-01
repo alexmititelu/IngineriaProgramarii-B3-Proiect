@@ -16,6 +16,7 @@ public class Materie implements Serializable {
     private int an;
     private int semestru;
     private String descriere;
+    private int numberOfSubscribedStudents;
 
     public Materie(String titlu, int an, int semestru, String descriere) throws SQLException, MaterieException {
         validateData(titlu, an, semestru);
@@ -32,6 +33,15 @@ public class Materie implements Serializable {
         this.an = an;
         this.semestru = semestru;
         this.descriere = descriere;
+    }
+
+    private Materie(long id, String titlu, int an, int semestru, String descriere, int numberOfSubscribedStudents) {
+        this.id = id;
+        this.titlu = titlu;
+        this.an = an;
+        this.semestru = semestru;
+        this.descriere = descriere;
+        this.numberOfSubscribedStudents = numberOfSubscribedStudents;
     }
 
     public static Materie getById(long id) throws SQLException {
@@ -90,7 +100,15 @@ public class Materie implements Serializable {
         ArrayList<Materie> materii = new ArrayList<>();
         Connection connection = Database.getInstance().getConnection();
 
-        PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, titlu, an, semestru, descriere FROM materii ORDER BY an ASC, semestru ASC");
+        String query = "select id, titlu, an, semestru, descriere, subscribers FROM \n" +
+                "(select id, titlu, an, semestru, descriere, count(*) as subscribers from \n" +
+                "materii m join inscrieri i on m.id = i.id_materie group by m.id) t1\n" +
+                "UNION \n" +
+                "(select id, titlu, an, semestru, descriere, 0 as subscribers from \n" +
+                "materii where id not in (select id_materie from inscrieri)) \n" +
+                "ORDER BY an ASC, semestru ASC";
+
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
         ResultSet resultSet = preparedStatement.executeQuery();
 
         while (resultSet.next()) {
@@ -99,7 +117,8 @@ public class Materie implements Serializable {
                     resultSet.getString(2),
                     resultSet.getInt(3),
                     resultSet.getInt(4),
-                    resultSet.getString(5))
+                    resultSet.getString(5),
+                    resultSet.getInt(6))
             );
         }
 
@@ -220,5 +239,9 @@ public class Materie implements Serializable {
 
     public String getDescriere() {
         return descriere;
+    }
+
+    public int getNumberOfSubscribedStudents() {
+        return numberOfSubscribedStudents;
     }
 }

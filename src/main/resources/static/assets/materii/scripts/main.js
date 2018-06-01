@@ -10,6 +10,7 @@ $(document).ready(function () {
             if (data) {
                 var group = document.getElementById('group');
 
+                console.log(data);
 
                 data.forEach(element => {
                     var a = document.createElement('a');
@@ -37,12 +38,16 @@ $(document).ready(function () {
                     small2.innerText = `An: ${element.an} | `;
 
                     var small3 = document.createElement('small');
-                    small3.innerText = `Semestru: ${element.semestru}`;
+                    small3.innerText = `Semestru: ${element.semestru} | `;
+
+                    var small4 = document.createElement('small');
+                    small4.innerText = `Numarul de abonati la materie: ${element.numberOfSubscribedStudents}`;
 
                     a.appendChild(div);
                     a.appendChild(p);
                     a.appendChild(small2);
                     a.appendChild(small3);
+                    a.appendChild(small4)
 
                     group.appendChild(a);
                 });
