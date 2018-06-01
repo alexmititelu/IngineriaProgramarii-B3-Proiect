@@ -579,7 +579,8 @@ $(document).ready(function () {
                 var exercitiu = 0;
 
                 var title = document.createElement('h4');
-                title.innerText = 'Solutii publice exercitii';
+                title.innerText = 'Soluții publice';
+                title.style = 'text-align : center';
 
                 containerMain.appendChild(title);
 
@@ -588,15 +589,19 @@ $(document).ready(function () {
 
                 containerMain.appendChild(row);
 
+
+                var nrSolutii = 0;
+
                 data.forEach(element => {
                     exercitiu++;
+                    nrSolutii += element.length;
 
                     if (element.length > 0) {
                         var col = document.createElement('div');
                         col.classList = 'col-sm-4';
 
                         var h5 = document.createElement('h5');
-                        h5.innerText = `Exercitiul ${exercitiu}`;
+                        h5.innerText = `Exercițiul ${exercitiu}`;
 
                         col.appendChild(h5);
 
@@ -623,6 +628,14 @@ $(document).ready(function () {
                         row.appendChild(col);
                     }
                 });
+
+                if(nrSolutii === 0) {
+                    var noPublicSolutions = document.createElement('p');
+                    noPublicSolutions.innerText = 'Nicio soluție publică momentan';
+                    noPublicSolutions.style = 'text-align : center';
+                    containerMain.appendChild(noPublicSolutions);
+                }
+
 
                 var btns = document.getElementsByClassName('public-btn');
                 var table = document.getElementById('tableModel2');
