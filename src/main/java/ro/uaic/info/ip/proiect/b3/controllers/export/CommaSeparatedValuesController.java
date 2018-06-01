@@ -40,7 +40,13 @@ public class CommaSeparatedValuesController {
                 }
 
                 StringBuilder csvReport = new StringBuilder();
-                csvReport.append("Nume,Prenume,Nota tema\n");
+                csvReport.append("Nume,Prenume,Medie");
+
+                for (int nrExercitiu = 1; nrExercitiu <= tema.getNrExercitii(); nrExercitiu++) {
+                    csvReport.append("," + "Exercitiu " + nrExercitiu);
+                }
+
+                csvReport.append("\n");
 
                 Connection connection = Database.getInstance().getConnection();
 
@@ -58,16 +64,37 @@ public class CommaSeparatedValuesController {
                     String numeStudent = studentiInscrisi.getString(2);
                     String prenumeStudent = studentiInscrisi.getString(3);
 
-                    PreparedStatement sumNoteStudent = connection.prepareStatement("SELECT SUM(nota) FROM teme_incarcate WHERE id_cont = ? AND id_tema = ?");
-                    sumNoteStudent.setLong(1,idStudent);
-                    sumNoteStudent.setLong(2,tema.getId());
+                    csvReport.append(numeStudent + "," + prenumeStudent);
 
-                    ResultSet resultSumNoteStudent = sumNoteStudent.executeQuery();
-                    if(resultSumNoteStudent.next()) {
-                        Integer sumaNote = resultSumNoteStudent.getInt(1);
+
+                    PreparedStatement sumaNoteStudent = connection.prepareStatement("SELECT sum(nota) FROM teme_incarcate WHERE id_cont = ? AND id_tema = ? ");
+                    sumaNoteStudent.setLong(1, idStudent);
+                    sumaNoteStudent.setLong(2, tema.getId());
+
+                    ResultSet resultSumaNoteStudent = sumaNoteStudent.executeQuery();
+
+                    if (resultSumaNoteStudent.next()) {
+                        Integer sumaNote = resultSumaNoteStudent.getInt(1);
                         Float medie = sumaNote.floatValue() / tema.getNrExercitii();
-                        csvReport.append(numeStudent + "," + prenumeStudent + "," + medie + "\n");
+                        csvReport.append("," + medie);
                     }
+
+                    for (int nrExercitiu = 1; nrExercitiu <= tema.getNrExercitii(); nrExercitiu++) {
+                        PreparedStatement noteStudent = connection.prepareStatement("SELECT nota FROM teme_incarcate WHERE id_cont = ? AND id_tema = ? AND nr_exercitiu = ? ");
+                        noteStudent.setLong(1, idStudent);
+                        noteStudent.setLong(2, tema.getId());
+                        noteStudent.setInt(3, nrExercitiu);
+
+                        ResultSet resultNoteStudent = noteStudent.executeQuery();
+                        if (resultNoteStudent.next()) {
+                            Integer nota = resultNoteStudent.getInt(1);
+                            csvReport.append("," + nota);
+                        } else {
+                            csvReport.append("," + 0);
+                        }
+                    }
+
+                    csvReport.append("\n");
                 }
 
                 connection.close();
