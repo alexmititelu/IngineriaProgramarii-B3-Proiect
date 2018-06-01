@@ -16,12 +16,26 @@ public class InfoExercitiuStudent {
     private String extensie;
     private boolean isUploaded;
     private String nota;
+    private Integer nrUploads;
+    private Float medieGlobala;
+
 
     public InfoExercitiuStudent(String enunt, String extensie, boolean isUploaded, String nota) {
         this.enunt = enunt;
         this.extensie = extensie;
         this.isUploaded = isUploaded;
         this.nota = nota;
+        this.nrUploads = null;
+        this.medieGlobala = null;
+    }
+
+    public InfoExercitiuStudent(String enunt, String extensie, boolean isUploaded, String nota, Integer uploads, Float medie) {
+        this.enunt = enunt;
+        this.extensie = extensie;
+        this.isUploaded = isUploaded;
+        this.nota = nota;
+        this.nrUploads = uploads;
+        this.medieGlobala = medie;
     }
 
     public static ArrayList<InfoExercitiuStudent> getInfoExercitiiStudent(
@@ -43,13 +57,31 @@ public class InfoExercitiuStudent {
             preparedStatement.setLong(1, tema.getId());
 
             ResultSet exercitii = preparedStatement.executeQuery();
+            int nrExercitiu = 1;
+
             while (exercitii.next()) {
-                infoExercitiiStudent.add(new InfoExercitiuStudent(
+
+                PreparedStatement statisticiStatement = connection.prepareStatement("SELECT COUNT(id_tema),AVG(nota) FROM teme_incarcate WHERE id_tema = ? AND nr_exercitiu = ?");
+                statisticiStatement.setLong(1,tema.getId());
+                statisticiStatement.setInt(2,nrExercitiu);
+
+                ResultSet resultStatistici = statisticiStatement.executeQuery();
+                nrExercitiu++;
+
+
+                InfoExercitiuStudent exercitiuStudent = new InfoExercitiuStudent(
                         exercitii.getString(1),
                         exercitii.getString(2),
                         false,
-                        "-"
-                ));
+                        "-");
+
+                if(resultStatistici.next()) {
+                    exercitiuStudent.setNrUploads(resultStatistici.getInt(1));
+                    exercitiuStudent.setMedieGlobala(resultStatistici.getFloat(2));
+                }
+
+                infoExercitiiStudent.add(exercitiuStudent);
+
             }
 
             preparedStatement = connection.prepareStatement(
@@ -103,7 +135,23 @@ public class InfoExercitiuStudent {
         return nota;
     }
 
+    public void setNrUploads(Integer nrUploads) {
+        this.nrUploads = nrUploads;
+    }
+
+    public void setMedieGlobala(Float medieGlobala) {
+        this.medieGlobala = medieGlobala;
+    }
+
     public void setNota(String nota) {
         this.nota = nota;
+    }
+
+    public Integer getNrUploads() {
+        return nrUploads;
+    }
+
+    public Float getMedieGlobala() {
+        return medieGlobala;
     }
 }

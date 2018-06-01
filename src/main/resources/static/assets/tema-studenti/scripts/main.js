@@ -223,11 +223,19 @@ $(document).ready(function () {
                     a.appendChild(flex);
 
                     var small = document.createElement('small');
-                    small.innerText = `Extensie acceptată: .${element.extensie}`;
+                    small.innerText = `Extensie acceptată: .${element.extensie} \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0`;
+
+                    var nrUploads = document.createElement('small');
+                    nrUploads.innerText = `Studenti ce au uploadat tema: ${element.nrUploads} \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0`;
+
+                    var medie = document.createElement('small');
+                    medie.innerText = `Medie note: ${element.medieGlobala}`;
 
                     var hr = document.createElement('hr');
 
                     a.appendChild(small);
+                    a.appendChild(nrUploads);
+                    a.appendChild(medie);
                     a.appendChild(hr);
 
                     var container = document.createElement('div');
