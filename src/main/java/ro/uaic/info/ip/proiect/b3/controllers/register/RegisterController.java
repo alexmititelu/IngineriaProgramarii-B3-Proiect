@@ -103,6 +103,7 @@ public class RegisterController {
                 Cont cont = Cont.getByEmail(student.getEmail());
 
                 if (cont == null) {
+                    Database.getInstance().updateOperation("DELETE FROM register_links WHERE email like ?", student.getEmail());
                     RegisterLink registerLink = new RegisterLink(student.getEmail());
                     registerLink.insert();
                     EmailService.sendRegistrationMail(student.getEmail(), registerLink.getToken());

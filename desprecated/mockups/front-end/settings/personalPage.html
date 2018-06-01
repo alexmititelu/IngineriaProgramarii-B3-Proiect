@@ -1,0 +1,88 @@
+<html>
+
+<head>
+    <title>Welcome Pinguinescu</title>
+    <link rel="stylesheet" href="css/personalPage.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.css">
+</head>
+
+<body>
+
+    <header class="topPage navbar fixed-top navbar-expand-md navbar-light bg-light">
+        <img id="faculty" src="images/pic2.png" alt="picture">
+    </header>
+    <div id="formular-parola">
+            <p class="titlu-formular" id="da">Formular schimbare parola</p>
+            <form>
+                <p style="margin-left:2%;">Parola actuala</p>
+                <input type="text">
+                <p style="margin-left:2.5%;">Noua parola</p>
+                <input type="text">
+                <p style="margin-left:1%;">Confirmare parola</p>
+                <input type="text">
+            </form>
+        </div>
+    <div class="description" id="descriere">
+            <p class="perosnal-description">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo velit, harum, cupiditate adipisci dicta omnis
+                dignissimos, earum quasi atque nulla ipsam ad placeat enim vel ea quibusdam quis vero illo.</p>
+        </div>
+    <div class="container-left">
+        <img src="images/profile-img.png" alt="profileImg" class="profile-pic" id="imagine-profil">
+        <p class="student-name" id="nume-student">Popescu George</p>
+        <p class="job" id="profesie">Student</p>
+        <div class="menu" id="meniu">
+            <div id="acasa"><span class="sub-menu" onclick="home()"> Pagina principala</span></div>
+            <br>
+            <div id="primul"><span class="sub-menu" id="schimbare" onclick="myFunction()"> Schimbare parola</span></div>
+            <br>
+            <div id="al-doilea"><span class="sub-menu"  > Schimbare email</span></div>
+            <br>
+            <div id="al-treilea"><span class="sub-menu" > Schimbare avatar</span></div>
+        </div>
+
+        
+    </div>
+    <script>
+        function myFunction(){
+            
+            var x = document.getElementById("descriere");
+            if(x.style.display="block"){
+                x.style.display="none";
+            var y = document.getElementById("formular-parola");
+            y.style.display="block";
+            var z = document.getElementById("imagine-profil");
+            z.style.top="-10%";
+            var a = document.getElementById("nume-student");
+            a.style.top="-10%";
+            var b = document.getElementById("profesie"); 
+            b.style.top="-10%";
+            var c = document.getElementById("meniu"); 
+            c.style.marginTop="-5%";
+            }
+        }
+    </script>
+
+    <script>
+        function home(){
+            var d = document.getElementById("formular-parola");
+            d.style.display="none";
+            var e = document.getElementById("descriere");
+            e.style.display="block";
+            var z = document.getElementById("imagine-profil");
+            z.style.top="10%";
+            var a = document.getElementById("nume-student");
+            a.style.top="10%";
+            var b = document.getElementById("profesie"); 
+            b.style.top="8%";
+            var c = document.getElementById("meniu"); 
+            c.style.marginTop="6%";
+
+        }
+    </script>
+</body>
+
+</html>

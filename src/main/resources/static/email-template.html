@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Lato:300,400,600,700');
+
+    :root {
+        --main-color: #29324b;
+        --main-border: #1daaa0;
+        --light-border: #78ded7;
+
+        --second-color: #a6b2d6;
+        --menu-item: #8089a6;
+        --menu-item-active: #eee;
+        --button-menu: #384363;
+        --button-menu-hover: #495782;
+        --button-color: #e7ebf9;
+
+        --text-main-color: #5ddfcb;
+        --text-second-color: #8e9bac;
+        --text-header-color: #3a4563;
+        --text-main-light: #aaefeb;
+        --text-link: #5fcac3;
+
+        --header-section: #3b4563;
+
+        --background: #f5f9fc;
+
+        --footer-link: #b0c1d8;
+    }
+
+    * {
+        font-family: 'Lato', sans-serif;
+    }
+
+    .mail-page {
+        display: table;
+        width: 100%;
+        height: auto;
+        padding: 200px 0;
+        text-align: center;
+        color: white;
+        background-color: rgb(27, 23, 23);
+    }
+
+    .mail-page .body {
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .mail-page .intro-body .text {
+        font-size: 18px;
+    }
+
+    .mail-page a {
+        color: inherit;
+    }
+</style>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+<div class="mail-page">
+    <div class="body">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div>
+                        <img src="${current-host}/assets/email-template/img/logo.svg" class="img-responsive" width="80" height="60" alt="logo">
+                        <img src="${current-host}/assets/email-template/img/fii-logo.png" class="img-responseive" style="width:80px; height:auto;"
+                             alt="fii-logo">
+                    </div>
+                    <h2 class="heading">Multumim pentru inregistrare ${nume-student}!</h2>
+                    <p class="text">Pentru a trece la pasul urmator apasa pe linkul de mai jos</p>
+                    <a href="${register-link}"> ${register-link} </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
