@@ -14,18 +14,18 @@
 </head>
 
 <body>
-
-<div class="container-fluid">
+<span id="top" style="display: none"></span>
+<div class="container-fluid nav-fixed">
     <nav class="nav">
-        <a class="logo" href="/" id="homeBtn" style="display: inline-block; text-decoration: none;">
+        <a class="logo" href="#top" id="homeBtn" style="display: inline-block; text-decoration: none;">
             <img src="/assets/home-no-logged/images/logo.svg" width="27px;" alt="home" style="display: inline-block;">
             &nbsp;&nbsp;&nbsp; GestiON
         </a>
         <div class="responsive-menu">
-            <a class="nav-link responsive active" href="#">Acasă</a>
-            <a class="nav-link responsive" href="/manual-de-utilizare.pdf">Despre</a>
-            <a class="nav-link responsive" href="https://docs.google.com/document/d/1eYdYSJ_jGHXDA0fITZiU1ZpVim2q8gA0cnZF5LmrU44/edit">Echipă</a>
-            <a class="nav-link responsive" href="https://docs.google.com/document/d/1eYdYSJ_jGHXDA0fITZiU1ZpVim2q8gA0cnZF5LmrU44/edit">Contact</a>
+            <a class="nav-link responsive" href="#top">Acasă</a>
+            <a class="nav-link responsive" href="#despre-id">Despre</a>
+            <a class="nav-link responsive" href="#coordonatori">Echipă</a>
+            <a class="nav-link responsive" href="#contact-id">Contact</a>
             <a class="nav-link responsive nav-button" href="#" role="button" data-toggle="modal"
                data-target="#exampleModalCenter">
                     <span class="nav-button-item">
@@ -99,10 +99,10 @@
 <div class="container-fluid home-main">
     <div class="overlay"></div>
     <div class="container home">
-        <h5 class="new"><span class="badge badge-success">Profesori</span>Creează materii, creează teme și verifică temele
-            studenților tăi</h5>
+        <h5 class="new"><span class="badge badge-success">Profesori</span>Creaza rapoarte pentru teme, publica solutii
+            dupa deadline</h5>
         <h5 class="new"><span class="badge badge-success">Studenți</span>Încarcă teme pentru materiile la care ești
-            înscris</h5>
+            înscris, vezi comentariile profesorilor</h5>
 
         <div class="content">
             <h1 class="header-title">
@@ -117,12 +117,12 @@
             </h2>
 
             <div class="container buttons-home">
-                <a href="/manual-de-utilizare.pdf">
+                <a href="/manual-inregistrare.pdf" target="_blank">
                     <div class="button-primary">
-                        Descoperă mai mult
+                        Sunt nou, cum încep?
                     </div>
                 </a>
-                <a href="https://github.com/alexmititelu/IngineriaProgramarii-B3-Proiect">
+                <a href="https://github.com/alexmititelu/IngineriaProgramarii-B3-Proiect" target="_blank">
                     <div class="button-secondary">
                         GitHub
                     </div>
@@ -135,7 +135,7 @@
 
 
     <!-- Despre -->
-    <div class="container-fluid despre">
+    <div class="container-fluid despre" id="despre-id">
         <div class="container despre-container">
             <div class="col-sm-12 text-center header-container">
                 <h1 class="header-section">
@@ -186,13 +186,16 @@
 
 
     <!-- Echipa -->
-    <div class="container-fluid echipa">
+    <div class="container-fluid echipa" id="coordonatori">
         <div class="overlay-echipa"></div>
         <div class="container container-echipa">
             <div class="col-sm-12 text-left header-container">
-                <h1 class="header-section header-section-left">
-                    Echipă
+                <h1 class="header-section header-section-left mb-0 pb-0">
+                    Coordonatori
                 </h1>
+                <a class="nav-link responsive pl-0" target="_blank" href="/echipa.pdf">
+                    <small style="color: white">Vezi echipa integrala</small>
+                </a>
             </div>
 
             <div class="container">
@@ -207,7 +210,8 @@
                             Cochior-Heghi Lucian
                         </div>
                         <div class="info-card">
-                           Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
+                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest
+                            domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
                         </div>
                         <a href="/">
                             Mai multe
@@ -224,7 +228,8 @@
                             Cojocaru Codrin
                         </div>
                         <div class="info-card">
-                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
+                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest
+                            domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
                         </div>
                         <a href="/">
                             Mai multe
@@ -241,7 +246,8 @@
                             Mititelu Alexandru
                         </div>
                         <div class="info-card">
-                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
+                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest
+                            domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
                         </div>
                         <a href="/">
                             Mai multe
@@ -258,7 +264,8 @@
                             Proca Teodor
                         </div>
                         <div class="info-card">
-                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
+                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest
+                            domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
                         </div>
                         <a href="/">
                             Mai multe
@@ -275,7 +282,8 @@
                             Sbîngu Răzvan
                         </div>
                         <div class="info-card">
-                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
+                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest
+                            domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
                         </div>
                         <a href="/">
                             Mai multe
@@ -292,7 +300,8 @@
                             Surdu Cosmin
                         </div>
                         <div class="info-card">
-                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
+                            Sunt student la Facultatea de Informatică și sunt pasionat de tot ceea ce ține de acest
+                            domeniu. Dacă aveți nelămuriri, nu ezitați să mă contactați!
                         </div>
                         <a href="/">
                             Mai multe
@@ -305,7 +314,7 @@
 
 
     <!-- Contact -->
-    <div class="container-fluid contact">
+    <div class="container-fluid contact" id="contact-id">
         <div class="container container-contact">
             <div class="col-sm-12 text-center header-container">
                 <h1 class="header-section">
@@ -320,17 +329,17 @@
 
             <div class="row text-center">
                 <div class="col-md-2 offset-md-3 col-sm-2 offset-sm-3 col-xs-4 icon">
-                    <a href="">
-                        <img src="/assets/home-no-logged/images/facebook.svg" alt="facebook">
+                    <a>
+                        <img src="/assets/home-no-logged/images/facebook.svg" alt="facebook" style="filter: grayscale(100%)">
                     </a>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-4 icon">
-                    <a href="">
-                        <img src="/assets/home-no-logged/images/twitter.svg" alt="twitter">
+                    <a>
+                        <img src="/assets/home-no-logged/images/twitter.svg" alt="twitter" style="filter: grayscale(100%)">
                     </a>
                 </div>
                 <div class="col-md-2 col-sm-2 col-xs-4 icon">
-                    <a href="">
+                    <a href="https://github.com/alexmititelu/IngineriaProgramarii-B3-Proiect">
                         <img src="/assets/home-no-logged/images/github.svg" alt="github">
                     </a>
                 </div>
@@ -348,19 +357,13 @@
                     Salvează timp pentru învățat
                 </h1>
             </div>
-            <div class="col-12 text-center sub-header">
-                <h1>
-                    Apăsați o opțiune
-                </h1>
-            </div>
-
             <div class="container buttons-home text-center">
-                <a href="https://github.com/alexmititelu/IngineriaProgramarii-B3-Proiect">
+                <a href="/manual-inregistrare.pdf" target="_blank">
                     <div class="button-primary">
                         Descoperă mai mult
                     </div>
                 </a>
-                <a href="https://github.com/alexmititelu/IngineriaProgramarii-B3-Proiect">
+                <a href="https://github.com/alexmititelu/IngineriaProgramarii-B3-Proiect" target="_blank">
                     <div class="button-secondary">
                         GitHub
                     </div>

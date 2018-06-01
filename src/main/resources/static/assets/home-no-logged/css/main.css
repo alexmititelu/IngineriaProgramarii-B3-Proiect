@@ -23,6 +23,14 @@
     font-family: 'Lato', sans-serif;
 }
 
+.nav-fixed {
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:100;
+    padding: 0;
+}
+
 .container-fluid:first-child {
     padding-right: 0;
     padding-left: 0;
@@ -393,6 +401,10 @@ nav {
 
 .contact .icon img {
     min-width: 70%;
+}
+
+.icon-disable {
+    --webkit-filter: grayscale(100%);
 }
 
 /* Footer */
