@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ro.uaic.info.ip.proiect.b3.configurations.Permissions;
+import ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.didactic.Didactic;
 import ro.uaic.info.ip.proiect.b3.database.objects.didactic.exceptions.DidacticException;
@@ -54,6 +55,27 @@ public class SubjectController {
         try {
             if (PermissionManager.isUserLoggedIn(loginToken)) {
                 return Materie.getAll();
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            logger.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    @RequestMapping(value = "/materii_json_prof", method = RequestMethod.GET)
+    public @ResponseBody
+    List<Materie> listeazaMateriiProf(@CookieValue(value = "user", defaultValue = "-1") String loginToken) {
+        try {
+            if (PermissionManager.isLoggedUserProfesor(loginToken)) {
+                Cont cont = Cont.getByLoginToken(loginToken);
+                if (cont == null) return null;
+
+                Profesor profesor = Profesor.getByEmail(cont.getEmail());
+                if (profesor == null) return null;
+
+                return Materie.getAllByOwnership(profesor.getId());
             } else {
                 return null;
             }
@@ -146,7 +168,7 @@ public class SubjectController {
 
                 return "valid";
             } else {
-                return "Utilizatorul nu este logat sau nu are permisiunile necesare!";
+                return ServerErrorMessages.UNAUTHORIZED_ACCESS_MESSAGE;
             }
         } catch (SQLException e) {
             logger.error(e.getMessage(), e);
