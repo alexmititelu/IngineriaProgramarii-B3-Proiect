@@ -60,7 +60,9 @@ public class EmailService {
         String response;
 
         try {
-            try (BufferedReader br = new BufferedReader(new FileReader(".\\src\\main\\resources\\static\\email-template.html"))) {
+            try (BufferedReader br = new BufferedReader(new FileReader("." + File.separator + "src" + File.separator +
+                    "main" + File.separator + "resources" + File.separator + "static" + File.separator + "email-template.html"))) {
+
                 sb = new StringBuilder();
                 String line = br.readLine();
 
@@ -71,7 +73,7 @@ public class EmailService {
                 }
 
                 response = sb.toString();
-                response = response.replace("${register-link}", hostConfiguration.getName() + "/" + registerToken);
+                response = response.replace("${register-link}", hostConfiguration.getName() + "register/" + registerToken);
                 response = response.replace("${nume-student}", student.getPrenume());
                 response = response.replace("${current-host}", hostConfiguration.getName());
             }
