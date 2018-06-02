@@ -333,6 +333,9 @@ $(document).ready(function () {
                                 var curColor;
                                 var curComment;
 
+                                continut1 = [];
+                                continut2 = [];
+
                                 totalLines = 0;
                                 if (data.length > 0) {
                                     data.forEach((element, ind) => {
@@ -637,7 +640,7 @@ $(document).ready(function () {
                     }
                 });
 
-                if(nrSolutii === 0) {
+                if (nrSolutii === 0) {
                     var noPublicSolutions = document.createElement('p');
                     noPublicSolutions.innerText = 'Nicio soluție publică momentan';
                     noPublicSolutions.style = 'text-align : center';

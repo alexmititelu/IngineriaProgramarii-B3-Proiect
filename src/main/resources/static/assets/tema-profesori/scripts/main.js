@@ -338,6 +338,9 @@ $(document).ready(function () {
 
                                     totalLines = 0;
 
+                                    continut1 = [];
+                                    continut2 = [];
+
                                     if (data.length > 0) {
                                         data.forEach((element, ind) => {
                                             totalLines++;
@@ -965,7 +968,7 @@ $(document).ready(function () {
                     }
                 });
 
-                if(nrSolutii === 0) {
+                if (nrSolutii === 0) {
                     var noPublicSolutions = document.createElement('p');
                     noPublicSolutions.innerText = 'Nicio soluție publică momentan';
                     noPublicSolutions.style = 'text-align : center';
