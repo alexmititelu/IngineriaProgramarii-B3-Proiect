@@ -10,8 +10,6 @@ $(document).ready(function () {
             if (data) {
                 var group = document.getElementById('group');
 
-                console.log(data);
-
                 data.forEach(element => {
                     var a = document.createElement('a');
                     a.href = `/materii/${element.titlu}`;
@@ -66,7 +64,7 @@ $(document).ready(function () {
                         var anItem = anItemBrut.split(' ')[1];
 
                         var semestruItemBrut = element.childNodes[3].innerText;
-                        var semestruItem = semestruItemBrut.split(': ')[1];
+                        var semestruItem = semestruItemBrut.split(' ')[1];
 
                         element.style.display = 'unset';
 
