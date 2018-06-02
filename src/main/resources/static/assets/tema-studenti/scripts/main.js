@@ -207,6 +207,8 @@ $(document).ready(function () {
         url: `${window.location.href}/student_info_json`,
         success: data => {
             if (data.length > 0) {
+                console.log(data);
+
                 data.forEach(element => {
                     exercitii++;
                     var a = document.createElement('a');
@@ -231,10 +233,14 @@ $(document).ready(function () {
                     var medie = document.createElement('small');
                     medie.innerText = `Medie note: ${element.medieGlobala}`;
 
+                    var nrStudentiNotati = document.createElement('small');
+                    nrStudentiNotati.innerText = `Numarul de studenti notati momentan: ${element.nrStudentiNotati} \xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0`;
+
                     var hr = document.createElement('hr');
 
                     a.appendChild(small);
                     a.appendChild(nrUploads);
+                    a.appendChild(nrStudentiNotati);
                     a.appendChild(medie);
                     a.appendChild(hr);
 
@@ -596,7 +602,7 @@ $(document).ready(function () {
                 containerMain.appendChild(title);
 
                 var row = document.createElement('div');
-                row.classList = 'row';
+                row.classList = 'row row justify-content-center';
 
                 containerMain.appendChild(row);
 

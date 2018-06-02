@@ -17,6 +17,7 @@ public class InfoExercitiuStudent {
     private boolean isUploaded;
     private String nota;
     private Integer nrUploads;
+    private Integer nrStudentiNotati;
     private Float medieGlobala;
 
 
@@ -25,17 +26,6 @@ public class InfoExercitiuStudent {
         this.extensie = extensie;
         this.isUploaded = isUploaded;
         this.nota = nota;
-        this.nrUploads = null;
-        this.medieGlobala = null;
-    }
-
-    public InfoExercitiuStudent(String enunt, String extensie, boolean isUploaded, String nota, Integer uploads, Float medie) {
-        this.enunt = enunt;
-        this.extensie = extensie;
-        this.isUploaded = isUploaded;
-        this.nota = nota;
-        this.nrUploads = uploads;
-        this.medieGlobala = medie;
     }
 
     public static ArrayList<InfoExercitiuStudent> getInfoExercitiiStudent(
@@ -60,14 +50,19 @@ public class InfoExercitiuStudent {
             int nrExercitiu = 1;
 
             while (exercitii.next()) {
-
-                PreparedStatement statisticiStatement = connection.prepareStatement("SELECT COUNT(id_tema),AVG(nota) FROM teme_incarcate WHERE id_tema = ? AND nr_exercitiu = ?");
+                PreparedStatement statisticiStatement = connection.prepareStatement("SELECT COUNT(id_tema), AVG(nota) FROM teme_incarcate WHERE id_tema = ? AND nr_exercitiu = ?");
                 statisticiStatement.setLong(1,tema.getId());
                 statisticiStatement.setInt(2,nrExercitiu);
 
                 ResultSet resultStatistici = statisticiStatement.executeQuery();
-                nrExercitiu++;
 
+                PreparedStatement statisticiTemeNotate = connection.prepareStatement("SELECT COUNT(id_tema) FROM teme_incarcate WHERE id_tema = ? AND nr_exercitiu = ? AND nota IS NOT NULL");
+                statisticiTemeNotate.setLong(1, tema.getId());
+                statisticiTemeNotate.setInt(2, nrExercitiu);
+
+                ResultSet  statisticiTemeNotateRs = statisticiTemeNotate.executeQuery();
+
+                nrExercitiu++;
 
                 InfoExercitiuStudent exercitiuStudent = new InfoExercitiuStudent(
                         exercitii.getString(1),
@@ -80,8 +75,11 @@ public class InfoExercitiuStudent {
                     exercitiuStudent.setMedieGlobala(resultStatistici.getFloat(2));
                 }
 
-                infoExercitiiStudent.add(exercitiuStudent);
+                if (statisticiTemeNotateRs.next()) {
+                    exercitiuStudent.setNrStudentiNotati(statisticiTemeNotateRs.getInt(1));
+                }
 
+                infoExercitiiStudent.add(exercitiuStudent);
             }
 
             preparedStatement = connection.prepareStatement(
@@ -153,5 +151,13 @@ public class InfoExercitiuStudent {
 
     public Float getMedieGlobala() {
         return medieGlobala;
+    }
+
+    public Integer getNrStudentiNotati() {
+        return nrStudentiNotati;
+    }
+
+    public void setNrStudentiNotati(Integer nrStudentiNotati) {
+        this.nrStudentiNotati = nrStudentiNotati;
     }
 }
