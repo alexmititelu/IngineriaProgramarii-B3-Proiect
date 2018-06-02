@@ -9,6 +9,8 @@ import ro.uaic.info.ip.proiect.b3.configurations.ServerErrorMessages;
 import ro.uaic.info.ip.proiect.b3.database.Database;
 import ro.uaic.info.ip.proiect.b3.database.objects.cont.Cont;
 import ro.uaic.info.ip.proiect.b3.database.objects.materie.Materie;
+import ro.uaic.info.ip.proiect.b3.database.objects.notificare.Notificare;
+import ro.uaic.info.ip.proiect.b3.database.objects.notificare.exceptions.NotificareException;
 import ro.uaic.info.ip.proiect.b3.database.objects.solutiepublica.SolutiePublica;
 import ro.uaic.info.ip.proiect.b3.database.objects.student.Student;
 import ro.uaic.info.ip.proiect.b3.database.objects.tema.Tema;
@@ -52,6 +54,16 @@ public class PublicSolutionsController {
 
                 SolutiePublica solutiePublica = new SolutiePublica(tema.getId(), nrExercitiu, temaIncarcata.getId());
                 solutiePublica.insert();
+
+                try {
+                    Notificare notificare = new Notificare(
+                            String.format("[%s] O solutie noua a fost facuta publica pentru tema \"%s\"!", materie.getTitlu(), tema.getNumeTema()),
+                            0,
+                            materie.getId());
+                    notificare.insert();
+                } catch (SQLException | NotificareException e) {
+                    logger.error(e.getMessage(), e);
+                }
 
                 return "valid";
             } else {
