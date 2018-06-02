@@ -45,6 +45,8 @@ $(document).ready(function () {
     var listG = document.getElementById('listG');
     var addNota = document.getElementById('addNota');
 
+    var comparaAleator = [];
+
     $.ajax({
         type: 'GET',
         url: `${window.location.href}/getNotite`,
@@ -677,12 +679,29 @@ $(document).ready(function () {
                         var li = document.createElement('li');
                         li.className = 'list-item d-flex justify-content-between align-items-center';
                         li.innerText = `${element.nume} ${element.prenume}`;
+
+                        var check = document.createElement('input');
+                        check.classList = 'checkk';
+                        check.type = 'checkbox';
+                        check.value = element.username;
+                        check.style = 'position: absolute; right: 20px; transform: translate(-50%, -180%);';
+                        check.setAttribute('exercitiu', exercitiu + 1);
+
                         a.setAttribute('ex', ex);
                         a.setAttribute('username', element.username);
                         a.appendChild(li);
 
                         innerCardBody.appendChild(a);
+                        innerCardBody.appendChild(check);
+
                     });
+
+                    var but = document.createElement('button');
+                    but.classList = 'btn btn-sm btn-primary checkBtn';
+                    but.setAttribute('exercitiu', exercitiu + 1);
+                    but.innerText = 'Compara';
+
+                    innerCardBody.appendChild(but);
 
                     nPill.innerText = nrNotati;
 
@@ -747,12 +766,29 @@ $(document).ready(function () {
                         var li = document.createElement('li');
                         li.className = 'list-item d-flex justify-content-between align-items-center';
                         li.innerText = `${element.nume} ${element.prenume}`;
+
+                        var check = document.createElement('input');
+                        check.classList = 'checkk';
+                        check.type = 'checkbox';
+                        check.value = element.username;
+                        check.style = 'position: absolute; right: 20px; transform: translate(-50%, -180%);';
+                        check.setAttribute('exercitiu', exercitiu + 1);
+
                         a.setAttribute('ex', ex);
                         a.setAttribute('username', element.username);
                         a.appendChild(li);
 
                         innerCardBody2.appendChild(a);
+                        innerCardBody2.appendChild(check);
                     });
+
+                    var but = document.createElement('button');
+                    but.classList = 'btn btn-sm btn-primary checkBtn';
+                    but.setAttribute('exercitiu', exercitiu + 1);
+                    but.innerText = 'Compara';
+
+                    innerCardBody2.appendChild(but);
+
                     unPill.innerText = nrNenotati;
 
                     element.temePlagiate.sort(function (a, b) {
@@ -861,6 +897,54 @@ $(document).ready(function () {
                         });
                     };
                 });
+
+                var checkBox = document.getElementsByClassName('checkk');
+
+                for (let index = 0; index < ex; index++) {
+                    comparaAleator.push({
+                        users: []
+                    });
+                }
+
+                for (let index = 0; index < checkBox.length; index++) {
+                    const element = checkBox[index];
+
+                    element.onclick = () => {
+                        var index = comparaAleator[parseInt(element.attributes.exercitiu.value) - 1].users.indexOf(element.value);
+
+                        if (index < 0) {
+                            comparaAleator[parseInt(element.attributes.exercitiu.value) - 1].users.push(element.value);
+                        } else {
+                            comparaAleator[parseInt(element.attributes.exercitiu.value) - 1].users.splice(index, 1);
+                        }
+                    }
+                }
+
+                var btnCheck = document.getElementsByClassName('checkBtn');
+
+                for (let index = 0; index < btnCheck.length; index++) {
+                    const element = btnCheck[index];
+
+                    element.onclick = () => {
+                        var array = comparaAleator[parseInt(element.attributes.exercitiu.value) - 1].users;
+
+                        if (array.length === 2) {
+                            window.open(`${window.location.href}/compara?username1=${array[0]}&username2=${array[1]}&nrExercitiu=${element.attributes.exercitiu.value}`, '_blank');
+                        } else {
+                            element.setAttribute('disabled', 'disabled');
+                            element.innerText = 'Trebuie sa selectezi doar 2 elevi';
+                            element.classList.remove('btn-primary');
+                            element.classList.add('btn-danger');
+
+                            setTimeout(() => {
+                                element.removeAttribute('disabled');
+                                element.innerText = 'Compara';
+                                element.classList.remove('btn-danger');
+                                element.classList.add('btn-primary');
+                            }, 1000);
+                        }
+                    }
+                }
             }
         }
     });
@@ -1024,8 +1108,6 @@ $(document).ready(function () {
 
                 for (let index = 0; index < del.length; index++) {
                     const element = del[index];
-
-                    console.log(element.attributes.username.value, element.attributes.exercitiu.value, `${window.location.href}/delete-public-solution`);
 
                     element.onclick = () => {
                         $.ajax({
